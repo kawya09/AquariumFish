@@ -1,0 +1,213 @@
+:root {
+    --bg-primary: #0a0f1d;
+    --bg-secondary: #12192c;
+    --bg-card: rgba(20, 30, 55, 0.65);
+    --accent-cyan: #00ffed;
+    --accent-cyan-glow: rgba(0, 255, 237, 0.35);
+    --accent-blue: #0088ff;
+    --text-primary: #f0f6fc;
+    --text-secondary: #8b949e;
+    --border-glass: rgba(0, 255, 237, 0.18);
+    --border-light: rgba(255, 255, 255, 0.08);
+    --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+body {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+    font-family: 'Poppins', sans-serif !important;
+    min-height: 100vh;
+}
+
+/* Scrollbar Style */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-cyan);
+}
+
+/* Neon Glassmorphism Cards */
+.card, .glass-card {
+    background: var(--bg-card) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid var(--border-glass) !important;
+    border-radius: 16px !important;
+    box-shadow: var(--card-shadow) !important;
+    color: var(--text-primary) !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-cyan) !important;
+    box-shadow: 0 10px 30px var(--accent-cyan-glow) !important;
+}
+
+/* Glass Navbar */
+.navbar {
+    background: rgba(10, 15, 29, 0.85) !important;
+    backdrop-filter: blur(15px) !important;
+    border-bottom: 1px solid var(--border-glass) !important;
+    padding: 15px 0 !important;
+}
+
+.navbar-brand {
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+    color: var(--accent-cyan) !important;
+    text-shadow: 0 0 10px var(--accent-cyan-glow);
+}
+
+.nav-link {
+    color: var(--text-primary) !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--accent-cyan) !important;
+    text-shadow: 0 0 8px var(--accent-cyan-glow);
+}
+
+/* Neon Glow Buttons */
+.btn-primary {
+    background: linear-gradient(135deg, #00ffed 0%, #0088ff 100%) !important;
+    border: none !important;
+    color: #050b14 !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 0 15px var(--accent-cyan-glow) !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-primary:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(0, 255, 237, 0.6) !important;
+    color: #000 !important;
+}
+
+.btn-outline-primary {
+    border: 1px solid var(--accent-cyan) !important;
+    color: var(--accent-cyan) !important;
+    background: transparent !important;
+    border-radius: 10px !important;
+}
+
+.btn-outline-primary:hover {
+    background: var(--accent-cyan) !important;
+    color: #050b14 !important;
+    box-shadow: 0 0 15px var(--accent-cyan-glow) !important;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%) !important;
+    border: none !important;
+    border-radius: 10px !important;
+}
+
+/* Glass Form Controls */
+.form-control, .form-select {
+    background: rgba(15, 23, 42, 0.6) !important;
+    border: 1px solid var(--border-glass) !important;
+    color: var(--text-primary) !important;
+    border-radius: 10px !important;
+}
+
+.form-control:focus, .form-select:focus {
+    background: rgba(15, 23, 42, 0.8) !important;
+    border-color: var(--accent-cyan) !important;
+    box-shadow: 0 0 12px var(--accent-cyan-glow) !important;
+    color: #fff !important;
+}
+
+.form-select option {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+/* Tables Styling */
+.table {
+    color: var(--text-primary) !important;
+    border-color: var(--border-light) !important;
+}
+
+.table th {
+    background: rgba(0, 255, 237, 0.08) !important;
+    color: var(--accent-cyan) !important;
+    border-bottom: 2px solid var(--border-glass) !important;
+    font-weight: 600;
+}
+
+.table td {
+    background: transparent !important;
+    vertical-align: middle;
+}
+
+/* Badges */
+.badge {
+    padding: 6px 12px !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+}
+
+.bg-warning {
+    background-color: rgba(245, 158, 11, 0.2) !important;
+    color: #fbbf24 !important;
+    border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.bg-success {
+    background-color: rgba(16, 185, 129, 0.2) !important;
+    color: #34d399 !important;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+/* Modals */
+.modal-content {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-glass) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 0 30px var(--accent-cyan-glow) !important;
+}
+
+.modal-header, .modal-footer {
+    border-color: var(--border-light) !important;
+}
+
+.btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Sidebar */
+.sidebar {
+    background: rgba(10, 15, 29, 0.95) !important;
+    border-right: 1px solid var(--border-glass) !important;
+}
+
+.sidebar .nav-link {
+    border-radius: 10px;
+    margin-bottom: 8px;
+    padding: 10px 15px;
+}
+
+.sidebar .nav-link.active {
+    background: rgba(0, 255, 237, 0.15) !important;
+    color: var(--accent-cyan) !important;
+    border-left: 4px solid var(--accent-cyan);
+}

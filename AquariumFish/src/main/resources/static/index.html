@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aquarium Fish Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">AquaShop</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#catalog">Fish Catalog</a></li>
+                <li class="nav-item"><a class="nav-link" href="#cart">Cart</a></li>
+                <li class="nav-item"><a class="nav-link" href="#orders">My Orders</a></li>
+                <li class="nav-item"><a class="nav-link btn btn-primary text-white ms-2" href="auth-login.html">Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container my-5">
+    <!-- Fish Search & Filter Section (Fish, Category, Breed, Size, Color) -->
+    <section id="catalog" class="mb-5">
+        <h2>Explore Aquarium Fish</h2>
+        <div class="row g-3 my-2">
+            <div class="col-md-3">
+                <select class="form-select" id="categoryFilter">
+                    <option selected>Select Category</option>
+                    <!-- FishCategory Data -->
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" id="breedFilter">
+                    <option selected>Select Breed</option>
+                    <!-- FishBreed Data -->
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" id="sizeFilter">
+                    <option selected>Select Size</option>
+                    <!-- FishSize Data -->
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" id="colorFilter">
+                    <option selected>Select Color</option>
+                    <!-- FishColor Data -->
+                </select>
+            </div>
+        </div>
+
+        <!-- Fish Product Grid (Fish, FishImage) -->
+        <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Fish Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Red Betta Fish</h5>
+                        <p class="card-text">Price: $15.00 | Stock: 10</p>
+                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#fishDetailModal">View Details</button>
+                        <button class="btn btn-primary btn-sm">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Section (Cart, CartItem) -->
+    <section id="cart" class="mb-5">
+        <h2>Your Shopping Cart</h2>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Fish</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Subtotal</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Red Betta Fish</td>
+                <td>2</td>
+                <td>$15.00</td>
+                <td>$30.00</td>
+                <td><button class="btn btn-danger btn-sm">Remove</button></td>
+            </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#checkoutModal">Proceed to Checkout</button>
+    </section>
+
+    <!-- Customer Orders & Delivery Section (Orders, Payment, Delivery) -->
+    <section id="orders" class="mb-5">
+        <h2>My Orders & Tracking</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Total Amount</th>
+                <th>Order Status</th>
+                <th>Payment Status</th>
+                <th>Delivery Status</th>
+                <th>Tracking No</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>#1001</td>
+                <td>$30.00</td>
+                <td><span class="badge bg-warning">Pending</span></td>
+                <td><span class="badge bg-success">Paid</span></td>
+                <td>Processing</td>
+                <td>TRK-982341</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</div>
+
+<!-- Modal: Fish Details & Reviews (Review) -->
+<div class="modal fade" id="fishDetailModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Fish Details & Reviews</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Description:</strong> Beautiful freshwater betta fish.</p>
+                <hr>
+                <h6>Customer Reviews</h6>
+                <p>⭐⭐⭐⭐⭐ - "Healthy fish, arrived safely!"</p>
+                <textarea class="form-control mb-2" placeholder="Write a review..."></textarea>
+                <button class="btn btn-sm btn-primary">Submit Review</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Checkout & Payment (Orders, OrderItem, Payment, Delivery) -->
+<div class="modal fade" id="checkoutModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Checkout Order</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Delivery Address</label>
+                        <textarea class="form-control" rows="2" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Payment Method</label>
+                        <select class="form-select">
+                            <option>Credit/Debit Card</option>
+                            <option>Cash on Delivery</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Confirm Order & Pay</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

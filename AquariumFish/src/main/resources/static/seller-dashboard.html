@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Management Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="d-flex">
+    <!-- Sidebar Navigation -->
+    <div class="bg-dark text-white p-3 vh-100" style="width: 250px;">
+        <h4>Seller Portal</h4>
+        <hr>
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item"><a href="#inventory" class="nav-link text-white active">Fish Inventory</a></li>
+            <li class="nav-item"><a href="#seller-orders" class="nav-link text-white">Received Orders</a></li>
+        </ul>
+    </div>
+
+    <div class="p-4 flex-grow-1">
+        <!-- Add & Manage Fish (Fish, FishCategory, FishBreed, FishSize, FishColor, FishImage) -->
+        <section id="inventory" class="mb-5">
+            <div class="d-flex justify-content-between mb-3">
+                <h2>My Fish Inventory</h2>
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addFishModal">Add New Fish</button>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Breed</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Red Betta</td>
+                    <td>Freshwater</td>
+                    <td>Halfmoon</td>
+                    <td>$15.00</td>
+                    <td>10</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm">Edit</button>
+                        <button class="btn btn-danger btn-sm">Delete</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+
+<!-- Modal: Add New Fish Form -->
+<div class="modal fade" id="addFishModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Fish Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Fish Name</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Category</label>
+                        <select class="form-select"><!-- FishCategory --></select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Breed</label>
+                        <select class="form-select"><!-- FishBreed --></select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Size</label>
+                        <select class="form-select"><!-- FishSize --></select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Color</label>
+                        <select class="form-select"><!-- FishColor --></select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Price ($)</label>
+                        <input type="number" step="0.01" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Stock Quantity</label>
+                        <input type="number" class="form-control" required>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label">Image URL (Fish_Image)</label>
+                        <input type="text" class="form-control" placeholder="https://example.com/fish.jpg">
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Save Fish</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
