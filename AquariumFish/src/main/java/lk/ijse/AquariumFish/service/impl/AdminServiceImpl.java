@@ -1,4 +1,10 @@
 package lk.ijse.AquariumFish.service.impl;
 
-public class AdminServiceImpl {
+import lk.ijse.AquariumFish.service.AdminService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+@Slf4j
+@Service
+public class AdminServiceImpl implements AdminService {
 }
