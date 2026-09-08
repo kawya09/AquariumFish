@@ -1,4 +1,4 @@
 package lk.ijse.AquariumFish.service;
 
-public class Fish_CategoryService {
+public interface Fish_CategoryService {
 }
