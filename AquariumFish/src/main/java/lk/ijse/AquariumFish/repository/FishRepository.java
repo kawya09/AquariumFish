@@ -1,4 +1,7 @@
 package lk.ijse.AquariumFish.repository;
 
-public interface FishRepository {
+import lk.ijse.AquariumFish.entity.Fish;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface FishRepository extends JpaRepository<Fish, Long> {
 }

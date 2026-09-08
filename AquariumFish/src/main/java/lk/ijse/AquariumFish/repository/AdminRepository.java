@@ -1,4 +1,7 @@
 package lk.ijse.AquariumFish.repository;
 
-public interface AdminRepository {
+import lk.ijse.AquariumFish.entity.Admin;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AdminRepository extends JpaRepository<Admin,Long> {
 }
