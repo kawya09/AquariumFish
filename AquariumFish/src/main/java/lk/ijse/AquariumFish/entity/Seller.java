@@ -1,6 +1,7 @@
 package lk.ijse.AquariumFish.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lombok.*;
 import java.util.List;
 
@@ -15,6 +16,14 @@ public class Seller {
     private String shopName;
     private String phone;
     private String address;
+    private String username;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     @OneToOne
     @JoinColumn(name = "user_id")

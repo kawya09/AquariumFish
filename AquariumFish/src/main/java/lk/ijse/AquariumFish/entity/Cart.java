@@ -1,6 +1,7 @@
 package lk.ijse.AquariumFish.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,7 +15,9 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime createdDate;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")

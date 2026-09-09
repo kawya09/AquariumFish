@@ -1,6 +1,7 @@
 package lk.ijse.AquariumFish.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lombok.*;
 
 @Entity
@@ -13,6 +14,9 @@ public class Fish_Image {
     private Long id;
     private String imageUrl;
     private Boolean isPrimary;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     @ManyToOne
     @JoinColumn(name = "fish_id")

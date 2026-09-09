@@ -1,6 +1,7 @@
 package lk.ijse.AquariumFish.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lombok.*;
 import java.util.List;
 
@@ -16,6 +17,9 @@ public class Fish {
     private String description;
     private Double price;
     private Integer stockQty;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     @ManyToOne
     @JoinColumn(name = "seller_id")

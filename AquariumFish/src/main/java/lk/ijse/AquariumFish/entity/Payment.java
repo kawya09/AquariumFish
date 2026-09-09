@@ -1,6 +1,7 @@
 package lk.ijse.AquariumFish.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lombok.*;
 import java.time.LocalDateTime;
 
@@ -16,6 +17,9 @@ public class Payment {
     private LocalDateTime paymentDate;
     private Double amount;
     private String paymentStatus;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     @OneToOne
     @JoinColumn(name = "order_id")

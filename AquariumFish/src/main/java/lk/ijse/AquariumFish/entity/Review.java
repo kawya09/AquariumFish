@@ -1,6 +1,7 @@
 package lk.ijse.AquariumFish.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lombok.*;
 import java.time.LocalDateTime;
 
@@ -15,6 +16,9 @@ public class Review {
     private Integer rating;
     private String comment;
     private LocalDateTime reviewDate;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")

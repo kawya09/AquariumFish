@@ -1,6 +1,7 @@
 package lk.ijse.AquariumFish.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lombok.*;
 import java.util.List;
 
@@ -13,6 +14,9 @@ public class Fish_Color {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String colorName;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     @OneToMany(mappedBy = "color")
     private List<Fish> fishes;

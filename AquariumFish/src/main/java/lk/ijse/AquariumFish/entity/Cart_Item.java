@@ -1,6 +1,7 @@
 package lk.ijse.AquariumFish.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lombok.*;
 
 @Entity
@@ -13,6 +14,9 @@ public class Cart_Item {
     private Long id;
     private Integer quantity;
     private Double unitPrice;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     @ManyToOne
     @JoinColumn(name = "cart_id")

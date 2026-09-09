@@ -1,6 +1,7 @@
 package lk.ijse.AquariumFish.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lombok.*;
 import java.util.List;
 
@@ -14,6 +15,9 @@ public class Fish_Category {
     private Long id;
     private String categoryName;
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     @OneToMany(mappedBy = "category")
     private List<Fish> fishes;

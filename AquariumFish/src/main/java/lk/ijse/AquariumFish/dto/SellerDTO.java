@@ -1,5 +1,6 @@
 package lk.ijse.AquariumFish.dto;
 
+import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,5 +13,7 @@ public class SellerDTO {
     private String shopName;
     private String phone;
     private String address;
+    private Long roleId;
+    private UserStatus status;
 
 }
