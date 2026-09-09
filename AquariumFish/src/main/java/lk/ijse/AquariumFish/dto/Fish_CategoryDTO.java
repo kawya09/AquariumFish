@@ -12,5 +12,5 @@ public class Fish_CategoryDTO {
     private Long id;
     private String categoryName;
     private String description;
-    private Fish_CategoryStatus status;
+    private UserStatus status;
 }

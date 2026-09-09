@@ -16,7 +16,7 @@ public class Fish_Size {
     private String sizeName;
 
     @Enumerated(EnumType.STRING)
-    private Fish_SizeStatus status;
+    private UserStatus status;
 
     @OneToMany(mappedBy = "size")
     private List<Fish> fishes;

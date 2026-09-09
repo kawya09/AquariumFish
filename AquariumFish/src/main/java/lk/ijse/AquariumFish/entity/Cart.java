@@ -17,7 +17,7 @@ public class Cart {
     private LocalDateTime createdDate;
 
     @Enumerated(EnumType.STRING)
-    private CartStatus status;
+    private UserStatus status;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")

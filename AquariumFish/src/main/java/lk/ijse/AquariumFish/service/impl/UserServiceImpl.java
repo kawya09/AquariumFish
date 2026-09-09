@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
             List<User> users = userRepository.findAll();
             for (User user : users) {
                 UserDTO userDTO = new UserDTO();
+                userDTO.setId(user.getId());
                 userDTO.setUsername(user.getUsername());
                 userDTO.setPassword(user.getPassword());
                 userDTO.setEmail(user.getEmail());

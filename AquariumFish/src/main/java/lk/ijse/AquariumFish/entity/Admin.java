@@ -15,7 +15,7 @@ public class Admin {
     private String adminName;
 
     @Enumerated(EnumType.STRING)
-    private AdminStatus status;
+    private UserStatus status;
 
     @OneToOne
     @JoinColumn(name = "user_id")

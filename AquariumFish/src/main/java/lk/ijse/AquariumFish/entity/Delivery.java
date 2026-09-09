@@ -19,7 +19,7 @@ public class Delivery {
     private String trackingNo;
 
     @Enumerated(EnumType.STRING)
-    private DeliveryStatus status;
+    private UserStatus status;
 
     @OneToOne
     @JoinColumn(name = "order_id")

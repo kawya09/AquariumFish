@@ -14,5 +14,5 @@ public class FishDTO {
     private String description;
     private Double price;
     private Integer stockQty;
-    private FishStatus status;
+    private UserStatus status;
 }

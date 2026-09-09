@@ -19,7 +19,7 @@ public class Fish {
     private Integer stockQty;
 
     @Enumerated(EnumType.STRING)
-    private FishStatus status;
+    private UserStatus status;
 
     @ManyToOne
     @JoinColumn(name = "seller_id")

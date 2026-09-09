@@ -19,7 +19,7 @@ public class Customer {
     private String address;
 
     @Enumerated(EnumType.STRING)
-    private CustomerStatus status;
+    private UserStatus status;
 
     @OneToOne
     @JoinColumn(name = "user_id")

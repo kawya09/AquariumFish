@@ -16,5 +16,5 @@ public class DeliveryDTO {
     private LocalDateTime deliveryDate;
     private String deliveryStatus;
     private String trackingNo;
-    private DeliveryStatus status;
+    private UserStatus status;
 }

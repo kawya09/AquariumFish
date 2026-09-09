@@ -12,5 +12,5 @@ public class Cart_ItemDTO {
     private Long id;
     private Integer quantity;
     private Double unitPrice;
-    private Cart_ItemStatus status;
+    private UserStatus status;
 }

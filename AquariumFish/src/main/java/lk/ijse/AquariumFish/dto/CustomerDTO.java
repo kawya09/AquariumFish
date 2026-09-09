@@ -14,5 +14,5 @@ public class CustomerDTO {
     private String lastName;
     private String phone;
     private String address;
-    private CustomerStatus status;
+    private UserStatus status;
 }

@@ -13,5 +13,5 @@ public class Order_ItemDTO {
     private Integer quantity;
     private Double unitPrice;
     private Double subtotal;
-    private Oder_ItemStatus status;
+    private UserStatus status;
 }

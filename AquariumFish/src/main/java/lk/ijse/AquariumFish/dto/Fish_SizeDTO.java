@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class Fish_SizeDTO {
     private Long id;
     private String sizeName;
-    private Fish_SizeStatus status;
+    private UserStatus status;
 }

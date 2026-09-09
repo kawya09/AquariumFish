@@ -12,5 +12,5 @@ public class Fish_ImageDTO {
     private Long id;
     private String imageUrl;
     private Boolean isPrimary;
-    private Fish_ImageStatus status;
+    private UserStatus status;
 }

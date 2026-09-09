@@ -1,5 +1,6 @@
 package lk.ijse.AquariumFish.dto;
 
+import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,5 +15,5 @@ public class PaymentDTO {
     private String paymentMethod;
     private LocalDateTime paymentDate;
     private Double amount;
-    private  paymentStatus status;
+    private UserStatus status;
 }

@@ -18,7 +18,7 @@ public class Review {
     private LocalDateTime reviewDate;
 
     @Enumerated(EnumType.STRING)
-    private ReviewStatus status;
+    private UserStatus status;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")

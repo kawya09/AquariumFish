@@ -15,5 +15,5 @@ public class ReviewDTO {
     private Integer rating;
     private String comment;
     private LocalDateTime reviewDate;
-    private ReviewStatus status;
+    private UserStatus status;
 }

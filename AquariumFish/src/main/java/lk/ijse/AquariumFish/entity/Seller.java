@@ -16,10 +16,10 @@ public class Seller {
     private String shopName;
     private String phone;
     private String address;
-    private String username;
+
 
     @Enumerated(EnumType.STRING)
-    private SellerStatus status;
+    private UserStatus status;
 
     @ManyToOne
     @JoinColumn(name = "role_id")

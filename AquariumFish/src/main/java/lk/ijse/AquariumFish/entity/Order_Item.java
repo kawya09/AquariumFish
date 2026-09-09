@@ -17,7 +17,7 @@ public class Order_Item {
     private Double subtotal;
 
     @Enumerated(EnumType.STRING)
-    private Order_ItemStatus status;
+    private UserStatus status;
 
     @ManyToOne
     @JoinColumn(name = "order_id")

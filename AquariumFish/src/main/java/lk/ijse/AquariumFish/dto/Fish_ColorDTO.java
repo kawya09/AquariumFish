@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class Fish_ColorDTO {
     private Long id;
     private String colorName;
-    private Fish_ColorStatus status;
+    private UserStatus status;
 }

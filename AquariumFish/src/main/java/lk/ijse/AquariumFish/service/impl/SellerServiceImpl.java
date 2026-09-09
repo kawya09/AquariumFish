@@ -41,6 +41,7 @@ public class SellerServiceImpl implements SellerService {
             seller.setShopName(sellerDTO.getShopName());
             seller.setPhone(sellerDTO.getPhone());
             seller.setAddress(sellerDTO.getAddress());
+            seller.setStatus(sellerDTO.getStatus());
             seller.setRole(role);
             sellerRepository.save(seller);
         }catch (Exception e){
@@ -57,10 +58,11 @@ public class SellerServiceImpl implements SellerService {
             List<Seller> sellers = sellerRepository.findAll();
             for (Seller seller : sellers) {
                 SellerDTO sellerDTO = new SellerDTO();
-
+                sellerDTO.setId(seller.getId());
                 sellerDTO.setShopName(seller.getShopName());
                 sellerDTO.setPhone(seller.getPhone());
                 sellerDTO.setAddress(seller.getAddress());
+                sellerDTO.setStatus(seller.getStatus());
                 sellerDTOList.add(sellerDTO);
 
             }
@@ -85,6 +87,7 @@ public class SellerServiceImpl implements SellerService {
            seller1.setShopName(sellerDTO.getShopName());
            seller1.setPhone(sellerDTO.getPhone());
            seller1.setAddress(sellerDTO.getAddress());
+           seller1.setStatus(sellerDTO.getStatus());
             Role role = roleRepository.findById(sellerDTO.getRoleId()).orElseThrow(() -> new RuntimeException( "Role not found " ));
             Seller seller2 = seller.get();
             seller1.setRole(role);

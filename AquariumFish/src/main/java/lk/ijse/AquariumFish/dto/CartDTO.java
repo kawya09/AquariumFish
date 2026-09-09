@@ -13,5 +13,5 @@ import java.time.LocalDateTime;
 public class CartDTO {
     private Long id;
     private LocalDateTime createdDate;
-    private CartStatus status;
+    private UserStatus status;
 }

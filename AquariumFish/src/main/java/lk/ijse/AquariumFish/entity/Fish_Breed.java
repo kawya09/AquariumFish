@@ -17,7 +17,7 @@ public class Fish_Breed {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private Fish_BreedStatus status;
+    private UserStatus status;
 
     @OneToMany(mappedBy = "breed")
     private List<Fish> fishes;

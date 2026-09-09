@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class AdminDTO {
     private Long id;
     private String adminName;
-    private AdminStatus status;
+    private UserStatus status;
 }

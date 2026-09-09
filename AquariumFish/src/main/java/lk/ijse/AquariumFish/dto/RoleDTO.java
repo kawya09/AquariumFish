@@ -13,7 +13,7 @@ import javax.management.relation.RoleStatus;
 public class RoleDTO {
     private Long id;
     private String roleName;
-    private RoleStatus status;
+    private UserStatus status;
 
 
 }

@@ -16,7 +16,7 @@ public class Fish_Color {
     private String colorName;
 
     @Enumerated(EnumType.STRING)
-    private Fish_ColorStatus status;
+    private UserStatus status;
 
     @OneToMany(mappedBy = "color")
     private List<Fish> fishes;

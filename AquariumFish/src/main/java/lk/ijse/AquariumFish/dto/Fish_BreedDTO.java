@@ -12,5 +12,5 @@ public class Fish_BreedDTO {
     private Long id;
     private String breedName;
     private String description;
-    private Fish_BreedStatus status;
+    private UserStatus status;
 }
