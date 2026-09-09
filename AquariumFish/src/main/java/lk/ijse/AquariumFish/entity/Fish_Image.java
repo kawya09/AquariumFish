@@ -16,7 +16,7 @@ public class Fish_Image {
     private Boolean isPrimary;
 
     @Enumerated(EnumType.STRING)
-    private UserStatus status;
+    private Fish_ImageStatus status;
 
     @ManyToOne
     @JoinColumn(name = "fish_id")

@@ -1,5 +1,6 @@
 package lk.ijse.AquariumFish.dto;
 
+import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,4 +12,5 @@ public class Fish_BreedDTO {
     private Long id;
     private String breedName;
     private String description;
+    private Fish_BreedStatus status;
 }

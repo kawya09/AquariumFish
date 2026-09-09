@@ -13,5 +13,5 @@ public class OrderDTO {
     private Long id;
     private LocalDateTime orderDate;
     private Double totalAmount;
-    private String orderStatus;
+    private  orderStatus status;
 }

@@ -14,6 +14,6 @@ public class SellerDTO {
     private String phone;
     private String address;
     private Long roleId;
-    private UserStatus status;
+    private SellerStatus status;
 
 }

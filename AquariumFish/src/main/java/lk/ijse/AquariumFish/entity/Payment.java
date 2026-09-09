@@ -19,7 +19,7 @@ public class Payment {
     private String paymentStatus;
 
     @Enumerated(EnumType.STRING)
-    private UserStatus status;
+    private PaymentStatus status;
 
     @OneToOne
     @JoinColumn(name = "order_id")

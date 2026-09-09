@@ -1,5 +1,6 @@
 package lk.ijse.AquariumFish.dto;
 
+import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,4 +12,5 @@ public class Fish_ImageDTO {
     private Long id;
     private String imageUrl;
     private Boolean isPrimary;
+    private Fish_ImageStatus status;
 }

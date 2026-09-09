@@ -19,7 +19,7 @@ public class Seller {
     private String username;
 
     @Enumerated(EnumType.STRING)
-    private UserStatus status;
+    private SellerStatus status;
 
     @ManyToOne
     @JoinColumn(name = "role_id")

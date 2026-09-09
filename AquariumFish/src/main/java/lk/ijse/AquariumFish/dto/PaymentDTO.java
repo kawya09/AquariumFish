@@ -14,5 +14,5 @@ public class PaymentDTO {
     private String paymentMethod;
     private LocalDateTime paymentDate;
     private Double amount;
-    private String paymentStatus;
+    private  paymentStatus status;
 }

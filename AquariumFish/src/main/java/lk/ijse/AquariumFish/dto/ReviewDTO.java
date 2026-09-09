@@ -1,5 +1,6 @@
 package lk.ijse.AquariumFish.dto;
 
+import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,4 +15,5 @@ public class ReviewDTO {
     private Integer rating;
     private String comment;
     private LocalDateTime reviewDate;
+    private ReviewStatus status;
 }

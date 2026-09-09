@@ -16,7 +16,7 @@ public class Role {
     private String roleName;
 
     @Enumerated(EnumType.STRING)
-    private UserStatus status;
+    private RoleStatus status;
 
     @OneToMany(mappedBy = "role")
     private List<User> users;

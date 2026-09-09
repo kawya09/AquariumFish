@@ -16,7 +16,7 @@ public class Cart_Item {
     private Double unitPrice;
 
     @Enumerated(EnumType.STRING)
-    private UserStatus status;
+    private Cart_ItemStatus status;
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
