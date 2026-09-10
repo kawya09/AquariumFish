@@ -99,7 +99,7 @@ public class AdminServiceImpl implements AdminService {
             admin1.setStatus(UserStatus.INACTIVE);
             adminRepository.save(admin1);
         } catch (Exception e) {
-            log.error("Error saving user");
+            log.error("Error saving admin");
             throw e;
         }
 
@@ -120,7 +120,7 @@ public class AdminServiceImpl implements AdminService {
             }
             return adminDTOList;
         } catch (Exception e) {
-            log.error("Error saving admin");
+            log.error("Error filtering admin");
             throw e;
         }
     }
@@ -133,11 +133,11 @@ public class AdminServiceImpl implements AdminService {
             if(admin.isEmpty()){
                 throw new RuntimeException( "Admin not found " );
             }
-            Role role = roleRepository.findById(roleID).orElseThrow(() -> new RuntimeException( "Admin not found " ));
+            Role role = roleRepository.findById(roleID).orElseThrow(() -> new RuntimeException( "Role not found " ));
             Admin admin1 = admin.get();
             adminRepository.save(admin1);
         }catch(Exception e){
-            log.error("Error saving admin");
+            log.error("Error changing admin role");
             throw e;
         }
     }

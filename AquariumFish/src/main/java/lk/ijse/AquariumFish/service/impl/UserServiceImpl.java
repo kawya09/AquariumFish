@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
             }
             return userDTOList;
         } catch (Exception e) {
-            log.error("Error saving user");
+            log.error("Error getting All user");
             throw e;
         }
 
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
             user1.setRole(role);
             userRepository.save(user1);
         }catch(Exception e){
-            log.error("Error saving user");
+            log.error("Error updating user");
             throw e;
         }
 
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
             user1.setStatus(UserStatus.INACTIVE);
             userRepository.save(user1);
         } catch (Exception e) {
-            log.error("Error saving user");
+            log.error("Error canging user status");
             throw e;
         }
 
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
             }
             return userDTOList;
         } catch (Exception e) {
-            log.error("Error saving user");
+            log.error("Error filter user");
             throw e;
         }
 

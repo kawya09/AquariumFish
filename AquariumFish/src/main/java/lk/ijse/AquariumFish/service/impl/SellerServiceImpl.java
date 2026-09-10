@@ -36,7 +36,7 @@ public class SellerServiceImpl implements SellerService {
 
         try {
             Role role = roleRepository.findById(sellerDTO.getId())
-                    .orElseThrow(() -> new RuntimeException( "Role not found " ));
+                    .orElseThrow(() -> new RuntimeException( "seller not found " ));
             Seller seller = new Seller();
             seller.setShopName(sellerDTO.getShopName());
             seller.setPhone(sellerDTO.getPhone());
@@ -68,7 +68,7 @@ public class SellerServiceImpl implements SellerService {
             }
             return sellerDTOList;
         } catch (Exception e) {
-            log.error("Error saving seller");
+            log.error("Error getting all seller");
             throw e;
         }
 
@@ -93,7 +93,7 @@ public class SellerServiceImpl implements SellerService {
             seller1.setRole(role);
             sellerRepository.save(seller1);
         }catch(Exception e){
-            log.error("Error savingseller");
+            log.error("Error updating seller");
             throw e;
         }
     }
@@ -110,7 +110,7 @@ public class SellerServiceImpl implements SellerService {
             seller1.setStatus(UserStatus.INACTIVE);
             sellerRepository.save(seller1);
         } catch (Exception e) {
-            log.error("Error saving seller");
+            log.error("Error changing seller status");
             throw e;
         }
     }
@@ -125,7 +125,7 @@ public class SellerServiceImpl implements SellerService {
             }
             return sellerDTOList;
         } catch (Exception e) {
-            log.error("Error saving seller");
+            log.error("Error filtering seller");
             throw e;
         }
     }
@@ -143,7 +143,7 @@ public class SellerServiceImpl implements SellerService {
 //            seller1.setRole(role);
             sellerRepository.save(seller1);
         }catch(Exception e){
-            log.error("Error saving user");
+            log.error("Error changing seller role");
             throw e;
         }
 

@@ -38,7 +38,7 @@ public class PaymentServiceImpl implements PaymentService {
             paymentRepository.save(payment);
 
         }catch (Exception e){
-            log.error("Error saving seller",e);
+            log.error("Error saving payment",e);
             throw e;
         }
     }
@@ -60,7 +60,7 @@ public class PaymentServiceImpl implements PaymentService {
             }
             return paymentDTOList;
         } catch (Exception e) {
-            log.error("Error saving payments");
+            log.error("Error getting all payments");
             throw e;
         }
     }

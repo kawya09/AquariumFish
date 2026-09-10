@@ -34,7 +34,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 
         }catch (Exception e){
-            log.error("Error saving seller",e);
+            log.error("Error saving review",e);
             throw e;
         }
     }
