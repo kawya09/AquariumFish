@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View detailed information, specifications, pricing, and reviews for our healthy aquarium fish. Fast and safe delivery available.">
+    <title>Fish Details | Aquarium Fish Marketplace</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Page Stylesheet -->
+    <link rel="stylesheet" href="css/fish-details.css">
+</head>
+<body>
+
+<!-- ==========================================
+     HEADER & NAVIGATION BAR
+     ========================================== -->
+<header class="site-header">
+    <div class="header-container">
+        <a href="index.html" class="brand-logo" aria-label="Aquarium Fish Homepage">
+            <i class="fa-solid fa-fish-fins logo-icon" aria-hidden="true"></i>
+            <span class="logo-text">Aquarium<span class="logo-highlight">Fish</span></span>
+        </a>
+
+        <!-- Desktop Nav Links -->
+        <nav class="main-nav" id="main-nav" aria-label="Primary Navigation">
+            <ul class="nav-list" role="list">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="fish.html" class="nav-link active" aria-current="page">Fish</a></li>
+                <li><a href="index.html#categories" class="nav-link">Categories</a></li>
+                <li><a href="index.html#about" class="nav-link">About Us</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Action Utilities (Cart & Auth) -->
+        <div class="header-actions">
+            <a href="cart.html" class="cart-btn" aria-label="View Shopping Cart">
+                <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+                <span class="cart-badge" id="cart-badge">0</span>
+            </a>
+
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-outline-sm">Sign In</a>
+                <a href="register.html" class="btn btn-primary-sm">Register</a>
+            </div>
+
+            <button type="button" class="mobile-toggle" id="mobile-menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation menu">
+                <i class="fa-solid fa-bars" id="toggle-icon" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- ==========================================
+     BREADCRUMB BAR
+     ========================================== -->
+<div class="breadcrumb-wrapper">
+    <div class="breadcrumb-container">
+        <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+            <ol class="breadcrumb-list">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="fish.html">Fish</a></li>
+                <li class="breadcrumb-item active" id="breadcrumb-fish-name" aria-current="page">Loading Fish...</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- ==========================================
+     MAIN PRODUCT CONTAINER (LOADING/ERROR/CONTENT)
+     ========================================== -->
+<main class="main-content">
+
+    <!-- Loading Skeleton State -->
+    <div id="loading-state" class="details-container skeleton-container">
+        <div class="gallery-column">
+            <div class="skeleton-box skeleton-main-img"></div>
+            <div class="skeleton-thumb-grid">
+                <div class="skeleton-box skeleton-thumb"></div>
+                <div class="skeleton-box skeleton-thumb"></div>
+                <div class="skeleton-box skeleton-thumb"></div>
+            </div>
+        </div>
+        <div class="info-column">
+            <div class="skeleton-box skeleton-line" style="width: 30%; height: 20px;"></div>
+            <div class="skeleton-box skeleton-line" style="width: 70%; height: 36px;"></div>
+            <div class="skeleton-box skeleton-line" style="width: 40%; height: 24px;"></div>
+            <div class="skeleton-box skeleton-line" style="width: 25%; height: 32px;"></div>
+            <div class="skeleton-box skeleton-line" style="width: 100%; height: 80px;"></div>
+            <div class="skeleton-box skeleton-line" style="width: 100%; height: 120px;"></div>
+        </div>
+    </div>
+
+    <!-- Error State Container -->
+    <div id="error-state" class="error-container hidden">
+        <div class="error-card">
+            <div class="error-icon">
+                <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+            </div>
+            <h1 class="error-title">Fish Not Found</h1>
+            <p class="error-text">The fish you are looking for may have been removed or is no longer available in our stock catalog.</p>
+            <div class="error-actions">
+                <a href="fish.html" class="btn btn-primary">
+                    <i class="fa-solid fa-fish" aria-hidden="true"></i> Browse All Fish
+                </a>
+                <a href="index.html" class="btn btn-outline">
+                    <i class="fa-solid fa-house" aria-hidden="true"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Product Details Content Container -->
+    <div id="product-details-content" class="details-container hidden">
+
+        <!-- GALLERY COLUMN -->
+        <div class="gallery-column">
+            <div class="main-image-wrapper">
+                <img id="main-fish-image" src="" alt="Aquarium Fish Primary Display" class="main-fish-img">
+
+                <button type="button" class="zoom-trigger-btn" id="zoom-trigger-btn" aria-label="Enlarge image preview">
+                    <i class="fa-solid fa-expand" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div class="thumbnail-gallery" id="thumbnail-gallery" role="region" aria-label="Image Thumbnails">
+                <!-- Dynamically populated thumbnail elements -->
+            </div>
+        </div>
+
+        <!-- INFORMATION COLUMN -->
+        <div class="info-column">
+
+            <!-- Category & Breed Badge -->
+            <div class="product-meta-header">
+                <span id="fish-category-badge" class="meta-badge">Category</span>
+                <span id="fish-breed-text" class="meta-subtitle">Breed Species</span>
+            </div>
+
+            <!-- Fish Name -->
+            <h1 id="fish-title" class="product-title">Loading...</h1>
+
+            <!-- Rating Summary Header -->
+            <div class="rating-header-row">
+                <div id="fish-stars" class="rating-stars" aria-label="Rating stars"></div>
+                <span id="fish-rating-val" class="rating-val">0.0</span>
+                <a href="#reviews-section" class="rating-reviews-link" id="fish-reviews-count">(0 Reviews)</a>
+            </div>
+
+            <!-- Price Display -->
+            <div class="price-container">
+                <span id="fish-price" class="price-amount">Rs. 0.00</span>
+                <span class="price-tax-note">Includes taxes &amp; standard handling</span>
+            </div>
+
+            <!-- Dynamic Stock Indicator -->
+            <div class="stock-container">
+                <div id="stock-badge" class="stock-badge in-stock">
+                    <i class="fa-solid fa-check-circle" id="stock-icon" aria-hidden="true"></i>
+                    <span id="stock-status-text">In Stock</span>
+                </div>
+                <span id="stock-qty-text" class="stock-qty-text">0 available</span>
+            </div>
+
+            <!-- Product Description -->
+            <div class="description-section">
+                <h2 class="section-subtitle">Description</h2>
+                <p id="fish-description" class="description-text">Detailed specifications loading...</p>
+            </div>
+
+            <!-- Technical Specifications Card -->
+            <div class="specs-card">
+                <h2 class="specs-title"><i class="fa-solid fa-list-check" aria-hidden="true"></i> Fish Information</h2>
+                <dl class="specs-grid">
+                    <div class="spec-row">
+                        <dt class="spec-term">Category</dt>
+                        <dd class="spec-desc" id="spec-category">Not specified</dd>
+                    </div>
+                    <div class="spec-row">
+                        <dt class="spec-term">Breed</dt>
+                        <dd class="spec-desc" id="spec-breed">Not specified</dd>
+                    </div>
+                    <div class="spec-row">
+                        <dt class="spec-term">Size</dt>
+                        <dd class="spec-desc" id="spec-size">Not specified</dd>
+                    </div>
+                    <div class="spec-row">
+                        <dt class="spec-term">Color</dt>
+                        <dd class="spec-desc" id="spec-color">Not specified</dd>
+                    </div>
+                    <div class="spec-row">
+                        <dt class="spec-term">Availability</dt>
+                        <dd class="spec-desc" id="spec-availability">Not specified</dd>
+                    </div>
+                </dl>
+            </div>
+
+            <!-- Purchase & Cart Action Area -->
+            <div class="purchase-action-box">
+                <div class="quantity-selector-wrapper">
+                    <label for="qty-input" class="qty-label">Quantity:</label>
+                    <div class="qty-control">
+                        <button type="button" class="qty-btn" id="qty-decrement-btn" aria-label="Decrease quantity">
+                            <i class="fa-solid fa-minus" aria-hidden="true"></i>
+                        </button>
+                        <input type="number" id="qty-input" class="qty-input" value="1" min="1" max="1" readonly aria-label="Selected quantity">
+                        <button type="button" class="qty-btn" id="qty-increment-btn" aria-label="Increase quantity">
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="button-group-primary">
+                    <button type="button" id="add-to-cart-btn" class="btn btn-primary btn-lg btn-cart">
+                        <i class="fa-solid fa-cart-plus" aria-hidden="true"></i> Add to Cart
+                    </button>
+                    <button type="button" id="buy-now-btn" class="btn btn-accent btn-lg btn-buy">
+                        <i class="fa-solid fa-bolt" aria-hidden="true"></i> Buy Now
+                    </button>
+                </div>
+
+                <div class="utility-actions-row">
+                    <button type="button" id="wishlist-btn" class="btn-utility">
+                        <i class="fa-regular fa-heart" id="wishlist-icon" aria-hidden="true"></i>
+                        <span id="wishlist-btn-text">Add to Wishlist</span>
+                    </button>
+                    <button type="button" id="share-btn" class="btn-utility">
+                        <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
+                        <span>Share</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Seller / Shop Card Component -->
+            <div class="seller-card">
+                <div class="seller-avatar">
+                    <i class="fa-solid fa-store" aria-hidden="true"></i>
+                </div>
+                <div class="seller-details">
+                    <span class="seller-label">Sold &amp; Shipped by</span>
+                    <h3 id="seller-shop-name" class="seller-name">Verified Aquarium Breeder</h3>
+                    <p id="seller-contact-info" class="seller-location">
+                        <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <span id="seller-address">Colombo</span>
+                    </p>
+                </div>
+                <button type="button" class="btn btn-outline-sm seller-btn" onclick="alert('Seller store profiles coming soon!')">
+                    View Shop
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ==========================================
+         REVIEWS SECTION
+         ========================================== -->
+    <section id="reviews-section" class="reviews-section">
+        <div class="section-container">
+            <div class="reviews-header">
+                <h2 class="section-title">Customer Reviews</h2>
+                <button type="button" id="open-review-modal-btn" class="btn btn-outline">
+                    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i> Write a Review
+                </button>
+            </div>
+
+            <div class="reviews-summary-card">
+                <div class="summary-score-box">
+                    <span id="summary-avg-rating" class="score-num">0.0</span>
+                    <div id="summary-stars" class="rating-stars"></div>
+                    <span id="summary-total-reviews" class="score-sub">Based on 0 reviews</span>
+                </div>
+
+                <div class="summary-bars-box" id="rating-breakdown-bars">
+                    <!-- Dynamically populated star breakdown bars -->
+                </div>
+            </div>
+
+            <!-- Customer Review Cards List Container -->
+            <div id="reviews-list-container" class="reviews-list-grid">
+                <!-- Dynamically populated customer review cards -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         RELATED PRODUCTS SECTION
+         ========================================== -->
+    <section class="related-section">
+        <div class="section-container">
+            <h2 class="section-title">You May Also Like</h2>
+            <div id="related-grid" class="product-grid">
+                <!-- Dynamically populated related fish cards -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         RECENTLY VIEWED SECTION
+         ========================================== -->
+    <section id="recently-viewed-section" class="recently-viewed-section hidden">
+        <div class="section-container">
+            <h2 class="section-title">Recently Viewed</h2>
+            <div id="recently-viewed-grid" class="product-grid">
+                <!-- Dynamically populated recently viewed cards from non-sensitive localStorage IDs -->
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ==========================================
+     IMAGE LIGHTBOX / ZOOM MODAL
+     ========================================== -->
+<div id="image-modal" class="lightbox-modal hidden" role="dialog" aria-modal="true" aria-label="Enlarged Fish Gallery Image">
+    <div class="lightbox-overlay" id="lightbox-overlay"></div>
+    <div class="lightbox-content">
+        <button type="button" class="lightbox-close-btn" id="lightbox-close-btn" aria-label="Close enlarged preview">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+
+        <button type="button" class="lightbox-nav-btn prev" id="lightbox-prev-btn" aria-label="Previous image">
+            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+        </button>
+
+        <img id="lightbox-img" src="" alt="Enlarged aquarium fish display" class="lightbox-img">
+
+        <button type="button" class="lightbox-nav-btn next" id="lightbox-next-btn" aria-label="Next image">
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        </button>
+
+        <div class="lightbox-counter" id="lightbox-counter">1 / 1</div>
+    </div>
+</div>
+
+<!-- ==========================================
+     WRITE REVIEW MODAL
+     ========================================== -->
+<div id="review-modal" class="modal-wrapper hidden" role="dialog" aria-modal="true" aria-labelledby="review-modal-title">
+    <div class="modal-backdrop" id="review-modal-backdrop"></div>
+    <div class="modal-card">
+        <button type="button" class="modal-close-btn" id="review-modal-close" aria-label="Close review dialog">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+
+        <div class="review-modal-header">
+            <h3 id="review-modal-title" class="modal-title">Write a Review</h3>
+            <p class="modal-subtitle">Share your experience with this fish item</p>
+        </div>
+
+        <form id="review-form" class="review-form">
+            <div class="form-group">
+                <label class="form-label">Overall Rating</label>
+                <div class="star-rating-picker" id="star-picker">
+                    <button type="button" class="star-pick-btn" data-value="1" aria-label="1 star"><i class="fa-solid fa-star"></i></button>
+                    <button type="button" class="star-pick-btn" data-value="2" aria-label="2 stars"><i class="fa-solid fa-star"></i></button>
+                    <button type="button" class="star-pick-btn" data-value="3" aria-label="3 stars"><i class="fa-solid fa-star"></i></button>
+                    <button type="button" class="star-pick-btn" data-value="4" aria-label="4 stars"><i class="fa-solid fa-star"></i></button>
+                    <button type="button" class="star-pick-btn" data-value="5" aria-label="5 stars"><i class="fa-solid fa-star"></i></button>
+                </div>
+                <input type="hidden" id="review-rating-val" value="5">
+            </div>
+
+            <div class="form-group">
+                <label for="review-comment-input" class="form-label">Your Review / Comments</label>
+                <textarea id="review-comment-input" class="form-textarea" rows="4" placeholder="Describe the health, size, vibrancy, and delivery quality..." required></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" id="review-cancel-btn" class="btn btn-outline">Cancel</button>
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ==========================================
+     TOAST NOTIFICATION SYSTEM CONTAINER
+     ========================================== -->
+<div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+<!-- ==========================================
+     FOOTER SECTION
+     ========================================== -->
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <a href="index.html" class="brand-logo">
+                <i class="fa-solid fa-fish-fins logo-icon" aria-hidden="true"></i>
+                <span class="logo-text">Aquarium<span class="logo-highlight">Fish</span></span>
+            </a>
+            <p class="footer-tagline">Sri Lanka's trusted marketplace for exotic, tropical, and healthy freshwater aquarium fish.</p>
+        </div>
+
+        <div class="footer-links">
+            <h4 class="footer-heading">Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="fish.html">Browse Fish</a></li>
+                <li><a href="index.html#categories">Categories</a></li>
+                <li><a href="index.html#about">About Us</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-links">
+            <h4 class="footer-heading">Customer Service</h4>
+            <ul>
+                <li><a href="login.html">My Account</a></li>
+                <li><a href="cart.html">My Orders</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="terms.html">Delivery Information</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-contact">
+            <h4 class="footer-heading">Contact Support</h4>
+            <p><i class="fa-solid fa-envelope" aria-hidden="true"></i> support@aquariumfish.lk</p>
+            <p><i class="fa-solid fa-phone" aria-hidden="true"></i> +94 11 234 5678</p>
+            <p><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Colombo, Sri Lanka</p>
+
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026 Aquarium Fish. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Page JavaScript Handler -->
+<script src="js/fish-details.js"></script>
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore beautiful freshwater and tropical aquarium fish categories. Find the perfect fish for your aquarium.">
+    <title>Fish Categories - Aquarium Fish Shop</title>
+
+    <!-- Google Fonts CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/categories.css">
+</head>
+<body>
+
+<!-- Bubbles Overlay Background Animation -->
+<div class="bubbles-container" aria-hidden="true">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+</div>
+
+<!-- Navigation Bar -->
+<header class="navbar-header">
+    <nav class="navbar" aria-label="Main Navigation">
+        <a href="index.html" class="brand-logo">
+            <i class="fa-solid fa-fish-fins brand-icon"></i>
+            <span class="brand-name">Aquarium Fish</span>
+        </a>
+
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Navigation Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="nav-menu" id="navMenu">
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="fish.html" class="nav-link">Fish</a></li>
+                <li><a href="categories.html" class="nav-link active" aria-current="page">Categories</a></li>
+                <li><a href="about.html" class="nav-link">About Us</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="fish.html" class="nav-icon-btn" aria-label="Search Fish">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </a>
+                <a href="cart.html" class="nav-icon-btn cart-btn" aria-label="Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </a>
+                <div class="auth-buttons" id="authContainer">
+                    <a href="login.html" class="btn btn-outline-sm">Login</a>
+                    <a href="register.html" class="btn btn-primary-sm">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="container">
+            <nav aria-label="Breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Categories</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Categories Hero Section -->
+    <section class="hero-section">
+        <div class="container hero-content">
+            <span class="hero-badge"><i class="fa-solid fa-water"></i> Explore Aquatic Life</span>
+            <h1 class="hero-title">Explore Our Fish Categories</h1>
+            <p class="hero-subtitle">Discover beautiful aquarium fish from popular freshwater and tropical categories carefully curated for aquarists of all experience levels.</p>
+            <div class="hero-cta">
+                <a href="fish.html" class="btn btn-primary btn-lg">
+                    Shop All Fish <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search & Control Toolbar Section -->
+    <section class="toolbar-section">
+        <div class="container">
+            <div class="toolbar-wrapper">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="categorySearchInput" placeholder="Search categories (e.g., Betta, Goldfish, Tropical)..." aria-label="Search Categories">
+                    <button class="clear-search-btn" id="clearSearchBtn" aria-label="Clear Search" style="display: none;">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="sort-box">
+                    <label for="categorySortSelect" class="sort-label"><i class="fa-solid fa-arrow-down-short-wide"></i> Sort By:</label>
+                    <select id="categorySortSelect" class="sort-select" aria-label="Sort Categories">
+                        <option value="featured">Featured</option>
+                        <option value="name-asc">Name: A-Z</option>
+                        <option value="name-desc">Name: Z-A</option>
+                        <option value="count-desc">Most Fish Available</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fish Category Guide Filters -->
+    <section class="filter-tags-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title-sm">Choose Fish Based on Your Preference</h2>
+            </div>
+            <div class="filter-buttons-wrapper" id="filterTagsContainer">
+                <button class="tag-btn active" data-filter="all">All</button>
+                <button class="tag-btn" data-filter="beginner">Beginner Friendly</button>
+                <button class="tag-btn" data-filter="colorful">Colorful</button>
+                <button class="tag-btn" data-filter="community">Community</button>
+                <button class="tag-btn" data-filter="tropical">Tropical</button>
+                <button class="tag-btn" data-filter="freshwater">Freshwater</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Categories Grid Section -->
+    <section class="categories-grid-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Popular Fish Categories</h2>
+                <p class="section-subtitle">Browse through our vast catalog of freshwater, tropical, and exotic aquarium fish.</p>
+            </div>
+
+            <!-- Skeleton Loader State -->
+            <div class="categories-grid" id="skeletonContainer">
+                <!-- Skeletons generated by JS -->
+            </div>
+
+            <!-- Dynamic Categories Grid -->
+            <div class="categories-grid" id="categoriesContainer" style="display: none;">
+                <!-- Rendered via JavaScript -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="state-card" id="emptyState" style="display: none;">
+                <div class="state-icon"><i class="fa-solid fa-fish-fins"></i></div>
+                <h3 class="state-title">No categories found</h3>
+                <p class="state-message">We couldn't find any fish categories matching your search criteria.</p>
+                <a href="fish.html" class="btn btn-primary">View All Fish</a>
+            </div>
+
+            <!-- Error State -->
+            <div class="state-card" id="errorState" style="display: none;">
+                <div class="state-icon error"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <h3 class="state-title">Unable to load categories</h3>
+                <p class="state-message">Something went wrong while connecting to our servers. Please try again.</p>
+                <button class="btn btn-primary" id="retryBtn">Try Again</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Information Cards Section -->
+    <section class="info-cards-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title">Find the Right Fish for Your Aquarium</h2>
+                <p class="section-subtitle">Understanding fish temperament, water parameters, and care requirements ensures a healthy aquarium environment.</p>
+            </div>
+
+            <div class="info-cards-grid">
+                <div class="info-card">
+                    <div class="info-icon-wrapper">
+                        <i class="fa-solid fa-seedling"></i>
+                    </div>
+                    <h3 class="info-card-title">Beginner Friendly</h3>
+                    <p class="info-card-desc">Hardy and forgiving species suitable for aquarists starting their aquarium journey with ease.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon-wrapper">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h3 class="info-card-title">Community Fish</h3>
+                    <p class="info-card-desc">Peaceful species that co-exist harmoniously with other compatible aquatic tank mates.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon-wrapper">
+                        <i class="fa-solid fa-palette"></i>
+                    </div>
+                    <h3 class="info-card-title">Colorful Fish</h3>
+                    <p class="info-card-desc">Vibrant and eye-catching species that bring vivid aesthetics and beauty to your tank.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon-wrapper">
+                        <i class="fa-solid fa-temperature-three-quarters"></i>
+                    </div>
+                    <h3 class="info-card-title">Tropical Fish</h3>
+                    <p class="info-card-desc">Popular warm-water exotic species requiring stable tropical water temperatures.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Statistics Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number" id="statFishCount">50+</span>
+                    <span class="stat-label">Fish Varieties</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="statCategoryCount">12</span>
+                    <span class="stat-label">Categories</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="statBreedCount">25+</span>
+                    <span class="stat-label">Fish Breeds</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="statHealthCount">100%</span>
+                    <span class="stat-label">Healthy Fish</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call-To-Action Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-card">
+                <div class="cta-content">
+                    <h2 class="cta-title">Ready to Find Your Perfect Fish?</h2>
+                    <p class="cta-desc">Explore our collection of healthy, beautiful aquarium fish and find the ideal addition to your underwater paradise.</p>
+                    <div class="cta-buttons">
+                        <a href="fish.html" class="btn btn-primary">Shop Fish</a>
+                        <a href="categories.html" class="btn btn-outline-light">View Categories</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Quick Preview Modal -->
+<div class="modal-overlay" id="previewModal" aria-hidden="true" role="dialog" aria-labelledby="modalCategoryName">
+    <div class="modal-card">
+        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close Modal">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="modal-body">
+            <div class="modal-image-wrapper">
+                <img src="" id="modalCategoryImg" alt="Category Preview">
+            </div>
+            <div class="modal-details">
+                <span class="modal-badge" id="modalFishCount">0 Fish Available</span>
+                <h3 class="modal-title" id="modalCategoryName">Category Name</h3>
+                <p class="modal-description" id="modalCategoryDesc">Description text goes here...</p>
+                <div class="modal-meta">
+                    <strong>Popular Traits:</strong>
+                    <div class="modal-tags" id="modalTags">
+                        <!-- Dynamic Tags -->
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <a href="#" id="modalViewFishBtn" class="btn btn-primary full-width">
+                        View Fish Catalog <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col brand-col">
+                <a href="index.html" class="brand-logo footer-logo">
+                    <i class="fa-solid fa-fish-fins brand-icon"></i>
+                    <span class="brand-name">Aquarium Fish</span>
+                </a>
+                <p class="footer-desc">Bringing high-quality, beautiful, and healthy aquarium fish directly to your home with expert care and guidance.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="fish.html">Fish Catalog</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Customer Service</h4>
+                <ul class="footer-links">
+                    <li><a href="account.html">My Account</a></li>
+                    <li><a href="orders.html">Orders</a></li>
+                    <li><a href="delivery.html">Delivery Information</a></li>
+                    <li><a href="faq.html">FAQs</a></li>
+                    <li><a href="support.html">Contact Support</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Contact Info</h4>
+                <!-- DEMO / PLACEHOLDER CONTACT INFO -->
+                <ul class="contact-info-list">
+                    <li>
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>support@aquariumfish.com</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-phone"></i>
+                        <span>+94 11 234 5678</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>123 Ocean Drive, Colombo, Sri Lanka</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Aquarium Fish. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Custom JavaScript -->
+<script src="js/categories.js"></script>
+</body>
+</html>

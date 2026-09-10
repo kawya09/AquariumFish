@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create an account with Aquarium Fish to explore underwater species, manage your cart, track orders, and join our aquatic community.">
+    <title>Create Account | Aquarium Fish</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="css/register.css">
+</head>
+<body>
+
+<!-- Main Container -->
+<div class="register-wrapper">
+
+    <!-- Navigation Back Link -->
+    <a href="index.html" class="back-home-link" aria-label="Return to Aquarium Fish Homepage">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Home
+    </a>
+
+    <!-- Two-Column Grid Layout -->
+    <main class="split-container">
+
+        <!-- LEFT COLUMN: Aquarium Visual Section -->
+        <section class="visual-panel">
+            <div class="visual-overlay"></div>
+            <div class="visual-content">
+                <a href="index.html" class="brand-logo" aria-label="Aquarium Fish Homepage">
+                    <i class="fa-solid fa-fish-fins logo-icon" aria-hidden="true"></i>
+                    <span class="logo-text">Aquarium<span class="logo-highlight">Fish</span></span>
+                </a>
+
+                <div class="visual-hero-text">
+            <span class="badge-tag">
+              <i class="fa-solid fa-water" aria-hidden="true"></i> Customer Registration
+            </span>
+                    <h1 class="visual-heading">Join the Aquarium Fish Family</h1>
+                    <p class="visual-description">
+                        Create your account and discover beautiful aquarium fish for your perfect underwater world.
+                    </p>
+                </div>
+
+                <!-- Account Benefits Highlights -->
+                <div class="benefits-card">
+                    <h2 class="benefits-title">Membership Perks</h2>
+                    <ul class="benefits-list" role="list">
+                        <li class="benefit-item">
+                            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                            <span>Browse exotic & tropical aquatic species</span>
+                        </li>
+                        <li class="benefit-item">
+                            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                            <span>Add fish to cart & save wishlists</span>
+                        </li>
+                        <li class="benefit-item">
+                            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                            <span>Real-time order tracking & delivery updates</span>
+                        </li>
+                        <li class="benefit-item">
+                            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                            <span>Write verified reviews and rate breeders</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- RIGHT COLUMN: Registration Card -->
+        <section class="form-panel">
+            <div class="register-card">
+
+                <!-- Mobile Brand Logo -->
+                <div class="mobile-brand">
+                    <a href="index.html" class="brand-logo">
+                        <i class="fa-solid fa-fish-fins logo-icon" aria-hidden="true"></i>
+                        <span class="logo-text">Aquarium<span class="logo-highlight">Fish</span></span>
+                    </a>
+                </div>
+
+                <div class="form-header">
+                    <h2 class="form-title">Create Your Account</h2>
+                    <p class="form-subtitle">Join us and start exploring our aquarium fish collection.</p>
+                </div>
+
+                <!-- Top Level Alert Banner -->
+                <div id="alert-banner" class="alert-banner hidden" role="alert" aria-live="assertive">
+                    <i class="fa-solid fa-circle-exclamation" id="alert-icon" aria-hidden="true"></i>
+                    <span id="alert-message">Registration failed. Please try again.</span>
+                </div>
+
+                <!-- Customer Registration Form -->
+                <form id="register-form" class="auth-form" novalidate>
+
+                    <!-- Name Fields (Customer Entity: firstName, lastName) -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-user input-icon" aria-hidden="true"></i>
+                                <input
+                                        type="text"
+                                        id="firstName"
+                                        name="firstName"
+                                        class="form-control"
+                                        placeholder="Enter your first name"
+                                        autocomplete="given-name"
+                                        required
+                                        aria-describedby="firstName-error"
+                                >
+                            </div>
+                            <span id="firstName-error" class="error-text hidden" role="alert"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-user input-icon" aria-hidden="true"></i>
+                                <input
+                                        type="text"
+                                        id="lastName"
+                                        name="lastName"
+                                        class="form-control"
+                                        placeholder="Enter your last name"
+                                        autocomplete="family-name"
+                                        required
+                                        aria-describedby="lastName-error"
+                                >
+                            </div>
+                            <span id="lastName-error" class="error-text hidden" role="alert"></span>
+                        </div>
+                    </div>
+
+                    <!-- Username & Email Fields (User Entity: username, email) -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="username" class="form-label">Username</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-at input-icon" aria-hidden="true"></i>
+                                <input
+                                        type="text"
+                                        id="username"
+                                        name="username"
+                                        class="form-control"
+                                        placeholder="Choose a username"
+                                        autocomplete="username"
+                                        required
+                                        aria-describedby="username-error"
+                                >
+                            </div>
+                            <span id="username-error" class="error-text hidden" role="alert"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-envelope input-icon" aria-hidden="true"></i>
+                                <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        class="form-control"
+                                        placeholder="Enter your email address"
+                                        autocomplete="email"
+                                        required
+                                        aria-describedby="email-error"
+                                >
+                            </div>
+                            <span id="email-error" class="error-text hidden" role="alert"></span>
+                        </div>
+                    </div>
+
+                    <!-- Phone Field (Customer Entity: phone) -->
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-phone input-icon" aria-hidden="true"></i>
+                            <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
+                                    class="form-control"
+                                    placeholder="e.g. 0712345678 or +94712345678"
+                                    autocomplete="tel"
+                                    required
+                                    aria-describedby="phone-error"
+                            >
+                        </div>
+                        <span id="phone-error" class="error-text hidden" role="alert"></span>
+                    </div>
+
+                    <!-- Delivery Address Field (Customer Entity: address) -->
+                    <div class="form-group">
+                        <label for="address" class="form-label">Delivery Address</label>
+                        <div class="input-wrapper textarea-wrapper">
+                            <i class="fa-solid fa-location-dot input-icon" aria-hidden="true"></i>
+                            <textarea
+                                    id="address"
+                                    name="address"
+                                    class="form-control textarea-control"
+                                    placeholder="Enter your street address, city, and postal code"
+                                    rows="3"
+                                    autocomplete="street-address"
+                                    required
+                                    aria-describedby="address-error"
+                            ></textarea>
+                        </div>
+                        <span id="address-error" class="error-text hidden" role="alert"></span>
+                    </div>
+
+                    <!-- Password Field (User Entity: password) -->
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock input-icon" aria-hidden="true"></i>
+                            <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    class="form-control"
+                                    placeholder="Create a strong password"
+                                    autocomplete="new-password"
+                                    required
+                                    aria-describedby="password-error"
+                            >
+                            <button
+                                    type="button"
+                                    id="toggle-password"
+                                    class="password-toggle-btn"
+                                    aria-label="Show password in plain text"
+                            >
+                                <i class="fa-regular fa-eye" id="toggle-password-icon" aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+                        <!-- Visual Password Strength Meter -->
+                        <div class="strength-meter-wrapper" aria-live="polite">
+                            <div class="strength-meter-bar">
+                                <div id="strength-meter-fill" class="strength-fill strength-none"></div>
+                            </div>
+                            <span id="strength-text" class="strength-label">Password strength: Empty</span>
+                        </div>
+
+                        <span id="password-error" class="error-text hidden" role="alert"></span>
+                    </div>
+
+                    <!-- Confirm Password Field -->
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-shield-halved input-icon" aria-hidden="true"></i>
+                            <input
+                                    type="password"
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    class="form-control"
+                                    placeholder="Re-enter your password"
+                                    autocomplete="new-password"
+                                    required
+                                    aria-describedby="confirmPassword-error"
+                            >
+                            <button
+                                    type="button"
+                                    id="toggle-confirm-password"
+                                    class="password-toggle-btn"
+                                    aria-label="Show confirm password in plain text"
+                            >
+                                <i class="fa-regular fa-eye" id="toggle-confirm-password-icon" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <span id="confirmPassword-error" class="error-text hidden" role="alert"></span>
+                    </div>
+
+                    <!-- Terms & Conditions Checkbox -->
+                    <div class="form-group">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="terms" name="terms" required aria-describedby="terms-error">
+                            <span class="checkmark" aria-hidden="true"></span>
+                            <span class="checkbox-label">
+                  I agree to the <a href="terms.html" class="terms-link" tabindex="0">Terms &amp; Conditions</a> and <a href="privacy.html" class="terms-link" tabindex="0">Privacy Policy</a>.
+                </span>
+                        </label>
+                        <span id="terms-error" class="error-text hidden" role="alert"></span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="submit-btn" class="btn btn-primary btn-full">
+                        <span class="btn-text">Create Account</span>
+                        <span class="spinner hidden" id="btn-spinner" aria-hidden="true"></span>
+                    </button>
+
+                </form>
+
+                <!-- Login Link -->
+                <div class="form-footer">
+                    <p>Already have an account? <a href="login.html" class="login-link">Sign In</a></p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- Custom Registration Script -->
+<script src="js/register.js"></script>
+</body>
+</html>

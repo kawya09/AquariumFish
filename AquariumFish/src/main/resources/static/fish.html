@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse our wide selection of exotic, tropical, and freshwater aquarium fish. Filter by category, breed, size, color, and price.">
+    <title>Explore Aquarium Fish | Aquarium Fish Marketplace</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Page Stylesheet -->
+    <link rel="stylesheet" href="css/fish.css">
+</head>
+<body>
+
+<!-- ==========================================
+     HEADER & NAVIGATION BAR
+     ========================================== -->
+<header class="site-header">
+    <div class="header-container">
+        <a href="index.html" class="brand-logo" aria-label="Aquarium Fish Homepage">
+            <i class="fa-solid fa-fish-fins logo-icon" aria-hidden="true"></i>
+            <span class="logo-text">Aquarium<span class="logo-highlight">Fish</span></span>
+        </a>
+
+        <!-- Desktop Nav Links -->
+        <nav class="main-nav" id="main-nav" aria-label="Primary Navigation">
+            <ul class="nav-list" role="list">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="fish.html" class="nav-link active" aria-current="page">Fish</a></li>
+                <li><a href="index.html#categories" class="nav-link">Categories</a></li>
+                <li><a href="index.html#about" class="nav-link">About Us</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Action Utilities (Cart & Auth) -->
+        <div class="header-actions">
+            <a href="cart.html" class="cart-btn" aria-label="View Shopping Cart">
+                <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+                <span class="cart-badge" id="cart-badge">0</span>
+            </a>
+
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-outline-sm">Sign In</a>
+                <a href="register.html" class="btn btn-primary-sm">Register</a>
+            </div>
+
+            <button type="button" class="mobile-toggle" id="mobile-menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation menu">
+                <i class="fa-solid fa-bars" id="toggle-icon" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- ==========================================
+     HERO & BREADCRUMB HEADER
+     ========================================== -->
+<section class="page-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-container">
+        <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+            <ol class="breadcrumb-list">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Fish Catalog</li>
+            </ol>
+        </nav>
+        <h1 class="page-title">Explore Our Aquarium Fish</h1>
+        <p class="page-description">Discover beautiful, healthy, high-quality aquarium fish for your perfect underwater world.</p>
+    </div>
+</section>
+
+<!-- ==========================================
+     SEARCH BAR & CONTROLS BAR
+     ========================================== -->
+<section class="search-section">
+    <div class="search-container">
+        <form id="search-form" class="search-form" role="search" onsubmit="return false;">
+            <div class="search-input-group">
+                <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+                <input
+                        type="search"
+                        id="search-input"
+                        class="search-input"
+                        placeholder="Search fish by name, category, or breed..."
+                        aria-label="Search fish catalog"
+                >
+                <button type="button" id="clear-search-btn" class="clear-search-btn hidden" aria-label="Clear search input">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+            <button type="submit" id="search-submit-btn" class="btn btn-search">
+                <span>Search</span>
+            </button>
+        </form>
+    </div>
+</section>
+
+<!-- ==========================================
+     MAIN CONTENT CONTAINER (Sidebar + Grid)
+     ========================================== -->
+<main class="catalog-container">
+
+    <!-- Mobile Filter Drawer Toggle Button -->
+    <div class="mobile-filter-bar">
+        <button type="button" id="mobile-filter-btn" class="btn btn-filter-mobile">
+            <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+            <span>Filter Fish</span>
+            <span id="active-filter-badge" class="active-filter-badge hidden">0</span>
+        </button>
+
+        <div class="results-count-mobile">
+            Showing <strong id="results-count-num-mobile">0</strong> fish
+        </div>
+    </div>
+
+    <div class="catalog-grid-layout">
+
+        <!-- FILTER SIDEBAR -->
+        <aside class="filter-sidebar" id="filter-sidebar" aria-label="Product Filters">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title"><i class="fa-solid fa-filter" aria-hidden="true"></i> Filter Fish</h2>
+                <button type="button" id="close-filter-btn" class="close-filter-btn" aria-label="Close filters">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div class="filter-actions-top">
+                <button type="button" id="reset-filters-btn" class="btn-text-link">
+                    <i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Clear All Filters
+                </button>
+            </div>
+
+            <!-- Filter Form -->
+            <form id="filter-form" class="filter-form">
+
+                <!-- Category Filter -->
+                <div class="filter-group">
+                    <h3 class="filter-heading">Category</h3>
+                    <div id="category-filter-list" class="filter-options-list">
+                        <!-- Dynamically Populated -->
+                    </div>
+                </div>
+
+                <!-- Breed Filter -->
+                <div class="filter-group">
+                    <h3 class="filter-heading">Breed</h3>
+                    <div id="breed-filter-list" class="filter-options-list">
+                        <!-- Dynamically Populated -->
+                    </div>
+                </div>
+
+                <!-- Size Filter -->
+                <div class="filter-group">
+                    <h3 class="filter-heading">Size</h3>
+                    <div id="size-filter-list" class="filter-options-list">
+                        <!-- Dynamically Populated -->
+                    </div>
+                </div>
+
+                <!-- Color Filter -->
+                <div class="filter-group">
+                    <h3 class="filter-heading">Color</h3>
+                    <div id="color-filter-list" class="filter-options-list color-grid">
+                        <!-- Dynamically Populated -->
+                    </div>
+                </div>
+
+                <!-- Price Range Filter -->
+                <div class="filter-group">
+                    <h3 class="filter-heading">Price Range (LKR)</h3>
+                    <div class="price-input-wrapper">
+                        <div class="price-field">
+                            <label for="min-price-input">Min</label>
+                            <input type="number" id="min-price-input" min="0" placeholder="0" class="price-input">
+                        </div>
+                        <span class="price-separator">-</span>
+                        <div class="price-field">
+                            <label for="max-price-input">Max</label>
+                            <input type="number" id="max-price-input" min="0" placeholder="10000" class="price-input">
+                        </div>
+                    </div>
+                    <div class="range-slider-wrapper">
+                        <input type="range" id="price-range-slider" min="0" max="15000" step="250" value="15000" class="range-slider">
+                        <div class="slider-val-label">Up to: <span id="price-range-val">Rs. 15,000</span></div>
+                    </div>
+                </div>
+
+                <!-- Stock Availability Filter -->
+                <div class="filter-group">
+                    <h3 class="filter-heading">Availability</h3>
+                    <div class="filter-options-list">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="stock-instock-cb" value="in-stock" checked>
+                            <span class="checkbox-custom"></span>
+                            <span>In Stock Only</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="stock-outstock-cb" value="out-of-stock" checked>
+                            <span class="checkbox-custom"></span>
+                            <span>Include Out of Stock</span>
+                        </label>
+                    </div>
+                </div>
+
+            </form>
+        </aside>
+
+        <!-- Sidebar Backdrop Overlay (Mobile) -->
+        <div id="filter-overlay" class="filter-overlay"></div>
+
+        <!-- MAIN PRODUCT LISTING AREA -->
+        <section class="products-section">
+
+            <!-- Controls Bar Above Cards Grid -->
+            <div class="products-header-bar">
+                <div class="results-count-desktop">
+                    Showing <strong id="results-count-num">0</strong> aquarium fish
+                </div>
+
+                <div class="sort-controls">
+                    <label for="sort-select" class="sort-label">Sort by:</label>
+                    <select id="sort-select" class="sort-select" aria-label="Sort products">
+                        <option value="featured">Featured</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="name-asc">Name: A - Z</option>
+                        <option value="name-desc">Name: Z - A</option>
+                        <option value="newest">Newest Arrivals</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- PRODUCT GRID & CONTAINER STATES -->
+            <div id="product-grid" class="product-grid" aria-live="polite">
+                <!-- Dynamically populated via js/fish.js -->
+            </div>
+
+            <!-- Skeleton Loader Placeholder -->
+            <div id="skeleton-grid" class="product-grid hidden">
+                <!-- Rendered dynamically during search/load -->
+            </div>
+
+            <!-- Empty Results State -->
+            <div id="empty-state" class="empty-state hidden">
+                <div class="empty-state-icon">
+                    <i class="fa-solid fa-fish" aria-hidden="true"></i>
+                </div>
+                <h3 class="empty-state-title">No Fish Found</h3>
+                <p class="empty-state-text">We couldn't find any fish matching your criteria. Try adjusting your search query or clear active filters.</p>
+                <button type="button" id="empty-reset-btn" class="btn btn-primary">
+                    <i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Clear All Filters
+                </button>
+            </div>
+
+            <!-- Pagination Controls -->
+            <nav id="pagination-wrapper" class="pagination-wrapper" aria-label="Product pagination">
+                <!-- Rendered dynamically -->
+            </nav>
+
+        </section>
+    </div>
+</main>
+
+<!-- ==========================================
+     QUICK VIEW MODAL COMPONENT
+     ========================================== -->
+<div id="quick-view-modal" class="modal-wrapper hidden" role="dialog" aria-modal="true" aria-labelledby="modal-fish-title">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-card">
+        <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Close modal window">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+
+        <div class="modal-body-grid">
+            <!-- Quick View Gallery -->
+            <div class="modal-gallery">
+                <div class="modal-main-image-wrapper">
+                    <img id="modal-fish-img" src="" alt="Aquarium Fish Detail" class="modal-main-img">
+                    <span id="modal-stock-badge" class="stock-badge">In Stock</span>
+                </div>
+            </div>
+
+            <!-- Quick View Content -->
+            <div class="modal-info">
+                <div class="modal-header-meta">
+                    <span id="modal-fish-meta" class="card-category">Category • Breed</span>
+                    <h2 id="modal-fish-title" class="modal-title">Fish Name</h2>
+                </div>
+
+                <div class="modal-rating-row">
+                    <div id="modal-fish-stars" class="card-stars"></div>
+                    <span id="modal-fish-rating-num" class="rating-num">4.8</span>
+                    <span id="modal-fish-reviews-count" class="reviews-count">(0 reviews)</span>
+                </div>
+
+                <div id="modal-fish-price" class="modal-price">Rs. 0.00</div>
+
+                <p id="modal-fish-desc" class="modal-description">Product detailed description...</p>
+
+                <div class="modal-spec-grid">
+                    <div class="spec-item">
+                        <span class="spec-label">Size</span>
+                        <span id="modal-spec-size" class="spec-value">Medium</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Color</span>
+                        <span id="modal-spec-color" class="spec-value">Blue</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Availability</span>
+                        <span id="modal-spec-qty" class="spec-value">10 In Stock</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Seller</span>
+                        <span id="modal-spec-seller" class="spec-value">Verified Breeder</span>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="modal-add-cart-btn" class="btn btn-primary btn-modal-cart">
+                        <i class="fa-solid fa-cart-plus" aria-hidden="true"></i> Add to Cart
+                    </button>
+                    <a id="modal-view-details-link" href="#" class="btn btn-outline btn-modal-details">
+                        View Full Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==========================================
+     LOGIN PROMPT AUTH MODAL
+     ========================================== -->
+<div id="auth-prompt-modal" class="modal-wrapper hidden" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+    <div class="modal-backdrop" id="auth-modal-backdrop"></div>
+    <div class="modal-card modal-card-sm">
+        <button type="button" class="modal-close-btn" id="auth-modal-close" aria-label="Close modal window">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+        <div class="auth-prompt-content">
+            <div class="auth-prompt-icon">
+                <i class="fa-solid fa-lock" aria-hidden="true"></i>
+            </div>
+            <h3 id="auth-modal-title" class="auth-prompt-title">Sign In Required</h3>
+            <p class="auth-prompt-text">Please sign in to your account to add items to your cart and complete your purchase.</p>
+            <div class="auth-prompt-actions">
+                <a href="login.html" class="btn btn-primary btn-full">Sign In Now</a>
+                <button type="button" id="auth-prompt-cancel" class="btn btn-outline btn-full">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==========================================
+     TOAST NOTIFICATION SYSTEM
+     ========================================== -->
+<div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+<!-- ==========================================
+     FOOTER SECTION
+     ========================================== -->
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <a href="index.html" class="brand-logo">
+                <i class="fa-solid fa-fish-fins logo-icon" aria-hidden="true"></i>
+                <span class="logo-text">Aquarium<span class="logo-highlight">Fish</span></span>
+            </a>
+            <p class="footer-tagline">Sri Lanka's trusted marketplace for exotic, tropical, and healthy freshwater aquarium fish.</p>
+        </div>
+        <div class="footer-links">
+            <h4 class="footer-heading">Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="fish.html">Browse Fish</a></li>
+                <li><a href="login.html">My Account</a></li>
+                <li><a href="terms.html">Terms &amp; Conditions</a></li>
+            </ul>
+        </div>
+        <div class="footer-contact">
+            <h4 class="footer-heading">Support</h4>
+            <p><i class="fa-solid fa-envelope" aria-hidden="true"></i> support@aquariumfish.lk</p>
+            <p><i class="fa-solid fa-phone" aria-hidden="true"></i> +94 11 234 5678</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 Aquarium Fish Store. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Page JavaScript Handler -->
+<script src="js/fish.js"></script>
+</body>
+</html>
