@@ -19,8 +19,8 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class CustomerServiceImpl implements CustomerService {
-    private CustomerRepository customerRepository;
-    private RoleRepository roleRepository;
+    private final CustomerRepository customerRepository;
+    private final RoleRepository roleRepository;
     public CustomerServiceImpl(CustomerRepository customerRepository, RoleRepository roleRepository) {
         this.customerRepository = customerRepository;
         this.roleRepository = roleRepository;
@@ -54,14 +54,14 @@ public class CustomerServiceImpl implements CustomerService {
             List<Customer> customers =customerRepository.findAll();
             for (Customer customer : customers) {
                 CustomerDTO customerDTO = new CustomerDTO();
-                customerDTOList.add(customerDTO);
+
                 customerDTO.setId(customer.getId());
                 customerDTO.setStatus(customer.getStatus());
                 customerDTO.setAddress(customer.getAddress());
                 customerDTO.setFirstName(customer.getFirstName());
                 customerDTO.setLastName(customer.getLastName());
                 customerDTO.setPhone(customer.getPhone());
-
+                customerDTOList.add(customerDTO);
             }
             return customerDTOList;
         } catch (Exception e) {

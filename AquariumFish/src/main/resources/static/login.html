@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign in to your Aquarium Fish account to manage orders, access your wishlist, and explore vibrant aquatic life.">
+    <title>Sign In | Aquarium Fish</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+<!-- Main Container Layout -->
+<div class="login-wrapper">
+
+    <!-- Back to Home Link -->
+    <a href="index.html" class="back-home-link" aria-label="Return to Aquarium Fish Homepage">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Home
+    </a>
+
+    <!-- Split-Screen Grid Layout -->
+    <main class="split-container">
+
+        <!-- LEFT SIDE: Visual & Brand Hero -->
+        <section class="visual-panel">
+            <div class="visual-overlay"></div>
+            <div class="visual-content">
+                <a href="index.html" class="brand-logo" aria-label="Aquarium Fish Logo">
+                    <i class="fa-solid fa-fish-fins logo-icon" aria-hidden="true"></i>
+                    <span class="logo-text">Aquarium<span class="logo-highlight">Fish</span></span>
+                </a>
+
+                <div class="visual-hero-text">
+                    <span class="badge-tag"><i class="fa-solid fa-droplet" aria-hidden="true"></i> Customer & Member Portal</span>
+                    <h1 class="visual-heading">Welcome Back to Aquarium Fish</h1>
+                    <p class="visual-description">
+                        Sign in to explore beautiful aquarium fish, manage your orders, and build your perfect underwater world.
+                    </p>
+                </div>
+
+                <div class="visual-features">
+                    <div class="feature-item">
+                        <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                        <span>Guaranteed Live Arrival</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-truck-fast" aria-hidden="true"></i>
+                        <span>Order Tracking & Updates</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RIGHT SIDE: Auth Login Card -->
+        <section class="form-panel">
+            <div class="login-card">
+
+                <!-- Mobile-Only Brand Header -->
+                <div class="mobile-brand">
+                    <a href="index.html" class="brand-logo">
+                        <i class="fa-solid fa-fish-fins logo-icon" aria-hidden="true"></i>
+                        <span class="logo-text">Aquarium<span class="logo-highlight">Fish</span></span>
+                    </a>
+                </div>
+
+                <div class="form-header">
+                    <h2 class="form-title">Sign In</h2>
+                    <p class="form-subtitle">Welcome back! Please enter your details.</p>
+                </div>
+
+                <!-- Global Form Error Alert -->
+                <div id="alert-banner" class="alert-banner hidden" role="alert" aria-live="assertive">
+                    <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                    <span id="alert-message">Invalid credentials provided.</span>
+                </div>
+
+                <!-- Authentication Form -->
+                <form id="login-form" class="auth-form" novalidate>
+
+                    <!-- Username / Email Field -->
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username or Email</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-user input-icon" aria-hidden="true"></i>
+                            <input
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    class="form-control"
+                                    placeholder="Enter your username or email"
+                                    autocomplete="username"
+                                    required
+                                    aria-describedby="username-error"
+                            >
+                        </div>
+                        <span id="username-error" class="error-text hidden" role="alert"></span>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock input-icon" aria-hidden="true"></i>
+                            <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    class="form-control"
+                                    placeholder="Enter your password"
+                                    autocomplete="current-password"
+                                    required
+                                    aria-describedby="password-error"
+                            >
+                            <button
+                                    type="button"
+                                    id="toggle-password"
+                                    class="password-toggle-btn"
+                                    aria-label="Show password as plain text"
+                            >
+                                <i class="fa-regular fa-eye" id="toggle-password-icon" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <span id="password-error" class="error-text hidden" role="alert"></span>
+                    </div>
+
+                    <!-- Options Row: Remember Me & Forgot Password -->
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="remember-me" name="rememberMe">
+                            <span class="checkmark" aria-hidden="true"></span>
+                            <span class="checkbox-label">Remember me</span>
+                        </label>
+
+                        <a href="forgot-password.html" class="forgot-link">Forgot Password?</a>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="submit-btn" class="btn btn-primary btn-full">
+                        <span class="btn-text">Sign In</span>
+                        <span class="spinner hidden" id="btn-spinner" aria-hidden="true"></span>
+                    </button>
+
+                </form>
+
+                <!-- Register Prompt Section -->
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="register.html" class="register-link">Create Account</a></p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- External JavaScript -->
+<script src="js/login.js"></script>
+</body>
+</html>

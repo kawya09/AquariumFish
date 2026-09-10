@@ -52,11 +52,11 @@ public class CartServiceImpl implements CartService {
             List<Cart> carts =cartRepository.findAll();
             for (Cart cart : carts) {
                 CartDTO cartDTO = new CartDTO();
-                cartDTOList.add(cartDTO);
+
                 cartDTO.setId(cart.getId());
                 cartDTO.setStatus(cart.getStatus());
                 cartDTO.setCreatedDate(cart.getCreatedDate());
-
+                cartDTOList.add(cartDTO);
             }
             return cartDTOList;
         } catch (Exception e) {

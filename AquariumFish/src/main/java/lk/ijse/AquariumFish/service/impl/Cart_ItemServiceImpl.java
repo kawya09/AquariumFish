@@ -122,7 +122,6 @@ public class Cart_ItemServiceImpl implements Cart_ItemService {
                 cartItemDTO.setUnitPrice(cart_item.getUnitPrice());
                 cartItemDTO.setStatus(cart_item.getStatus());
 
-
                 cartItemDTOList.add(cartItemDTO);
             }
             return cartItemDTOList;

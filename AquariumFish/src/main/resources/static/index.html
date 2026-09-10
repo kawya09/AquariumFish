@@ -3,176 +3,405 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aquarium Fish Shop</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Discover vibrant, healthy aquarium fish, live plants, and supplies delivered safely to your home. Build your dream aquatic paradise today.">
+    <title>Aquarium Fish | Premium Live Aquarium Fish & Aquatic Supplies</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="#">AquaShop</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#catalog">Fish Catalog</a></li>
-                <li class="nav-item"><a class="nav-link" href="#cart">Cart</a></li>
-                <li class="nav-item"><a class="nav-link" href="#orders">My Orders</a></li>
-                <li class="nav-item"><a class="nav-link btn btn-primary text-white ms-2" href="auth-login.html">Login</a></li>
-            </ul>
+<!-- Announcement Bar -->
+<aside class="announcement-bar" aria-label="Special Offers">
+    <div class="container announcement-content">
+        <p><i class="fa-solid fa-truck-fast"></i> Live Arrival Guarantee on All Fish Orders! Free shipping over $99.</p>
+        <div class="announcement-links">
+            <a href="#contact">Support</a>
+            <span class="divider">|</span>
+            <a href="#about">Track Order</a>
         </div>
     </div>
-</nav>
+</aside>
 
-<div class="container my-5">
-    <!-- Fish Search & Filter Section (Fish, Category, Breed, Size, Color) -->
-    <section id="catalog" class="mb-5">
-        <h2>Explore Aquarium Fish</h2>
-        <div class="row g-3 my-2">
-            <div class="col-md-3">
-                <select class="form-select" id="categoryFilter">
-                    <option selected>Select Category</option>
-                    <!-- FishCategory Data -->
-                </select>
+<!-- Navigation Header -->
+<header class="navbar" id="navbar">
+    <div class="container nav-container">
+        <a href="index.html" class="logo" aria-label="Aquarium Fish Homepage">
+            <i class="fa-solid fa-fish-fins logo-icon"></i>
+            <span class="logo-text">Aquarium<span class="logo-highlight">Fish</span></span>
+        </a>
+
+        <!-- Desktop & Mobile Navigation Links -->
+        <nav class="nav-menu" id="nav-menu" aria-label="Main Navigation">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#home" class="nav-link active">Home</a></li>
+                <li class="nav-item"><a href="#fish" class="nav-link">Fish</a></li>
+                <li class="nav-item"><a href="#categories" class="nav-link">Categories</a></li>
+                <li class="nav-item"><a href="#why-us" class="nav-link">Why Choose Us</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link">About Us</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="mobile-auth-buttons">
+                <a href="#login" class="btn btn-outline btn-sm">Login</a>
+                <a href="#register" class="btn btn-primary btn-sm">Register</a>
             </div>
-            <div class="col-md-3">
-                <select class="form-select" id="breedFilter">
-                    <option selected>Select Breed</option>
-                    <!-- FishBreed Data -->
-                </select>
+        </nav>
+
+        <!-- Nav Actions (Search, Cart, User Auth) -->
+        <div class="nav-actions">
+            <!-- Search Toggle Bar -->
+            <div class="search-wrapper" id="search-wrapper">
+                <input type="text" class="search-input" id="search-input" placeholder="Search fish, categories..." aria-label="Search fish catalog">
+                <button class="icon-btn search-btn" id="search-btn" aria-label="Execute search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
             </div>
-            <div class="col-md-3">
-                <select class="form-select" id="sizeFilter">
-                    <option selected>Select Size</option>
-                    <!-- FishSize Data -->
-                </select>
+
+            <!-- Cart Button -->
+            <a href="#cart" class="icon-btn cart-btn" aria-label="Shopping Cart">
+                <i class="fa-solid fa-basket-shopping"></i>
+                <span class="cart-badge" id="cart-badge">0</span>
+            </a>
+
+            <!-- Desktop Auth Buttons -->
+            <div class="desktop-auth">
+                <a href="#login" class="btn btn-outline btn-sm">Login</a>
+                <a href="#register" class="btn btn-primary btn-sm">Register</a>
             </div>
-            <div class="col-md-3">
-                <select class="form-select" id="colorFilter">
-                    <option selected>Select Color</option>
-                    <!-- FishColor Data -->
-                </select>
-            </div>
+
+            <!-- Mobile Hamburger Toggle -->
+            <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="nav-menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
         </div>
+    </div>
+</header>
 
-        <!-- Fish Product Grid (Fish, FishImage) -->
-        <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Fish Image">
-                    <div class="card-body">
-                        <h5 class="card-title">Red Betta Fish</h5>
-                        <p class="card-text">Price: $15.00 | Stock: 10</p>
-                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#fishDetailModal">View Details</button>
-                        <button class="btn btn-primary btn-sm">Add to Cart</button>
+<main id="main-content">
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-backdrop"></div>
+        <div class="container hero-container">
+            <div class="hero-content">
+                <span class="badge badge-aquatic"><i class="fa-solid fa-droplet"></i> Premium Aquatic Life</span>
+                <h1 class="hero-title">Bring the Beauty of the Ocean Into Your Home</h1>
+                <p class="hero-description">
+                    Discover vibrant, ethically raised freshwater and tropical fish. Expertly packaged and delivered straight to your doorstep with our 100% Live Arrival Guarantee.
+                </p>
+                <div class="hero-actions">
+                    <a href="#fish" class="btn btn-primary btn-lg"><i class="fa-solid fa-bag-shopping"></i> Shop Fish</a>
+                    <a href="#categories" class="btn btn-glass btn-lg">Explore Categories <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">150+</span>
+                        <span class="stat-label">Fish Species</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">99.8%</span>
+                        <span class="stat-label">Safe Delivery Rate</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">12k+</span>
+                        <span class="stat-label">Happy Aquarists</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-image-wrapper">
+                <div class="hero-card-glow"></div>
+                <img src="https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=1000&q=80" alt="Exotic vibrant tropical fish in clean crystal clear water" class="hero-img">
+
+                <!-- Floating Highlight Cards -->
+                <div class="floating-badge badge-top">
+                    <i class="fa-solid fa-shield-halved badge-icon"></i>
+                    <div>
+                        <h4>Health Guaranteed</h4>
+                        <p>Quarantined 14 Days</p>
+                    </div>
+                </div>
+
+                <div class="floating-badge badge-bottom">
+                    <i class="fa-solid fa-heart badge-icon-alt"></i>
+                    <div>
+                        <h4>Ethically Bred</h4>
+                        <p>Sustainable Sources</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Shopping Cart Section (Cart, CartItem) -->
-    <section id="cart" class="mb-5">
-        <h2>Your Shopping Cart</h2>
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>Fish</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Subtotal</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Red Betta Fish</td>
-                <td>2</td>
-                <td>$15.00</td>
-                <td>$30.00</td>
-                <td><button class="btn btn-danger btn-sm">Remove</button></td>
-            </tr>
-            </tbody>
-        </table>
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#checkoutModal">Proceed to Checkout</button>
-    </section>
-
-    <!-- Customer Orders & Delivery Section (Orders, Payment, Delivery) -->
-    <section id="orders" class="mb-5">
-        <h2>My Orders & Tracking</h2>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Total Amount</th>
-                <th>Order Status</th>
-                <th>Payment Status</th>
-                <th>Delivery Status</th>
-                <th>Tracking No</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>#1001</td>
-                <td>$30.00</td>
-                <td><span class="badge bg-warning">Pending</span></td>
-                <td><span class="badge bg-success">Paid</span></td>
-                <td>Processing</td>
-                <td>TRK-982341</td>
-            </tr>
-            </tbody>
-        </table>
-    </section>
-</div>
-
-<!-- Modal: Fish Details & Reviews (Review) -->
-<div class="modal fade" id="fishDetailModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Fish Details & Reviews</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <!-- Featured Categories Section -->
+    <section class="section categories-section" id="categories">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <span class="sub-title">Aquatic Diversity</span>
+                    <h2 class="section-title">Explore Fish Categories</h2>
+                </div>
+                <p class="section-description">Browse our carefully curated categories to find the perfect swimming companions for your aquarium tank.</p>
             </div>
-            <div class="modal-body">
-                <p><strong>Description:</strong> Beautiful freshwater betta fish.</p>
-                <hr>
-                <h6>Customer Reviews</h6>
-                <p>⭐⭐⭐⭐⭐ - "Healthy fish, arrived safely!"</p>
-                <textarea class="form-control mb-2" placeholder="Write a review..."></textarea>
-                <button class="btn btn-sm btn-primary">Submit Review</button>
+
+            <!--
+              SPRING BOOT REST API INTEGRATION POINT:
+              Categories container dynamically populated via JavaScript.
+              Endpoint: GET /api/categories
+            -->
+            <div class="category-grid" id="category-grid">
+                <!-- Fallback dynamic markup populated via main.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Fish Products Section -->
+    <section class="section fish-section" id="fish">
+        <div class="container">
+            <div class="section-header-flex">
+                <div>
+                    <span class="sub-title">Handpicked Favorites</span>
+                    <h2 class="section-title">Featured Fish</h2>
+                </div>
+
+                <!-- Quick Filter Buttons -->
+                <div class="filter-pills" id="filter-pills">
+                    <button class="pill-btn active" data-filter="all">All</button>
+                    <button class="pill-btn" data-filter="Betta">Bettas</button>
+                    <button class="pill-btn" data-filter="Tetra">Tetras</button>
+                    <button class="pill-btn" data-filter="Cichlid">Cichlids</button>
+                </div>
+            </div>
+
+            <!--
+              SPRING BOOT REST API INTEGRATION POINT:
+              Fish Catalog container dynamically populated via JavaScript.
+              Endpoints:
+              - GET /api/fish
+              - GET /api/fish/category/{categoryId}
+            -->
+            <div class="fish-grid" id="fish-grid">
+                <!-- Fish Product Cards injected via main.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="section why-us-section" id="why-us">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="sub-title">The Aquarium Fish Difference</span>
+                <h2 class="section-title">Why Choose Aquarium Fish?</h2>
+                <p class="section-description">We prioritize aquatic health, welfare, and customer satisfaction above everything else.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon-box">
+                        <i class="fa-solid fa-notes-medical"></i>
+                    </div>
+                    <h3 class="feature-title">Healthy & Quarantined</h3>
+                    <p class="feature-text">Every fish undergoes a strict 14-day health inspection and quarantine before listed for sale.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-box">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+                    <h3 class="feature-title">Safe Oxygen Packaging</h3>
+                    <p class="feature-text">Engineered thermal insulation and medical-grade oxygen bags ensure maximum comfort during transit.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-box">
+                        <i class="fa-solid fa-user-doctor"></i>
+                    </div>
+                    <h3 class="feature-title">Expert Aquarist Support</h3>
+                    <p class="feature-text">Direct access to experienced ichthyologists and tank hobbyists to answer water condition questions.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-box">
+                        <i class="fa-solid fa-shield-cat"></i>
+                    </div>
+                    <h3 class="feature-title">100% Live Arrival Guarantee</h3>
+                    <p class="feature-text">In the rare case of issues upon arrival, our prompt refund or replacement policy covers you completely.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about-section" id="about">
+        <div class="container about-container">
+            <div class="about-image-column">
+                <div class="about-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80" alt="Beautifully aquascaped planted aquarium with school of tropical fish" class="about-img-main">
+                    <div class="about-experience-badge">
+                        <span class="exp-years">10+</span>
+                        <span class="exp-text">Years Of Excellence</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-content-column">
+                <span class="sub-title">Our Passion</span>
+                <h2 class="section-title">Nurturing Aquatic Eco-Systems Since 2014</h2>
+                <p class="about-text">
+                    At <strong>Aquarium Fish</strong>, we help aquarium lovers discover beautiful, healthy fish and everything they need to create a thriving underwater world.
+                </p>
+                <p class="about-text">
+                    What started as a boutique breeding facility has grown into a premier online aquatic destination. We work exclusively with certified eco-conscious breeders who share our commitment to sustainable marine life preservation and high genetic vitality.
+                </p>
+
+                <ul class="about-checklist">
+                    <li><i class="fa-solid fa-circle-check"></i> Sustainable and ethical breeding practices</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Water chemistry parameters recorded for every specimen</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Express priority transport with real-time temperature tracking</li>
+                </ul>
+
+                <a href="#about" class="btn btn-primary">Learn More About Us <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Reviews Section -->
+    <section class="section reviews-section" id="reviews">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="sub-title">Testimonials</span>
+                <h2 class="section-title">What Our Customers Say</h2>
+                <p class="section-description">Read genuine experiences from hobbyists and professional aquascapers.</p>
+            </div>
+
+            <!--
+              SPRING BOOT REST API INTEGRATION POINT:
+              Reviews container dynamically populated via JavaScript.
+              Endpoint: GET /api/reviews
+            -->
+            <div class="reviews-grid" id="reviews-grid">
+                <!-- Reviews cards populated via main.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Banner -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-card">
+                <div class="cta-overlay"></div>
+                <div class="cta-content">
+                    <h2 class="cta-title">Ready to Build Your Dream Aquarium?</h2>
+                    <p class="cta-text">Join thousands of happy aquarists. Browse our healthy selection and get live fish safely delivered to your doorstep.</p>
+                    <a href="#fish" class="btn btn-accent btn-lg"><i class="fa-solid fa-fish"></i> Shop Fish Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container footer-container">
+
+        <!-- Footer Col 1 -->
+        <div class="footer-col footer-brand">
+            <a href="index.html" class="logo footer-logo">
+                <i class="fa-solid fa-fish-fins logo-icon"></i>
+                <span class="logo-text">Aquarium<span class="logo-highlight">Fish</span></span>
+            </a>
+            <p class="footer-desc">
+                Your trusted source for healthy, vibrant aquatic life and premium aquarium supplies. Bringing underwater tranquility to homes worldwide.
+            </p>
+            <div class="social-links">
+                <a href="#" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#" class="social-icon" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+            </div>
+        </div>
+
+        <!-- Footer Col 2 -->
+        <div class="footer-col">
+            <h3 class="footer-heading">Quick Links</h3>
+            <ul class="footer-links">
+                <li><a href="#home"><i class="fa-solid fa-chevron-right"></i> Home</a></li>
+                <li><a href="#fish"><i class="fa-solid fa-chevron-right"></i> Browse Fish</a></li>
+                <li><a href="#categories"><i class="fa-solid fa-chevron-right"></i> Categories</a></li>
+                <li><a href="#about"><i class="fa-solid fa-chevron-right"></i> About Us</a></li>
+                <li><a href="#contact"><i class="fa-solid fa-chevron-right"></i> Contact Us</a></li>
+            </ul>
+        </div>
+
+        <!-- Footer Col 3 -->
+        <div class="footer-col">
+            <h3 class="footer-heading">Customer Support</h3>
+            <ul class="footer-links">
+                <li><a href="#login"><i class="fa-solid fa-chevron-right"></i> My Account</a></li>
+                <li><a href="#orders"><i class="fa-solid fa-chevron-right"></i> Track Orders</a></li>
+                <li><a href="#cart"><i class="fa-solid fa-chevron-right"></i> Shopping Cart</a></li>
+                <li><a href="#delivery"><i class="fa-solid fa-chevron-right"></i> Live Arrival Guarantee</a></li>
+                <li><a href="#reviews"><i class="fa-solid fa-chevron-right"></i> Customer Reviews</a></li>
+            </ul>
+        </div>
+
+        <!-- Footer Col 4 -->
+        <div class="footer-col" id="contact">
+            <h3 class="footer-heading">Contact Info</h3>
+            <ul class="contact-info-list">
+                <li>
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>104 Aqua Marine Way, Suite 400, Oceanside, CA 92054</span>
+                </li>
+                <li>
+                    <i class="fa-solid fa-phone"></i>
+                    <a href="tel:+18005552782">+1 (800) 555-AQUA</a>
+                </li>
+                <li>
+                    <i class="fa-solid fa-envelope"></i>
+                    <a href="mailto:support@aquariumfish.com">support@aquariumfish.com</a>
+                </li>
+                <li>
+                    <i class="fa-solid fa-clock"></i>
+                    <span>Mon - Sat: 8:00 AM - 7:00 PM EST</span>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- Copyright Bar -->
+    <div class="footer-bottom">
+        <div class="container footer-bottom-content">
+            <p>&copy; <span id="current-year"></span> Aquarium Fish E-Commerce Inc. All rights reserved.</p>
+            <div class="payment-methods">
+                <i class="fa-brands fa-cc-visa" title="Visa"></i>
+                <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+                <i class="fa-brands fa-cc-paypal" title="PayPal"></i>
+                <i class="fa-brands fa-cc-apple-pay" title="Apple Pay"></i>
             </div>
         </div>
     </div>
-</div>
+</footer>
 
-<!-- Modal: Checkout & Payment (Orders, OrderItem, Payment, Delivery) -->
-<div class="modal fade" id="checkoutModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Checkout Order</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label class="form-label">Delivery Address</label>
-                        <textarea class="form-control" rows="2" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Payment Method</label>
-                        <select class="form-select">
-                            <option>Credit/Debit Card</option>
-                            <option>Cash on Delivery</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-success w-100">Confirm Order & Pay</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Toast Notification Container -->
+<div class="toast-container" id="toast-container" aria-live="polite"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom JavaScript -->
+<script src="js/main.js"></script>
 </body>
 </html>
