@@ -36,7 +36,7 @@ public class Cart_ItemController {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonResponse updateCart_Item(@RequestBody Cart_ItemDTO cart_itemDTO){
-        cart_ItemService.updateCart_Item(Cart_ItemDTO);
+        cart_ItemService.updateCart_Item(cart_itemDTO);
         return new CommonResponse(OPERATION_SUCCESS,SUCCESS_MESSAGE);
 
     }

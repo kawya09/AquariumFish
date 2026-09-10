@@ -103,7 +103,7 @@ public class Cart_ItemServiceImpl implements Cart_ItemService {
             cart_item1.setStatus(UserStatus.INACTIVE);
             cartItemRepository.save(cart_item1);
         } catch (Exception e) {
-            log.error("Error changing user status");
+            log.error("Error changing cart item status");
             throw e;
         }
 
@@ -127,7 +127,7 @@ public class Cart_ItemServiceImpl implements Cart_ItemService {
             }
             return cartItemDTOList;
         } catch (Exception e) {
-            log.error("Error filtering item");
+            log.error("Error filtering cart item");
             throw e;
         }
     }
