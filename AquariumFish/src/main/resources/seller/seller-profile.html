@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Seller Profile Management - Aquarium Fish Portal">
+    <title>Seller Profile | Aquarium Fish</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../css/seller-profile.css">
+</head>
+<body>
+
+<!-- Sidebar Navigation Overlay for Mobile -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Main Layout Container -->
+<div class="app-layout">
+
+    <!-- SELLER SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="brand-logo">
+                <i class="fa-solid fa-fish-fins brand-icon"></i>
+                <div class="brand-text">
+                    <span class="brand-name">AquaMarket</span>
+                    <span class="brand-tag">Seller Portal</span>
+                </div>
+            </a>
+            <button class="btn-close-sidebar" id="btnCloseSidebar" aria-label="Close Navigation Sidebar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-group">
+                <span class="nav-label">MAIN</span>
+                <a href="seller-dashboard.html" class="nav-link">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="fish-list.html" class="nav-link">
+                    <i class="fa-solid fa-fish"></i>
+                    <span>My Fish</span>
+                </a>
+                <a href="add-fish.html" class="nav-link">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Add Fish</span>
+                </a>
+                <a href="seller-orders.html" class="nav-link">
+                    <i class="fa-solid fa-box"></i>
+                    <span>Orders</span>
+                </a>
+                <a href="seller-stock.html" class="nav-link">
+                    <i class="fa-solid fa-warehouse"></i>
+                    <span>Stock</span>
+                </a>
+                <a href="fish-images.html" class="nav-link">
+                    <i class="fa-solid fa-images"></i>
+                    <span>Fish Images</span>
+                </a>
+            </div>
+
+            <div class="nav-group">
+                <span class="nav-label">ACCOUNT</span>
+                <a href="seller-profile.html" class="nav-link active" aria-current="page">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="seller-dashboard.html#help" class="nav-link">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <span>Help & Support</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button type="button" class="btn-logout-sidebar" id="btnSidebarLogout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Log Out</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
+
+        <!-- TOP HEADER -->
+        <header class="top-header">
+            <div class="header-left">
+                <button class="btn-hamburger" id="btnHamburger" aria-label="Open Navigation Sidebar">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <h1 class="page-title">Seller Profile</h1>
+            </div>
+
+            <div class="header-right">
+                <button class="btn-icon-nav" aria-label="Notifications" title="Notifications">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-badge"></span>
+                </button>
+
+                <!-- Seller Header Profile Dropdown Trigger -->
+                <div class="header-user-dropdown" id="headerUserDropdown">
+                    <button class="user-dropdown-btn" id="btnUserMenu" aria-expanded="false" aria-haspopup="true">
+                        <div class="avatar-sm" id="headerAvatar">--</div>
+                        <div class="user-meta">
+                            <span class="user-shop-name" id="headerShopName">Loading...</span>
+                            <span class="user-role">Seller</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+                    </button>
+
+                    <div class="dropdown-menu" id="userDropdownMenu" role="menu">
+                        <a href="seller-profile.html" class="dropdown-item" role="menuitem">
+                            <i class="fa-solid fa-user"></i> View Profile
+                        </a>
+                        <a href="seller-dashboard.html" class="dropdown-item" role="menuitem">
+                            <i class="fa-solid fa-chart-line"></i> Dashboard
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button type="button" class="dropdown-item text-danger" id="btnDropdownLogout" role="menuitem">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content" id="mainContent">
+
+            <!-- BREADCRUMB -->
+            <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="seller-dashboard.html">Seller Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                </ol>
+            </nav>
+
+            <!-- PAGE HEADER & STATUS BADGE -->
+            <div class="page-header-banner">
+                <div class="header-banner-text">
+                    <h2>My Seller Profile</h2>
+                    <p>Manage your shop details, account parameters, and security settings.</p>
+                </div>
+                <div class="header-banner-status">
+                        <span class="badge-status status-loading" id="topStatusBadge">
+                            <i class="fa-solid fa-circle-notch fa-spin"></i> Checking status
+                        </span>
+                </div>
+            </div>
+
+            <!-- TOAST CONTAINERS -->
+            <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+            <!-- LOADING SKELETON LAYER -->
+            <div class="profile-skeleton" id="profileSkeleton">
+                <div class="skeleton-card skeleton-hero"></div>
+                <div class="skeleton-grid">
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                </div>
+            </div>
+
+            <!-- ERROR STATE CONTAINER -->
+            <div class="error-card hidden" id="profileErrorCard">
+                <div class="error-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+                <h3>Unable to Load Profile</h3>
+                <p id="errorCardMessage">We encountered a problem fetching your profile information from the backend.</p>
+                <button class="btn btn-primary" id="btnRetryLoad">
+                    <i class="fa-solid fa-rotate-right"></i> Try Again
+                </button>
+            </div>
+
+            <!-- PROFILE MAIN CONTENT (Hidden until loaded) -->
+            <div class="profile-container hidden" id="profileContainer">
+
+                <!-- SELLER HERO CARD -->
+                <section class="card profile-hero-card">
+                    <div class="hero-card-left">
+                        <div class="hero-avatar-wrapper">
+                            <div class="hero-avatar" id="heroAvatar">--</div>
+                            <span class="avatar-badge" id="heroStatusDot" title="Account Status"></span>
+                        </div>
+                        <div class="hero-details">
+                            <h3 id="heroShopName">Loading Shop...</h3>
+                            <div class="hero-tags">
+                                <span class="hero-tag"><i class="fa-solid fa-user-tag"></i> <span id="heroRole">SELLER</span></span>
+                                <span class="hero-tag"><i class="fa-regular fa-envelope"></i> <span id="heroEmail">---</span></span>
+                                <span class="hero-tag"><i class="fa-solid fa-id-badge"></i> ID: <span id="heroSellerId">--</span></span>
+                            </div>
+                            <p class="avatar-note-placeholder"><i class="fa-solid fa-circle-info"></i> Profile image support can be added in a future update.</p>
+                        </div>
+                    </div>
+
+                    <!-- PROFILE COMPLETENESS WIDGET -->
+                    <div class="hero-card-right">
+                        <div class="completeness-widget">
+                            <div class="completeness-header">
+                                <span>Profile Completeness</span>
+                                <strong id="completenessPercentage">0%</strong>
+                            </div>
+                            <div class="completeness-bar-bg">
+                                <div class="completeness-bar-fill" id="completenessBar" style="width: 0%;"></div>
+                            </div>
+                            <p class="completeness-hint" id="completenessHint">Fill in all shop details to reach 100%</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- GRID SECTION: SHOP & ACCOUNT INFORMATION -->
+                <div class="profile-grid">
+
+                    <!-- SHOP INFORMATION CARD -->
+                    <section class="card" aria-labelledby="shopInfoTitle">
+                        <div class="card-header flex-between">
+                            <h3 id="shopInfoTitle"><i class="fa-solid fa-store card-icon"></i> Shop Information</h3>
+                            <div class="header-actions">
+                                <button type="button" class="btn btn-outline-sm" id="btnEditProfile">
+                                    <i class="fa-solid fa-pen-to-square"></i> Edit Profile
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form id="shopInfoForm" novalidate>
+                                <div class="form-group">
+                                    <label for="inputShopName" class="form-label">Shop Name <span class="required-asterisk">*</span></label>
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa-solid fa-shop field-icon"></i>
+                                        <input type="text" id="inputShopName" class="form-control" readonly required placeholder="Enter shop name">
+                                    </div>
+                                    <span class="field-error" id="errorShopName"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPhone" class="form-label">Phone Number <span class="required-asterisk">*</span></label>
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa-solid fa-phone field-icon"></i>
+                                        <input type="tel" id="inputPhone" class="form-control" readonly required placeholder="e.g. 0712345678 or +94712345678">
+                                    </div>
+                                    <span class="field-help-text">Supports Sri Lankan formats (e.g., 07XXXXXXXX or +947XXXXXXXX)</span>
+                                    <span class="field-error" id="errorPhone"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputAddress" class="form-label">Shop Address</label>
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa-solid fa-location-dot field-icon textarea-icon"></i>
+                                        <textarea id="inputAddress" class="form-control" rows="3" readonly placeholder="Enter physical shop address or dispatch location"></textarea>
+                                    </div>
+                                    <span class="field-error" id="errorAddress"></span>
+                                </div>
+
+                                <div class="form-actions hidden" id="shopFormActions">
+                                    <button type="button" class="btn btn-secondary" id="btnCancelEdit">Cancel</button>
+                                    <button type="submit" class="btn btn-primary" id="btnSaveProfile">
+                                        <i class="fa-solid fa-floppy-disk"></i> Save Changes
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                    <!-- ACCOUNT INFORMATION CARD -->
+                    <section class="card" aria-labelledby="accountInfoTitle">
+                        <div class="card-header">
+                            <h3 id="accountInfoTitle"><i class="fa-solid fa-shield-halved card-icon"></i> Account Information</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="readonly-field-group">
+                                <span class="readonly-label">Username</span>
+                                <div class="readonly-value-box">
+                                    <span id="displayUsername">---</span>
+                                    <i class="fa-solid fa-lock field-lock-icon" title="Username is managed by system"></i>
+                                </div>
+                            </div>
+
+                            <div class="readonly-field-group">
+                                <span class="readonly-label">Email Address</span>
+                                <div class="readonly-value-box">
+                                    <span id="displayEmail">---</span>
+                                    <i class="fa-solid fa-lock field-lock-icon" title="Contact support to update email"></i>
+                                </div>
+                                <span class="field-help-text mt-1">Contact support if you need to change your registered account email.</span>
+                            </div>
+
+                            <div class="readonly-grid-2">
+                                <div class="readonly-field-group">
+                                    <span class="readonly-label">Role</span>
+                                    <div class="readonly-value-box">
+                                        <span id="displayRole" class="badge-role">SELLER</span>
+                                    </div>
+                                </div>
+
+                                <div class="readonly-field-group">
+                                    <span class="readonly-label">Account Status</span>
+                                    <div class="readonly-value-box">
+                                        <span id="displayStatus" class="badge-status-text">UNKNOWN</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="readonly-field-group">
+                                <span class="readonly-label">Seller ID</span>
+                                <div class="readonly-value-box">
+                                    <code id="displaySellerId">--</code>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- SECURITY CARD -->
+                <section class="card mt-4" aria-labelledby="securityTitle">
+                    <div class="card-header flex-between">
+                        <h3 id="securityTitle"><i class="fa-solid fa-key card-icon"></i> Security & Authentication</h3>
+                    </div>
+                    <div class="card-body flex-between-responsive">
+                        <div class="security-info">
+                            <h4>Account Password</h4>
+                            <p>Ensure your account uses a strong password to protect your store data and orders.</p>
+                            <div class="security-meta">
+                                <span class="meta-item"><i class="fa-regular fa-clock"></i> Last password update: <strong id="lastPasswordUpdate">Not available</strong></span>
+                            </div>
+                        </div>
+                        <div class="security-action">
+                            <button type="button" class="btn btn-outline" id="btnOpenChangePassword">
+                                <i class="fa-solid fa-lock"></i> Change Password
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ACCOUNT STATISTICS SECTION -->
+                <section class="mt-4" aria-labelledby="statsTitle">
+                    <div class="section-header-inline mb-3">
+                        <h3 id="statsTitle" class="section-title"><i class="fa-solid fa-chart-pie card-icon"></i> Account Overview Statistics</h3>
+                        <span class="demo-tag-label hidden" id="mockDataIndicator"><i class="fa-solid fa-flask"></i> Demo Data Enabled</span>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon icon-cyan"><i class="fa-solid fa-fish"></i></div>
+                            <div class="stat-content">
+                                <span class="stat-label">Total Fish</span>
+                                <strong class="stat-value" id="statTotalFish">0</strong>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon icon-blue"><i class="fa-solid fa-eye"></i></div>
+                            <div class="stat-content">
+                                <span class="stat-label">Active Listings</span>
+                                <strong class="stat-value" id="statActiveListings">0</strong>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon icon-emerald"><i class="fa-solid fa-cart-shopping"></i></div>
+                            <div class="stat-content">
+                                <span class="stat-label">Total Orders</span>
+                                <strong class="stat-value" id="statTotalOrders">0</strong>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon icon-amber"><i class="fa-solid fa-circle-check"></i></div>
+                            <div class="stat-content">
+                                <span class="stat-label">Completed Orders</span>
+                                <strong class="stat-value" id="statCompletedOrders">0</strong>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TWO-COLUMN PERFORMANCE AND ACTIVITY SECTION -->
+                <div class="profile-grid mt-4">
+
+                    <!-- PERFORMANCE SUMMARY -->
+                    <section class="card" aria-labelledby="performanceTitle">
+                        <div class="card-header">
+                            <h3 id="performanceTitle"><i class="fa-solid fa-award card-icon"></i> Performance Summary</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="performance-metric">
+                                <div class="metric-info">
+                                    <span>Average Rating</span>
+                                    <strong id="perfRating">0.0 ★</strong>
+                                </div>
+                                <div class="metric-progress-bg">
+                                    <div class="metric-progress-fill" id="perfRatingFill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="performance-metric">
+                                <div class="metric-info">
+                                    <span>Fulfillment Rate</span>
+                                    <strong id="perfFulfillment">0%</strong>
+                                </div>
+                                <div class="metric-progress-bg">
+                                    <div class="metric-progress-fill bg-success" id="perfFulfillmentFill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="performance-stat-list">
+                                <div class="perf-stat-item">
+                                    <span class="perf-label">Completed Orders</span>
+                                    <span class="perf-val" id="perfCompletedCount">0</span>
+                                </div>
+                                <div class="perf-stat-item">
+                                    <span class="perf-label">Active Products</span>
+                                    <span class="perf-val" id="perfActiveProductsCount">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- RECENT ACTIVITY TIMELINE -->
+                    <section class="card" aria-labelledby="activityTitle">
+                        <div class="card-header">
+                            <h3 id="activityTitle"><i class="fa-solid fa-clock-rotate-left card-icon"></i> Recent Seller Activity</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="timeline" id="activityTimeline">
+                                <!-- Dynamic Activity Items inserted here -->
+                            </div>
+                            <div class="empty-state hidden" id="activityEmptyState">
+                                <i class="fa-regular fa-folder-open empty-icon"></i>
+                                <p class="empty-title">No recent activity</p>
+                                <p class="empty-sub">Your recent seller actions and updates will appear here.</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- DANGER ZONE / ACCOUNT ACTIONS -->
+                <section class="card card-danger-zone mt-4" aria-labelledby="dangerZoneTitle">
+                    <div class="card-header">
+                        <h3 id="dangerZoneTitle" class="text-danger"><i class="fa-solid fa-triangle-exclamation card-icon"></i> Account Actions</h3>
+                    </div>
+                    <div class="card-body flex-between-responsive">
+                        <div>
+                            <h4>Request Account Deactivation</h4>
+                            <p class="text-muted">Need to take a break or close your store? Deactivation requests are reviewed by system administrators.</p>
+                        </div>
+                        <button type="button" class="btn btn-outline-danger" id="btnRequestDeactivation">
+                            <i class="fa-solid fa-user-slash"></i> Request Deactivation
+                        </button>
+                    </div>
+                </section>
+
+            </div> <!-- End profile-container -->
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="seller-footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fa-solid fa-fish-fins"></i>
+                    <span>Aquarium Fish Seller Portal</span>
+                </div>
+                <nav class="footer-links" aria-label="Footer Navigation">
+                    <a href="seller-dashboard.html">Dashboard</a>
+                    <a href="fish-list.html">My Fish</a>
+                    <a href="seller-orders.html">Orders</a>
+                    <a href="seller-profile.html">Profile</a>
+                    <a href="seller-dashboard.html#help">Help</a>
+                </nav>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Aquarium Fish Management Portal. All rights reserved.</p>
+            </div>
+        </footer>
+
+    </div> <!-- End main-wrapper -->
+</div> <!-- End app-layout -->
+
+<!-- CHANGE PASSWORD MODAL -->
+<div class="modal-backdrop hidden" id="modalChangePassword" role="dialog" aria-modal="true" aria-labelledby="modalPasswordTitle">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalPasswordTitle"><i class="fa-solid fa-key"></i> Change Password</h3>
+                <button type="button" class="btn-close-modal" id="btnClosePasswordModal" aria-label="Close modal">&times;</button>
+            </div>
+            <form id="formChangePassword" novalidate>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inputCurrentPassword" class="form-label">Current Password <span class="required-asterisk">*</span></label>
+                        <div class="input-password-wrapper">
+                            <input type="password" id="inputCurrentPassword" class="form-control" required placeholder="Enter current password">
+                            <button type="button" class="btn-toggle-pw" data-target="inputCurrentPassword" aria-label="Toggle password visibility">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                        <span class="field-error" id="errorCurrentPassword"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputNewPassword" class="form-label">New Password <span class="required-asterisk">*</span></label>
+                        <div class="input-password-wrapper">
+                            <input type="password" id="inputNewPassword" class="form-control" required placeholder="Enter new password (min. 8 chars)">
+                            <button type="button" class="btn-toggle-pw" data-target="inputNewPassword" aria-label="Toggle password visibility">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                        <!-- Password Strength Indicator Meter -->
+                        <div class="password-meter-container">
+                            <div class="meter-bar">
+                                <div class="meter-fill" id="pwStrengthBar"></div>
+                            </div>
+                            <span class="meter-text" id="pwStrengthText">Strength: Too short</span>
+                        </div>
+                        <span class="field-error" id="errorNewPassword"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputConfirmPassword" class="form-label">Confirm New Password <span class="required-asterisk">*</span></label>
+                        <div class="input-password-wrapper">
+                            <input type="password" id="inputConfirmPassword" class="form-control" required placeholder="Re-enter new password">
+                            <button type="button" class="btn-toggle-pw" data-target="inputConfirmPassword" aria-label="Toggle password visibility">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                        <span class="field-error" id="errorConfirmPassword"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="btnCancelPasswordModal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btnSubmitPassword">
+                        <i class="fa-solid fa-check"></i> Update Password
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- LOGOUT CONFIRMATION MODAL -->
+<div class="modal-backdrop hidden" id="modalLogout" role="dialog" aria-modal="true" aria-labelledby="modalLogoutTitle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content text-center">
+            <div class="modal-header-centered">
+                <div class="modal-icon-wrapper text-amber">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </div>
+                <h3 id="modalLogoutTitle">Confirm Logout</h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to log out of your Aquarium Fish seller account?</p>
+            </div>
+            <div class="modal-footer flex-center">
+                <button type="button" class="btn btn-secondary" id="btnCancelLogout">Cancel</button>
+                <button type="button" class="btn btn-danger" id="btnConfirmLogout">Logout</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DEACTIVATION NOTICE MODAL -->
+<div class="modal-backdrop hidden" id="modalDeactivation" role="dialog" aria-modal="true" aria-labelledby="modalDeactivationTitle">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalDeactivationTitle"><i class="fa-solid fa-circle-info"></i> Account Deactivation Request</h3>
+                <button type="button" class="btn-close-modal" id="btnCloseDeactModal" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Account status and deactivation are managed directly by backend system administrators to protect active buyer orders and listings.</p>
+                <p class="mt-2">To request deactivation, please contact support with your Seller ID (<strong id="deactSellerId">--</strong>).</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnOkDeactivation">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript Source File -->
+<script src="../js/seller-profile.js"></script>
+</body>
+</html>
