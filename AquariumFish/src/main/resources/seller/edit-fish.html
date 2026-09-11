@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Fish Listing | AquaCommerce Seller Portal</title>
+    <!-- Google Fonts CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Page Stylesheet -->
+    <link rel="stylesheet" href="../css/edit-fish.css">
+</head>
+<body>
+
+<div class="seller-layout">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar" aria-label="Seller Sidebar Navigation">
+        <div class="sidebar-header">
+            <div class="brand-logo">
+                <i class="fa-solid fa-fish-fins brand-icon"></i>
+                <div class="brand-text">
+                    <span class="brand-title">Aquarium Fish</span>
+                    <span class="brand-subtitle">Seller Portal</span>
+                </div>
+            </div>
+            <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close Sidebar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-group-title">Main Management</div>
+            <a href="seller-dashboard.html" class="nav-item">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="fish-list.html" class="nav-item active">
+                <i class="fa-solid fa-fish"></i>
+                <span>My Fish</span>
+            </a>
+            <a href="add-fish.html" class="nav-item">
+                <i class="fa-solid fa-circle-plus"></i>
+                <span>Add Fish</span>
+            </a>
+            <a href="seller-orders.html" class="nav-item">
+                <i class="fa-solid fa-box-archive"></i>
+                <span>Orders</span>
+            </a>
+            <a href="seller-stock.html" class="nav-item">
+                <i class="fa-solid fa-layer-group"></i>
+                <span>Stock</span>
+            </a>
+            <a href="fish-images.html" class="nav-item">
+                <i class="fa-solid fa-images"></i>
+                <span>Fish Images</span>
+            </a>
+
+            <div class="nav-group-title">Account & Settings</div>
+            <a href="seller-profile.html" class="nav-item">
+                <i class="fa-solid fa-store"></i>
+                <span>Profile</span>
+            </a>
+            <a href="#" class="nav-item" id="helpNavItem">
+                <i class="fa-solid fa-circle-question"></i>
+                <span>Help</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="logout-btn" id="sidebarLogoutBtn">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Content Area Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Sidebar Navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <h1 class="header-page-title">Edit Fish</h1>
+            </div>
+
+            <div class="header-right">
+                <!-- Notifications Dropdown -->
+                <div class="header-dropdown-container">
+                    <button class="icon-btn" id="notifBellBtn" aria-label="Notifications" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notification-badge" id="notifBadge">3</span>
+                    </button>
+                    <div class="dropdown-menu notification-menu" id="notifMenu">
+                        <div class="dropdown-header">
+                            <h3>Notifications</h3>
+                            <span class="badge-count">3 New</span>
+                        </div>
+                        <div class="notification-list">
+                            <a href="seller-orders.html" class="notification-item unread">
+                                <div class="notif-icon primary"><i class="fa-solid fa-cart-shopping"></i></div>
+                                <div class="notif-content">
+                                    <p class="notif-title">New order received #ORD-9824</p>
+                                    <span class="notif-time">10 minutes ago</span>
+                                </div>
+                            </a>
+                            <a href="seller-stock.html" class="notification-item unread">
+                                <div class="notif-icon warning"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                <div class="notif-content">
+                                    <p class="notif-title">Low stock alert: Neon Tetra</p>
+                                    <span class="notif-time">2 hours ago</span>
+                                </div>
+                            </a>
+                            <a href="fish-list.html" class="notification-item unread">
+                                <div class="notif-icon info"><i class="fa-solid fa-star"></i></div>
+                                <div class="notif-content">
+                                    <p class="notif-title">5-star review on Blue Betta</p>
+                                    <span class="notif-time">1 day ago</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="dropdown-footer">
+                            <a href="#">Mark all as read</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Profile Dropdown -->
+                <div class="header-dropdown-container">
+                    <button class="profile-pill-btn" id="profileDropdownBtn" aria-haspopup="true" aria-expanded="false">
+                        <div class="avatar-circle" id="headerAvatar">OP</div>
+                        <div class="profile-info">
+                            <span class="shop-name" id="headerShopName">Ocean Paradise</span>
+                            <span class="role-title">Verified Seller</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+                    </button>
+                    <div class="dropdown-menu profile-menu" id="profileMenu">
+                        <div class="dropdown-header user-dropdown-header">
+                            <strong id="dropdownShopName">Ocean Paradise</strong>
+                            <span id="dropdownUserEmail">seller@oceanparadise.lk</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="seller-profile.html" class="dropdown-item">
+                            <i class="fa-solid fa-id-card"></i> View Profile
+                        </a>
+                        <a href="fish-list.html" class="dropdown-item">
+                            <i class="fa-solid fa-fish"></i> My Fish Listings
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item danger" id="headerLogoutBtn">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Container -->
+        <main class="main-content">
+
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb-container" aria-label="Breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="seller-dashboard.html">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="fish-list.html">My Fish</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Fish</li>
+                </ol>
+            </nav>
+
+            <!-- Page Header Banner -->
+            <section class="page-header">
+                <div class="page-header-title-area">
+                    <div class="title-with-badge">
+                        <h2>Edit Fish Listing</h2>
+                        <span class="id-badge" id="fishIdBadge">Fish ID: #--</span>
+                    </div>
+                    <p class="subtitle">Update your fish information, pricing, inventory, and product details.</p>
+                </div>
+                <div class="page-header-actions">
+                    <button type="button" class="btn btn-outline" id="backToListBtn">
+                        <i class="fa-solid fa-arrow-left"></i> Back to My Fish
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="viewProductBtn" disabled>
+                        <i class="fa-solid fa-external-link"></i> View Product
+                    </button>
+                </div>
+            </section>
+
+            <!-- Dynamic Loading Skeleton Screen -->
+            <div class="loading-state-container" id="loadingState">
+                <div class="skeleton-card skeleton-form"></div>
+                <div class="skeleton-card skeleton-preview"></div>
+            </div>
+
+            <!-- Dynamic Error / Not Found State Container -->
+            <div class="error-state-container hidden" id="errorState">
+                <div class="error-card">
+                    <div class="error-icon-wrapper">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                    </div>
+                    <h3 id="errorStateTitle">Unable to Load Fish</h3>
+                    <p id="errorStateMessage">We couldn't load this fish listing. It may have been removed or you may not have permission to edit it.</p>
+                    <div class="error-actions">
+                        <button type="button" class="btn btn-primary" id="retryLoadBtn">
+                            <i class="fa-solid fa-rotate-right"></i> Try Again
+                        </button>
+                        <a href="fish-list.html" class="btn btn-outline">
+                            <i class="fa-solid fa-fish"></i> Back to My Fish
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Editing Layout (Form & Preview) -->
+            <div class="edit-layout hidden" id="editLayout">
+
+                <!-- Column 1: Editable Form Sections -->
+                <div class="edit-form-column">
+                    <form id="editFishForm" novalidate>
+
+                        <!-- Section 1: Basic Information -->
+                        <section class="form-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                    <h3>Basic Information</h3>
+                                </div>
+                                <span class="required-hint">* Required fields</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="fishName" class="form-label">Fish Name <span class="req">*</span></label>
+                                    <input type="text" id="fishName" name="fishName" class="form-control" placeholder="e.g. Royal Blue Halfmoon Betta" required maxlength="100">
+                                    <div class="field-error-msg" id="fishNameError">Please enter a valid fish name (3-100 characters).</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="label-with-counter">
+                                        <label for="description" class="form-label">Description <span class="req">*</span></label>
+                                        <span class="char-counter" id="descCharCounter">0 / 500 characters</span>
+                                    </div>
+                                    <textarea id="description" name="description" class="form-control" rows="4" placeholder="Provide a detailed description of the fish, health condition, temperament, and care tips..." required maxlength="500"></textarea>
+                                    <div class="field-error-msg" id="descriptionError">Description is required (minimum 10 characters).</div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Section 2: Fish Classification -->
+                        <section class="form-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <i class="fa-solid fa-sitemap"></i>
+                                    <h3>Fish Classification</h3>
+                                </div>
+                            </div>
+                            <div class="card-body grid-2">
+                                <div class="form-group">
+                                    <label for="category" class="form-label">Category <span class="req">*</span></label>
+                                    <select id="category" name="category" class="form-select" required>
+                                        <option value="">Select Category</option>
+                                    </select>
+                                    <div class="field-error-msg" id="categoryError">Please select a category.</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="breed" class="form-label">Breed / Strain <span class="req">*</span></label>
+                                    <select id="breed" name="breed" class="form-select" required>
+                                        <option value="">Select Breed</option>
+                                    </select>
+                                    <div class="field-error-msg" id="breedError">Please select a breed.</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="size" class="form-label">Size <span class="req">*</span></label>
+                                    <select id="size" name="size" class="form-select" required>
+                                        <option value="">Select Size</option>
+                                    </select>
+                                    <div class="field-error-msg" id="sizeError">Please select a size.</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="color" class="form-label">Primary Color <span class="req">*</span></label>
+                                    <select id="color" name="color" class="form-select" required>
+                                        <option value="">Select Color</option>
+                                    </select>
+                                    <div class="field-error-msg" id="colorError">Please select a color.</div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Section 3: Pricing & Inventory -->
+                        <section class="form-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <i class="fa-solid fa-tags"></i>
+                                    <h3>Pricing & Inventory</h3>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="grid-2">
+                                    <div class="form-group">
+                                        <label for="price" class="form-label">Unit Price (LKR) <span class="req">*</span></label>
+                                        <div class="input-currency-wrapper">
+                                            <span class="currency-symbol">LKR</span>
+                                            <input type="number" id="price" name="price" class="form-control currency-input" step="0.01" min="0.01" placeholder="0.00" required>
+                                        </div>
+                                        <div class="field-hint" id="formattedPriceHint">Formatted: LKR 0.00</div>
+                                        <div class="field-error-msg" id="priceError">Enter a valid price greater than zero.</div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="stockQty" class="form-label">Stock Quantity <span class="req">*</span></label>
+                                        <input type="number" id="stockQty" name="stockQty" class="form-control" step="1" min="0" placeholder="0" required>
+                                        <div class="stock-status-inline" id="stockStatusIndicator">
+                                            <span class="status-dot"></span>
+                                            <span class="status-text">--</span>
+                                        </div>
+                                        <div class="field-error-msg" id="stockQtyError">Enter a valid stock quantity (0 or higher).</div>
+                                    </div>
+                                </div>
+
+                                <!-- Dynamic Stock Warning Box -->
+                                <div class="stock-warning-banner hidden" id="stockWarningBanner">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                    <div class="warning-text" id="stockWarningText">
+                                        Stock changed. Make sure this reflects your actual available inventory.
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Section 4: Current Product Images Overview -->
+                        <section class="form-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <i class="fa-solid fa-images"></i>
+                                    <h3>Product Images (<span id="imageCountBadge">0</span>)</h3>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline" id="manageImagesBtn">
+                                    <i class="fa-solid fa-gear"></i> Manage Fish Images
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="image-gallery-preview" id="imageGalleryPreview">
+                                    <!-- Dynamic Image Thumbnails render here -->
+                                </div>
+                                <div class="image-note-info">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                    <span>Primary thumbnail is used across customer search results and product recommendations. Use the dedicated image manager to upload or reorder photos.</span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Section 5: Form Actions -->
+                        <div class="form-actions-bar">
+                            <button type="button" class="btn btn-outline" id="cancelBtn">
+                                <i class="fa-solid fa-xmark"></i> Cancel
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="resetBtn">
+                                <i class="fa-solid fa-rotate-left"></i> Reset Changes
+                            </button>
+                            <button type="submit" class="btn btn-primary" id="saveChangesBtn">
+                                <i class="fa-solid fa-floppy-disk"></i> <span>Save Changes</span>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Column 2: Live Product Preview & Metadata -->
+                <aside class="preview-column">
+
+                    <!-- Live Product Preview Card -->
+                    <div class="preview-card-sticky">
+                        <div class="preview-card-header">
+                            <h3><i class="fa-solid fa-eye"></i> Live Customer Preview</h3>
+                            <span class="preview-tag">Live Preview</span>
+                        </div>
+
+                        <div class="customer-product-card">
+                            <div class="product-card-image-wrap">
+                                <img src="" alt="Fish Preview" id="previewImage" class="product-preview-img">
+                                <span class="preview-stock-badge" id="previewStockBadge">In Stock</span>
+                            </div>
+                            <div class="product-card-body">
+                                <div class="product-card-category" id="previewCategory">Category / Breed</div>
+                                <h4 class="product-card-title" id="previewTitle">Fish Listing Title</h4>
+
+                                <div class="product-card-tags">
+                                    <span class="spec-tag" id="previewSize"><i class="fa-solid fa-ruler-horizontal"></i> --</span>
+                                    <span class="spec-tag" id="previewColor"><i class="fa-solid fa-palette"></i> --</span>
+                                </div>
+
+                                <p class="product-card-desc" id="previewDesc">Description will appear here...</p>
+
+                                <div class="product-card-rating">
+                                    <div class="stars" id="previewStars">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star-half-stroke"></i>
+                                    </div>
+                                    <span class="rating-num" id="previewRatingValue">4.7</span>
+                                    <span class="rating-count" id="previewReviewCount">(24)</span>
+                                </div>
+
+                                <div class="product-card-footer">
+                                    <div class="product-card-price">
+                                        <span class="price-val" id="previewPrice">LKR 0.00</span>
+                                    </div>
+                                    <div class="seller-shop-tag">
+                                        <i class="fa-solid fa-store"></i> <span id="previewShopName">Ocean Paradise</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Read-Only Listing Information Card -->
+                        <div class="listing-info-card">
+                            <h4><i class="fa-solid fa-database"></i> Listing Metadata</h4>
+                            <ul class="info-list">
+                                <li>
+                                    <span>System ID</span>
+                                    <strong id="metaFishId">#--</strong>
+                                </li>
+                                <li>
+                                    <span>Owner Seller</span>
+                                    <strong id="metaSellerShop">--</strong>
+                                </li>
+                                <li>
+                                    <span>Created Date</span>
+                                    <strong id="metaCreatedDate">--</strong>
+                                </li>
+                                <li>
+                                    <span>Last Updated</span>
+                                    <strong id="metaUpdatedDate">--</strong>
+                                </li>
+                                <li>
+                                    <span>Customer Reviews</span>
+                                    <strong id="metaReviewStats">-- Reviews (-- avg)</strong>
+                                </li>
+                            </ul>
+                            <div class="security-read-only-badge">
+                                <i class="fa-solid fa-shield-halved"></i> Seller ownership verified by server
+                            </div>
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </main>
+
+        <!-- Dashboard Footer -->
+        <footer class="seller-footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fa-solid fa-fish-fins"></i>
+                    <span>Aquarium Fish Seller Portal</span>
+                </div>
+                <ul class="footer-links">
+                    <li><a href="#">Help & Support</a></li>
+                    <li><a href="#">Seller Terms</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+                <div class="footer-copy">
+                    &copy; 2026 Aquarium Fish Inc. All rights reserved.
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+</div>
+
+<!-- Toast Notification Container -->
+<div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+<!-- Confirm Unsaved Changes Modal Dialog -->
+<div class="modal-overlay hidden" id="unsavedModal">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h3><i class="fa-solid fa-triangle-exclamation modal-warning-icon"></i> Unsaved Changes</h3>
+            <button class="modal-close-btn" id="closeUnsavedModalBtn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <p>You have made changes to this fish listing that have not been saved yet. If you leave now, your updates will be lost.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" id="discardAndLeaveBtn">Discard Changes</button>
+            <button type="button" class="btn btn-primary" id="keepEditingBtn">Stay on Page</button>
+        </div>
+    </div>
+</div>
+
+<!-- Custom JavaScript Application File -->
+<script src="../js/edit-fish.js"></script>
+</body>
+</html>

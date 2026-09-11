@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Management - Aquarium Fish Seller Panel</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Page Stylesheet -->
+    <link rel="stylesheet" href="../css/seller-stock.css">
+</head>
+<body>
+
+<!-- Mobile Sidebar Backdrop Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- App Container -->
+<div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <span class="brand-icon">🐠</span>
+            <div class="brand-text">
+                <h2>Aquarium Fish</h2>
+                <span class="brand-subtitle">Seller Panel</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="seller-dashboard.html">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="seller-profile.html">
+                        <i class="fa-solid fa-user-gear"></i>
+                        <span>My Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="fish-list.html">
+                        <i class="fa-solid fa-fish"></i>
+                        <span>My Fish</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="add-fish.html">
+                        <i class="fa-solid fa-circle-plus"></i>
+                        <span>Add Fish</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="seller-stock.html">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                        <span>Stock</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="seller-orders.html">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>Orders</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="support.html" class="support-link">
+                <i class="fa-solid fa-circle-question"></i>
+                <span>Help / Support</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <h1 class="header-page-title">Stock Management</h1>
+            </div>
+
+            <div class="header-right">
+                <button class="header-icon-btn" aria-label="Notifications" title="Notifications">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+
+                <div class="seller-profile-dropdown" id="profileDropdownContainer">
+                    <button class="profile-dropdown-toggle" id="profileDropdownToggle" aria-expanded="false">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80" alt="Shop Avatar" class="seller-avatar" id="headerShopAvatar">
+                        <div class="seller-meta">
+                            <span class="seller-shop-name" id="headerShopName">Oceanic Wonders</span>
+                            <span class="seller-role-tag">Verified Seller</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+                    </button>
+
+                    <div class="dropdown-menu" id="profileDropdownMenu">
+                        <a href="seller-profile.html" class="dropdown-item">
+                            <i class="fa-solid fa-user"></i> My Profile
+                        </a>
+                        <a href="seller-dashboard.html" class="dropdown-item">
+                            <i class="fa-solid fa-chart-pie"></i> Dashboard
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button id="logoutBtn" class="dropdown-item logout-item">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Scrollable Area -->
+        <main class="content-area">
+
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+                <ol class="breadcrumb-list">
+                    <li>Seller Panel</li>
+                    <li class="separator">/</li>
+                    <li class="active">Stock</li>
+                </ol>
+            </nav>
+
+            <!-- Page Header & Action Buttons -->
+            <div class="page-heading-row">
+                <div>
+                    <h2 class="page-title">Stock Management</h2>
+                    <p class="page-subtitle">Monitor and manage the inventory of your fish listings.</p>
+                </div>
+                <div class="page-actions">
+                    <button class="btn btn-outline" id="refreshInventoryBtn" title="Refresh inventory data">
+                        <i class="fa-solid fa-rotate"></i> Refresh
+                    </button>
+                    <a href="add-fish.html" class="btn btn-primary">
+                        <i class="fa-solid fa-plus"></i> Add New Fish
+                    </a>
+                </div>
+            </div>
+
+            <!-- Inventory Attention Banner -->
+            <div class="attention-banner" id="attentionBanner" style="display: none;">
+                <div class="attention-icon">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div class="attention-content">
+                    <h3>Inventory Attention Required</h3>
+                    <p id="attentionText">You have items requiring immediate inventory restock.</p>
+                </div>
+                <button class="btn btn-sm btn-light-accent" id="attentionFilterBtn">
+                    Review Low Stock <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Statistics Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper bg-blue">
+                        <i class="fa-solid fa-fish"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-value" id="statTotalProducts">0</span>
+                        <span class="stat-label">Total Products</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper bg-green">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-value" id="statInStock">0</span>
+                        <span class="stat-label">In Stock</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper bg-amber">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-value" id="statLowStock">0</span>
+                        <span class="stat-label">Low Stock</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper bg-red">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-value" id="statOutOfStock">0</span>
+                        <span class="stat-label">Out of Stock</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper bg-cyan">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-value" id="statTotalUnits">0</span>
+                        <span class="stat-label">Total Units</span>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-card-wide">
+                    <div class="stat-icon-wrapper bg-indigo">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-value" id="statInventoryValue">LKR 0.00</span>
+                        <span class="stat-label">Inventory Value (Est.)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search and Filter Toolbar Card -->
+            <div class="filter-toolbar-card">
+                <div class="filter-search-row">
+                    <div class="search-input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search fish by name, breed, or ID...">
+                        <button type="button" class="search-clear-btn" id="searchClearBtn" style="display: none;" title="Clear search">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div class="quick-filter-pills">
+                        <button type="button" class="filter-pill active" data-filter-status="all">All</button>
+                        <button type="button" class="filter-pill" data-filter-status="low">Low Stock</button>
+                        <button type="button" class="filter-pill" data-filter-status="out">Out of Stock</button>
+                    </div>
+                </div>
+
+                <div class="filter-dropdowns-row">
+                    <div class="filter-group">
+                        <label for="stockStatusFilter">Stock Status</label>
+                        <select id="stockStatusFilter" class="form-select">
+                            <option value="all">All Stock Status</option>
+                            <option value="in">In Stock</option>
+                            <option value="low">Low Stock</option>
+                            <option value="out">Out of Stock</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="categoryFilter">Category</label>
+                        <select id="categoryFilter" class="form-select">
+                            <option value="all">All Categories</option>
+                            <option value="Freshwater">Freshwater</option>
+                            <option value="Saltwater">Saltwater</option>
+                            <option value="Tropical">Tropical</option>
+                            <option value="Community Fish">Community Fish</option>
+                            <option value="Predatory">Predatory</option>
+                            <option value="Goldfish">Goldfish</option>
+                            <option value="Cichlids">Cichlids</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="breedFilter">Breed</label>
+                        <select id="breedFilter" class="form-select">
+                            <option value="all">All Breeds</option>
+                            <!-- Populated dynamically from inventory -->
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="sortDropdown">Sort By</label>
+                        <select id="sortDropdown" class="form-select">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="name-asc">Name A-Z</option>
+                            <option value="name-desc">Name Z-A</option>
+                            <option value="stock-asc">Stock: Low to High</option>
+                            <option value="stock-desc">Stock: High to Low</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-actions-group">
+                        <button type="button" class="btn btn-text" id="clearFiltersBtn">
+                            <i class="fa-solid fa-filter-circle-xmark"></i> Clear Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Table Card -->
+            <div class="table-card">
+                <div class="table-card-header">
+                    <div class="table-title-area">
+                        <h3>Fish Inventory</h3>
+                        <span class="record-count-badge" id="recordCountBadge">0 products</span>
+                    </div>
+                    <div class="bulk-actions-toolbar" id="bulkActionsToolbar" style="display: none;">
+                        <span class="selected-count" id="selectedCountText">0 selected</span>
+                        <button class="btn btn-xs btn-outline" id="bulkOutStockBtn">
+                            <i class="fa-solid fa-ban"></i> Set Out of Stock
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Loading State Container -->
+                <div class="table-state-container" id="loadingState" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Loading inventory data...</p>
+                </div>
+
+                <!-- Error State Container -->
+                <div class="table-state-container" id="errorState" style="display: none;">
+                    <div class="state-icon error">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <h4>Unable to load inventory</h4>
+                    <p id="errorMessageText">There was a problem connecting to the server.</p>
+                    <button class="btn btn-primary btn-sm" id="retryLoadBtn">Try Again</button>
+                </div>
+
+                <!-- Empty State Container -->
+                <div class="table-state-container" id="emptyState" style="display: none;">
+                    <div class="state-icon">
+                        <i class="fa-solid fa-fish-fins"></i>
+                    </div>
+                    <h4>Your inventory is empty</h4>
+                    <p>Add your first fish listing to start managing your stock.</p>
+                    <a href="add-fish.html" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-plus"></i> Add New Fish
+                    </a>
+                </div>
+
+                <!-- No Search Results State Container -->
+                <div class="table-state-container" id="noResultsState" style="display: none;">
+                    <div class="state-icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <h4>No fish found</h4>
+                    <p>Try changing your search keywords or filter criteria.</p>
+                    <button class="btn btn-outline btn-sm" id="resetSearchFiltersBtn">Clear Filters</button>
+                </div>
+
+                <!-- Responsive Table Container -->
+                <div class="table-responsive" id="tableResponsiveWrapper">
+                    <table class="inventory-table" id="inventoryTable">
+                        <thead>
+                        <tr>
+                            <th class="checkbox-col">
+                                <input type="checkbox" id="selectAllCheckbox" aria-label="Select all products">
+                            </th>
+                            <th>Fish</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th>Inventory Value</th>
+                            <th>Last Updated</th>
+                            <th class="actions-col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="inventoryTableBody">
+                        <!-- Dynamically populated rows -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination Footer -->
+                <div class="table-footer" id="tableFooter">
+                    <div class="pagination-info" id="paginationInfo">
+                        Showing 0–0 of 0 products
+                    </div>
+                    <div class="pagination-controls" id="paginationControls">
+                        <!-- Dynamically generated pagination -->
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="seller-footer">
+            <p>&copy; 2026 Aquarium Fish. All rights reserved. &bull; Seller Management Portal</p>
+        </footer>
+
+    </div>
+</div>
+
+<!-- Stock Adjustment Modal -->
+<div class="modal-backdrop" id="stockModalBackdrop" aria-hidden="true">
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-header">
+            <div class="modal-title-wrap">
+                <h3 id="modalTitle">Adjust Stock</h3>
+                <p class="modal-subtitle" id="modalFishNameSub">Neon Tetra</p>
+            </div>
+            <button type="button" class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <form id="stockAdjustmentForm">
+                <input type="hidden" id="modalFishId">
+
+                <div class="current-stock-callout">
+                    <span class="callout-label">Current Stock</span>
+                    <span class="callout-value" id="modalCurrentStockVal">8 units</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Adjustment Type</label>
+                    <div class="adjustment-type-pills">
+                        <button type="button" class="adj-pill active" data-type="ADD">Add Stock</button>
+                        <button type="button" class="adj-pill" data-type="REMOVE">Remove Stock</button>
+                        <button type="button" class="adj-pill" data-type="SET">Set Exact Quantity</button>
+                    </div>
+                    <input type="hidden" id="adjustmentTypeInput" value="ADD">
+                </div>
+
+                <div class="form-group" id="quantityInputGroup">
+                    <label for="adjustmentQtyInput" id="adjustmentQtyLabel">Quantity to Add</label>
+                    <div class="stepper-input-wrapper">
+                        <button type="button" class="stepper-btn" id="stepperMinusBtn">
+                            <i class="fa-solid fa-minus"></i>
+                        </button>
+                        <input type="number" id="adjustmentQtyInput" class="form-control text-center" value="1" min="0" required>
+                        <button type="button" class="stepper-btn" id="stepperPlusBtn">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <span class="validation-error-msg" id="qtyErrorMsg" style="display: none;"></span>
+                </div>
+
+                <!-- Stock Calculation Preview Box -->
+                <div class="stock-preview-box">
+                    <div class="preview-row">
+                        <span>Current Stock:</span>
+                        <strong id="previewCurrentStock">8</strong>
+                    </div>
+                    <div class="preview-row" id="previewActionRow">
+                        <span>Action:</span>
+                        <strong id="previewActionVal" class="text-success">+1</strong>
+                    </div>
+                    <div class="preview-divider"></div>
+                    <div class="preview-row result-row">
+                        <span>Resulting Stock:</span>
+                        <strong id="previewResultStock" class="text-primary">9 units</strong>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="adjustmentReason">Reason <span class="optional-text">(Optional)</span></label>
+                    <select id="adjustmentReason" class="form-select">
+                        <option value="RESTOCK">Restock / New shipment</option>
+                        <option value="CORRECTION">Manual correction / Inventory count</option>
+                        <option value="DAMAGED">Damaged fish</option>
+                        <option value="DEATH">Dead fish / Mortality</option>
+                        <option value="OTHER">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="adjustmentNote">Additional Note <span class="optional-text">(Optional)</span></label>
+                    <textarea id="adjustmentNote" class="form-textarea" rows="2" placeholder="Enter optional notes regarding this adjustment..."></textarea>
+                </div>
+
+                <!-- Confirmation Notice inside Modal -->
+                <div class="confirmation-notice-box" id="modalConfirmationBox" style="display: none;">
+                    <p><i class="fa-solid fa-circle-exclamation"></i> Are you sure you want to update this inventory quantity?</p>
+                </div>
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" id="modalCancelBtn">Cancel</button>
+            <button type="button" class="btn btn-primary" id="modalSubmitBtn">
+                <span class="btn-text-label">Update Stock</span>
+                <span class="btn-spinner" style="display: none;"><i class="fa-solid fa-spinner fa-spin"></i> Updating...</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- JavaScript Application File -->
+<script src="../js/seller-stock.js" defer></script>
+</body>
+</html>

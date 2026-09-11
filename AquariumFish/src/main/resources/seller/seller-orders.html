@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Orders Management - Aquarium Fish Seller Panel</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/seller-orders.css">
+</head>
+<body class="seller-body">
+
+<!-- DEMO MODE BANNER -->
+<div id="demoModeBanner" class="demo-mode-banner hidden">
+    <i class="fa-solid fa-flask"></i> <span>Demo Mode — Order data is simulated. Set USE_MOCK_DATA = false for Spring Boot integration.</span>
+</div>
+
+<div class="seller-layout">
+    <!-- SIDEBAR -->
+    <aside class="seller-sidebar" id="sellerSidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-fish-fins"></i>
+            </div>
+            <div class="brand-text">
+                <h2>Aquarium Fish</h2>
+                <span>Seller Panel</span>
+            </div>
+            <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close Sidebar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="seller-dashboard.html" class="nav-item">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="fish-list.html" class="nav-item">
+                <i class="fa-solid fa-fish"></i>
+                <span>My Fish</span>
+            </a>
+            <a href="add-fish.html" class="nav-item">
+                <i class="fa-solid fa-circle-plus"></i>
+                <span>Add Fish</span>
+            </a>
+            <a href="seller-orders.html" class="nav-item active">
+                <i class="fa-solid fa-shopping-bag"></i>
+                <span>Orders</span>
+            </a>
+            <a href="seller-stock.html" class="nav-item">
+                <i class="fa-solid fa-boxes-stacked"></i>
+                <span>Stock</span>
+            </a>
+            <a href="fish-images.html" class="nav-item">
+                <i class="fa-solid fa-images"></i>
+                <span>Fish Images</span>
+            </a>
+            <a href="seller-profile.html" class="nav-item">
+                <i class="fa-solid fa-user-gear"></i>
+                <span>Profile</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fa-solid fa-circle-question"></i>
+                <span>Help</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
+
+        <!-- TOP HEADER -->
+        <header class="top-header">
+            <div class="header-left">
+                <button id="sidebarToggleBtn" class="hamburger-btn" aria-label="Toggle Sidebar">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <h1 class="page-title-mobile">Seller Orders</h1>
+            </div>
+
+            <div class="header-right">
+                <!-- Notifications Dropdown -->
+                <div class="notification-dropdown-container">
+                    <button id="notificationBtn" class="header-icon-btn" aria-label="Notifications">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notification-badge" id="notificationBadge">3</span>
+                    </button>
+                    <div class="notification-panel" id="notificationPanel">
+                        <div class="notification-header">
+                            <h3>Notifications</h3>
+                            <span class="mark-read" id="markAllReadBtn">Mark all as read</span>
+                        </div>
+                        <div class="notification-list" id="notificationList">
+                            <div class="notification-item unread">
+                                <i class="fa-solid fa-shopping-cart text-aqua"></i>
+                                <div class="notif-content">
+                                    <p>New customer order #ORD-1001 received</p>
+                                    <span class="notif-time">10 mins ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <i class="fa-solid fa-triangle-exclamation text-warning"></i>
+                                <div class="notif-content">
+                                    <p>Fish stock is running low (12 remaining)</p>
+                                    <span class="notif-time">1 hour ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <i class="fa-solid fa-star text-accent"></i>
+                                <div class="notif-content">
+                                    <p>New 5-star customer review received</p>
+                                    <span class="notif-time">3 hours ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seller Profile Dropdown -->
+                <div class="profile-dropdown-container">
+                    <button id="profileDropdownBtn" class="profile-menu-btn">
+                        <div class="seller-avatar">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
+                        <span class="seller-shop-name" id="headerShopName">Ocean Paradise</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="profile-dropdown-menu" id="profileDropdownMenu">
+                        <a href="seller-profile.html"><i class="fa-solid fa-user"></i> View Profile</a>
+                        <a href="fish-list.html"><i class="fa-solid fa-fish"></i> My Fish</a>
+                        <a href="seller-dashboard.html"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" id="dropdownLogoutBtn" class="text-danger"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENT AREA -->
+        <main class="content-area">
+
+            <!-- BREADCRUMB -->
+            <nav class="breadcrumb-nav" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="seller-dashboard.html">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Orders</li>
+                </ol>
+            </nav>
+
+            <!-- PAGE HEADER -->
+            <div class="page-header-flex">
+                <div>
+                    <h2>Orders</h2>
+                    <p class="text-muted">Manage customer orders containing your fish listings.</p>
+                </div>
+                <div class="page-header-actions">
+                    <button class="btn btn-secondary" id="refreshBtn">
+                        <i class="fa-solid fa-rotate"></i> Refresh
+                    </button>
+                    <button class="btn btn-outline" id="exportCsvBtn">
+                        <i class="fa-solid fa-file-arrow-down"></i> Export CSV
+                    </button>
+                </div>
+            </div>
+
+            <!-- ORDER STATISTICS -->
+            <div class="stats-grid" id="statsGrid">
+                <!-- Stat Card 1 -->
+                <div class="stat-card">
+                    <div class="stat-icon bg-blue-soft"><i class="fa-solid fa-shopping-bag"></i></div>
+                    <div class="stat-content">
+                        <span class="stat-label">Total Orders</span>
+                        <h3 class="stat-value" id="statTotalOrders">--</h3>
+                    </div>
+                </div>
+                <!-- Stat Card 2 -->
+                <div class="stat-card">
+                    <div class="stat-icon bg-yellow-soft"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <div class="stat-content">
+                        <span class="stat-label">Pending Orders</span>
+                        <h3 class="stat-value" id="statPendingOrders">--</h3>
+                    </div>
+                </div>
+                <!-- Stat Card 3 -->
+                <div class="stat-card">
+                    <div class="stat-icon bg-purple-soft"><i class="fa-solid fa-spinner"></i></div>
+                    <div class="stat-content">
+                        <span class="stat-label">Processing</span>
+                        <h3 class="stat-value" id="statProcessingOrders">--</h3>
+                    </div>
+                </div>
+                <!-- Stat Card 4 -->
+                <div class="stat-card">
+                    <div class="stat-icon bg-green-soft"><i class="fa-solid fa-circle-check"></i></div>
+                    <div class="stat-content">
+                        <span class="stat-label">Completed</span>
+                        <h3 class="stat-value" id="statCompletedOrders">--</h3>
+                    </div>
+                </div>
+                <!-- Stat Card 5 -->
+                <div class="stat-card">
+                    <div class="stat-icon bg-red-soft"><i class="fa-solid fa-ban"></i></div>
+                    <div class="stat-content">
+                        <span class="stat-label">Cancelled</span>
+                        <h3 class="stat-value" id="statCancelledOrders">--</h3>
+                    </div>
+                </div>
+                <!-- Stat Card 6 -->
+                <div class="stat-card stat-card-sales">
+                    <div class="stat-icon bg-cyan-soft"><i class="fa-solid fa-wallet"></i></div>
+                    <div class="stat-content">
+                        <span class="stat-label">Seller Sales</span>
+                        <h3 class="stat-value text-accent" id="statSellerSales">--</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FILTERS CARD -->
+            <div class="card filter-card">
+                <div class="filter-row">
+                    <!-- Search input -->
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchInput" placeholder="Search orders by ID, fish, customer, or tracking...">
+                    </div>
+
+                    <!-- Period Filter -->
+                    <div class="filter-group">
+                        <select id="periodFilter" class="form-select">
+                            <option value="all">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="7days">Last 7 Days</option>
+                            <option value="30days">Last 30 Days</option>
+                            <option value="3months">Last 3 Months</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+
+                    <!-- Order Status Filter -->
+                    <div class="filter-group">
+                        <select id="orderStatusFilter" class="form-select">
+                            <option value="">All Statuses</option>
+                            <option value="PENDING">Pending</option>
+                            <option value="CONFIRMED">Confirmed</option>
+                            <option value="PROCESSING">Processing</option>
+                            <option value="SHIPPED">Shipped</option>
+                            <option value="DELIVERED">Delivered</option>
+                            <option value="COMPLETED">Completed</option>
+                            <option value="CANCELLED">Cancelled</option>
+                        </select>
+                    </div>
+
+                    <!-- Payment Status Filter -->
+                    <div class="filter-group">
+                        <select id="paymentStatusFilter" class="form-select">
+                            <option value="">All Payments</option>
+                            <option value="PENDING">Pending</option>
+                            <option value="PROCESSING">Processing</option>
+                            <option value="PAID">Paid</option>
+                            <option value="FAILED">Failed</option>
+                            <option value="CANCELLED">Cancelled</option>
+                        </select>
+                    </div>
+
+                    <!-- Delivery Status Filter -->
+                    <div class="filter-group">
+                        <select id="deliveryStatusFilter" class="form-select">
+                            <option value="">All Delivery</option>
+                            <option value="PENDING">Pending</option>
+                            <option value="PROCESSING">Processing</option>
+                            <option value="SHIPPED">Shipped</option>
+                            <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
+                            <option value="DELIVERED">Delivered</option>
+                            <option value="CANCELLED">Cancelled</option>
+                        </select>
+                    </div>
+
+                    <!-- Sorting -->
+                    <div class="filter-group">
+                        <select id="sortBySelect" class="form-select">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="highestAmount">Highest Seller Amount</option>
+                            <option value="lowestAmount">Lowest Seller Amount</option>
+                            <option value="status">Order Status</option>
+                        </select>
+                    </div>
+
+                    <!-- Clear Filters -->
+                    <button type="button" class="btn btn-outline" id="clearFiltersBtn">
+                        <i class="fa-solid fa-filter-circle-xmark"></i> Clear Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- MAIN ORDERS CONTAINER / TABLE -->
+            <div class="card orders-container-card">
+                <div class="card-header-flex">
+                    <h3>Customer Orders Containing Your Fish (<span id="ordersCountHeading">0</span>)</h3>
+                    <div class="view-toggle-group">
+                        <button class="view-btn active" id="tableViewBtn" title="Table View"><i class="fa-solid fa-table"></i></button>
+                        <button class="view-btn" id="cardViewBtn" title="Card Grid View"><i class="fa-solid fa-grip"></i></button>
+                    </div>
+                </div>
+
+                <!-- LOADING STATE -->
+                <div id="loadingState" class="skeleton-container">
+                    <div class="skeleton-row"></div>
+                    <div class="skeleton-row"></div>
+                    <div class="skeleton-row"></div>
+                    <div class="skeleton-row"></div>
+                </div>
+
+                <!-- DESKTOP TABLE VIEW -->
+                <div class="table-responsive" id="tableViewWrapper">
+                    <table class="orders-table">
+                        <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Seller Fish Item(s)</th>
+                            <th>Qty</th>
+                            <th>Seller Amount</th>
+                            <th>Payment</th>
+                            <th>Delivery</th>
+                            <th>Status</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                        <!-- Dynamic rows injected here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- MOBILE / CARD GRID VIEW -->
+                <div class="orders-card-grid hidden" id="cardViewWrapper">
+                    <!-- Dynamic cards injected here -->
+                </div>
+
+                <!-- EMPTY STATE -->
+                <div id="emptyState" class="empty-state hidden">
+                    <div class="empty-icon">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+                    <h4>No Orders Yet</h4>
+                    <p class="text-muted">Orders containing your fish listings will appear here when customers place purchases.</p>
+                    <button type="button" class="btn btn-primary mt-3" onclick="window.location.href='fish-list.html'">
+                        <i class="fa-solid fa-fish"></i> View My Fish
+                    </button>
+                </div>
+
+                <!-- NO MATCHING SEARCH STATE -->
+                <div id="noMatchState" class="empty-state hidden">
+                    <div class="empty-icon text-warning">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <h4>No Matching Orders</h4>
+                    <p class="text-muted">No orders match your search criteria or active filters.</p>
+                    <button type="button" class="btn btn-outline mt-3" id="resetSearchFiltersBtn">
+                        <i class="fa-solid fa-rotate-right"></i> Reset Filters
+                    </button>
+                </div>
+
+                <!-- PAGINATION -->
+                <div class="pagination-footer" id="paginationFooter">
+                    <div class="pagination-info" id="paginationInfo">Showing 0-0 of 0 orders</div>
+                    <div class="pagination-controls" id="paginationControls">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="seller-footer">
+            <div class="footer-content">
+                <p>&copy; 2026 Aquarium Fish. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Help Center</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<!-- ORDER DETAILS MODAL -->
+<div class="modal-backdrop" id="orderDetailsModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-header">
+            <div class="modal-title-wrap">
+                <h3>Order Details</h3>
+                <span id="modalOrderIdBadge" class="badge badge-primary">#ORD-1001</span>
+            </div>
+            <button class="modal-close" id="modalCloseBtn" aria-label="Close Modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body" id="orderDetailsModalBody">
+            <!-- Dynamically populated order details -->
+        </div>
+        <div class="modal-footer">
+            <div class="modal-footer-left" id="modalStatusControlWrapper">
+                <!-- Status change dropdown inside modal -->
+                <label for="modalStatusSelect" class="status-label">Update Status:</label>
+                <select id="modalStatusSelect" class="form-select form-select-sm">
+                    <option value="PENDING">Pending</option>
+                    <option value="CONFIRMED">Confirmed</option>
+                    <option value="PROCESSING">Processing</option>
+                    <option value="SHIPPED">Shipped</option>
+                    <option value="DELIVERED">Delivered</option>
+                    <option value="COMPLETED">Completed</option>
+                    <option value="CANCELLED">Cancelled</option>
+                </select>
+                <button type="button" class="btn btn-sm btn-primary" id="modalUpdateStatusBtn">Update</button>
+            </div>
+            <button type="button" class="btn btn-outline" id="modalCloseActionBtn">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- STATUS UPDATE CONFIRMATION MODAL -->
+<div class="modal-backdrop" id="statusConfirmModal" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-header">
+            <h3>Update Order Status?</h3>
+            <button class="modal-close" id="statusConfirmCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <p id="statusConfirmText">Are you sure you want to change the status of this order?</p>
+            <div class="alert alert-info mt-3">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>Status transitions are validated by backend business rules.</span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" id="statusConfirmCancelBtn">Cancel</button>
+            <button type="button" class="btn btn-primary" id="statusConfirmSubmitBtn">Confirm Update</button>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Custom JavaScript -->
+<script src="../js/seller-orders.js"></script>
+</body>
+</html>
