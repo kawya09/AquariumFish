@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details - Aquarium Fish</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="css/order-details.css">
+</head>
+<body>
+
+<!-- Sticky Navigation Bar -->
+<header class="navbar-header">
+    <nav class="navbar" aria-label="Main Navigation">
+        <a href="index.html" class="nav-logo">
+            <i class="fa-solid fa-fish-fins logo-icon"></i>
+            <span class="logo-text">Aquarium <span>Fish</span></span>
+        </a>
+
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Navigation Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="fish.html" class="nav-link">Fish</a></li>
+            <li><a href="categories.html" class="nav-link">Categories</a></li>
+            <li><a href="orders.html" class="nav-link active">Orders</a></li>
+            <li><a href="profile.html" class="nav-link">Profile</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="fish.html" class="nav-icon-btn" aria-label="Search Fish">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </a>
+            <a href="cart.html" class="nav-icon-btn cart-btn" aria-label="Shopping Cart">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </a>
+            <div class="user-menu-wrapper">
+                <button class="user-menu-btn" id="userMenuBtn" aria-label="User Account Menu">
+                    <i class="fa-solid fa-circle-user"></i>
+                </button>
+                <div class="user-dropdown" id="userDropdown">
+                    <a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a>
+                    <a href="orders.html"><i class="fa-solid fa-box-archive"></i> My Orders</a>
+                    <hr class="dropdown-divider">
+                    <button id="logoutBtn" class="dropdown-logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Main Content Container -->
+<main class="page-container" id="mainContent">
+
+    <!-- Dynamic Breadcrumb Navigation -->
+    <nav class="breadcrumb-container" aria-label="Breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="orders.html">Orders</a></li>
+            <li class="breadcrumb-item active" id="breadcrumbCurrent">Order Details</li>
+        </ol>
+    </nav>
+
+    <!-- Loading Skeleton State -->
+    <section class="skeleton-wrapper" id="loadingSkeleton" aria-label="Loading order details">
+        <div class="skeleton skeleton-header"></div>
+        <div class="skeleton skeleton-banner"></div>
+        <div class="skeleton skeleton-tracker"></div>
+        <div class="order-layout">
+            <div class="main-column">
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+            </div>
+            <div class="sidebar-column">
+                <div class="skeleton skeleton-card"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Error & Dynamic State Container -->
+    <section class="state-container hidden" id="stateContainer">
+        <div class="state-card" id="stateCard">
+            <div class="state-icon" id="stateIcon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h2 class="state-title" id="stateTitle">Unable to Load Order</h2>
+            <p class="state-message" id="stateMessage">An error occurred while fetching your order details.</p>
+            <div class="state-actions" id="stateActions">
+                <a href="orders.html" class="btn btn-primary">Back to Orders</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Details Content Section -->
+    <div class="order-content hidden" id="orderDetailsContent">
+
+        <!-- Header Section -->
+        <header class="order-header">
+            <div class="order-header-main">
+                <h1 class="order-id-title" id="orderTitle">Order #----</h1>
+                <div class="order-meta-info">
+                    <span><i class="fa-regular fa-calendar-alt"></i> Placed on <strong id="orderPlacedDate">--</strong></span>
+                    <span class="meta-divider">•</span>
+                    <span><i class="fa-solid fa-wallet"></i> Total: <strong id="headerTotalAmount">LKR 0.00</strong></span>
+                </div>
+            </div>
+            <div class="order-header-actions">
+                <button class="btn btn-secondary" id="printOrderBtn">
+                    <i class="fa-solid fa-print"></i> Print Order
+                </button>
+                <a href="orders.html" class="btn btn-outline">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Orders
+                </a>
+            </div>
+        </header>
+
+        <!-- Status Banner -->
+        <section class="order-status-banner" id="orderStatusBanner">
+            <div class="banner-icon-wrapper" id="statusBannerIcon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="banner-text-wrapper">
+                <div class="banner-status-badge" id="statusBannerBadge">Processing</div>
+                <p class="banner-message" id="statusBannerMessage">Your order has been confirmed and is being prepared.</p>
+            </div>
+        </section>
+
+        <!-- Visual Progress Tracker -->
+        <section class="order-tracker-card">
+            <h2 class="section-subtitle">Order Status Timeline</h2>
+            <div class="tracker-stepper" id="progressTracker">
+                <!-- Progress steps dynamically generated -->
+            </div>
+        </section>
+
+        <!-- Two Column Layout: Main (70%) vs Sidebar (30%) -->
+        <div class="order-layout">
+
+            <!-- Main Content Column -->
+            <div class="main-column">
+
+                <!-- Order Items Card -->
+                <section class="card shadow-sm">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-boxes-packing"></i> Items in Your Order</h2>
+                        <span class="item-count-tag" id="itemCountTag">0 Items</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="order-items-list" id="orderItemsList">
+                            <!-- Order items dynamically inserted here -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Delivery Information Card -->
+                <section class="card shadow-sm">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-truck-fast"></i> Delivery Information</h2>
+                        <span class="status-badge" id="deliveryStatusBadge">Pending</span>
+                    </div>
+                    <div class="card-body grid-2-col" id="deliveryInfoContent">
+                        <!-- Delivery content dynamically inserted -->
+                    </div>
+                    <div class="card-footer" id="deliveryCardFooter">
+                        <button class="btn btn-primary" id="trackDeliveryBtn">
+                            <i class="fa-solid fa-location-dot"></i> Track Delivery
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Payment Information Card -->
+                <section class="card shadow-sm">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-credit-card"></i> Payment Details</h2>
+                        <span class="status-badge" id="paymentStatusBadge">Pending</span>
+                    </div>
+                    <div class="card-body grid-2-col" id="paymentInfoContent">
+                        <!-- Payment content dynamically inserted -->
+                    </div>
+                </section>
+
+                <!-- Customer Information Card -->
+                <section class="card shadow-sm">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-user-gear"></i> Customer Information</h2>
+                    </div>
+                    <div class="card-body grid-2-col" id="customerInfoContent">
+                        <!-- Customer details dynamically inserted -->
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Sidebar Content Column -->
+            <aside class="sidebar-column">
+
+                <!-- Order Summary Card / Invoice-style Breakdown -->
+                <div class="card shadow-sm invoice-style-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-file-invoice-dollar"></i> Order Summary</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="summary-row">
+                            <span>Items Subtotal</span>
+                            <span id="summarySubtotal">LKR 0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Delivery Fee</span>
+                            <span id="summaryDelivery">LKR 0.00</span>
+                        </div>
+                        <div class="summary-row discount-row" id="summaryDiscountRow">
+                            <span>Discount</span>
+                            <span id="summaryDiscount">- LKR 0.00</span>
+                        </div>
+                        <hr class="summary-divider">
+                        <div class="summary-row total-row">
+                            <span>Total Amount</span>
+                            <strong id="summaryTotal">LKR 0.00</strong>
+                        </div>
+                        <div class="tax-note">* Includes applicable taxes & delivery fees</div>
+                    </div>
+                </div>
+
+                <!-- Actions Card -->
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-sliders"></i> Actions</h2>
+                    </div>
+                    <div class="card-body action-buttons-body">
+                        <button class="btn btn-secondary btn-block hidden" id="reorderBtn">
+                            <i class="fa-solid fa-rotate-right"></i> Reorder Items
+                        </button>
+                        <button class="btn btn-outline-danger btn-block hidden" id="cancelOrderBtn">
+                            <i class="fa-solid fa-circle-xmark"></i> Cancel Order
+                        </button>
+                        <a href="orders.html" class="btn btn-outline btn-block">
+                            <i class="fa-solid fa-list-check"></i> View All Orders
+                        </a>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+    </div>
+</main>
+
+<!-- Cancel Order Modal -->
+<div class="modal-overlay hidden" id="cancelModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+        <button class="modal-close-btn" id="closeModalBtn" aria-label="Close dialog">&times;</button>
+        <div class="modal-icon warning"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <h3 class="modal-title" id="modalTitle">Cancel Order?</h3>
+        <p class="modal-text">
+            Are you sure you want to cancel <strong id="modalOrderRef">Order #----</strong>? This action cannot be reversed.
+        </p>
+        <div class="modal-actions">
+            <button class="btn btn-outline" id="keepOrderBtn">Keep Order</button>
+            <button class="btn btn-danger" id="confirmCancelBtn">
+                <span class="btn-text">Confirm Cancel</span>
+                <i class="fa-solid fa-spinner fa-spin hidden" id="cancelSpinner"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification Container -->
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-col brand-col">
+            <div class="footer-logo">
+                <i class="fa-solid fa-fish-fins"></i> Aquarium <span>Fish</span>
+            </div>
+            <p class="footer-tagline">Healthy fish. Beautiful aquariums. Happy customers.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul class="footer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="fish.html">Fish</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="orders.html">Orders</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Customer Support</h4>
+            <ul class="footer-links">
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Delivery Information</a></li>
+                <li><a href="#">FAQs</a></li>
+                <li><a href="#">Returns & Refunds</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Contact</h4>
+            <p><i class="fa-solid fa-location-dot"></i> 123 Aqua Way, Colombo, Sri Lanka</p>
+            <p><i class="fa-solid fa-phone"></i> +94 11 234 5678</p>
+            <p><i class="fa-solid fa-envelope"></i> support@aquariumfish.lk</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 Aquarium Fish. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Vanilla JavaScript -->
+<script src="js/order-details.js"></script>
+</body>
+</html>
