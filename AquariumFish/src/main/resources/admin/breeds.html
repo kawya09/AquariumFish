@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Breeds - Aquarium Fish</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/breeds.css">
+</head>
+<body>
+
+<!-- Notification Toast System -->
+<div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+<!-- Customer Navbar -->
+<header class="site-header">
+    <div class="nav-container">
+        <a href="index.html" class="brand-logo">
+            <i class="fa-solid fa-fish-fins"></i>
+            <span>Aquarium Fish</span>
+        </a>
+
+        <nav class="main-nav" id="mainNav" aria-label="Main Navigation">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="fish.html">Fish</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="breeds.html" class="active">Breeds</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="fish.html?search=" class="nav-icon-btn" aria-label="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </a>
+            <a href="wishlist.html" class="nav-icon-btn" aria-label="Wishlist">
+                <i class="fa-regular fa-heart"></i>
+            </a>
+            <a href="cart.html" class="nav-icon-btn cart-btn" aria-label="Shopping Cart">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </a>
+            <div class="account-dropdown-wrapper">
+                <a href="profile.html" class="nav-icon-btn account-btn" aria-label="Account">
+                    <i class="fa-regular fa-user"></i>
+                </a>
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mainNav">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+    <!-- Hero Section -->
+    <section class="breeds-hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Explore Fish Breeds</h1>
+                <p class="hero-subtitle">Discover popular aquarium fish breeds and find the perfect species for your aquarium.</p>
+
+                <div class="hero-search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="heroSearchInput" placeholder="Search fish breeds..." autocomplete="off">
+                    <button type="button" id="heroSearchBtn" class="btn btn-primary">Search</button>
+                </div>
+
+                <div class="hero-cta-wrapper">
+                    <a href="fish.html" class="btn btn-outline-light">Browse All Fish</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Discovery Section -->
+    <section class="breed-discovery-section container">
+        <div class="demo-indicator-bar" id="demoIndicatorBar" style="display: none;">
+            <span class="demo-badge"><i class="fa-solid fa-flask"></i> Demo Data Mode Active</span>
+            <span class="demo-note">Displaying 15 mock aquarium breeds. Connect your backend API to view live database records.</span>
+        </div>
+
+        <!-- Filter and Sort Toolbar -->
+        <div class="filter-toolbar">
+            <div class="filter-categories" id="filterCategories">
+                <button class="filter-chip active" data-filter="all">All Breeds</button>
+                <button class="filter-chip" data-filter="popular">Popular</button>
+                <button class="filter-chip" data-filter="freshwater">Freshwater</button>
+                <button class="filter-chip" data-filter="saltwater">Saltwater</button>
+                <button class="filter-chip" data-filter="beginner">Beginner Friendly</button>
+                <button class="filter-chip" data-filter="community">Community</button>
+            </div>
+
+            <div class="toolbar-right">
+                <div class="results-counter" id="resultsCounter">Showing 0 of 0 breeds</div>
+                <div class="sort-wrapper">
+                    <label for="sortSelect" class="sr-only">Sort breeds</label>
+                    <select id="sortSelect" class="sort-select">
+                        <option value="name-asc">Name: A-Z</option>
+                        <option value="name-desc">Name: Z-A</option>
+                        <option value="count-desc">Most Fish</option>
+                        <option value="count-asc">Least Fish</option>
+                    </select>
+                </div>
+                <button id="clearFiltersBtn" class="btn btn-text" style="display: none;">Clear Filters</button>
+            </div>
+        </div>
+
+        <!-- Breed Grid Container -->
+        <div class="breed-grid-wrapper">
+            <!-- Loading State (Skeletons) -->
+            <div class="breed-grid skeleton-grid" id="loadingState">
+                <!-- Skeleton Cards -->
+                <div class="breed-card skeleton-card">
+                    <div class="skeleton-img"></div>
+                    <div class="skeleton-body">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line desc"></div>
+                        <div class="skeleton-line desc short"></div>
+                        <div class="skeleton-line btn"></div>
+                    </div>
+                </div>
+                <div class="breed-card skeleton-card">
+                    <div class="skeleton-img"></div>
+                    <div class="skeleton-body">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line desc"></div>
+                        <div class="skeleton-line desc short"></div>
+                        <div class="skeleton-line btn"></div>
+                    </div>
+                </div>
+                <div class="breed-card skeleton-card">
+                    <div class="skeleton-img"></div>
+                    <div class="skeleton-body">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line desc"></div>
+                        <div class="skeleton-line desc short"></div>
+                        <div class="skeleton-line btn"></div>
+                    </div>
+                </div>
+                <div class="breed-card skeleton-card">
+                    <div class="skeleton-img"></div>
+                    <div class="skeleton-body">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line desc"></div>
+                        <div class="skeleton-line desc short"></div>
+                        <div class="skeleton-line btn"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon"><i class="fa-solid fa-fish"></i></div>
+                <h3>No Fish Breeds Found</h3>
+                <p>We couldn't find any breeds matching your search or filter criteria.</p>
+                <button class="btn btn-primary" id="emptyClearBtn">Clear Filters</button>
+            </div>
+
+            <!-- Error State -->
+            <div class="error-state" id="errorState" style="display: none;">
+                <div class="error-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <h3>Unable to Load Fish Breeds</h3>
+                <p id="errorMessageText">Something went wrong while loading the breed list from the server.</p>
+                <button class="btn btn-primary" id="retryFetchBtn">Try Again</button>
+            </div>
+
+            <!-- Active Breed Grid -->
+            <div class="breed-grid" id="breedGrid">
+                <!-- Populated dynamically via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Fish Breeds Section -->
+    <section class="popular-breeds-section container">
+        <div class="section-header">
+            <h2>Popular Fish Breeds</h2>
+            <p>Most sought-after species by our aquarium community</p>
+        </div>
+        <div class="popular-breeds-grid" id="popularBreedsGrid">
+            <!-- Dynamically populated popular breeds -->
+        </div>
+    </section>
+
+    <!-- Informational Section: Choose the Right Breed -->
+    <section class="info-features-section container">
+        <div class="info-header">
+            <h2>Choose the Right Breed</h2>
+            <p>Every aquarium is different. Explore fish breeds based on appearance, size, temperament, and aquarium compatibility.</p>
+        </div>
+        <div class="info-cards-grid">
+            <article class="info-feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-palette"></i></div>
+                <h3>Color & Appearance</h3>
+                <p>Find fish with colors, scales, and patterns that match your aquatic landscape design.</p>
+            </article>
+            <article class="info-feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+                <h3>Temperament</h3>
+                <p>Discover peaceful community fish, school-oriented species, or solitary display specimens.</p>
+            </article>
+            <article class="info-feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-water"></i></div>
+                <h3>Aquarium Compatibility</h3>
+                <p>Explore breeds suited to different water parameters, tank volumes, and setups.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- Category Connection Section -->
+    <section class="category-connection-section container">
+        <div class="category-connection-box">
+            <div class="category-connection-content">
+                <h2>Browse by Category</h2>
+                <p>Looking for broader categories? Explore our fish collections grouped by habitat and water type.</p>
+                <div class="category-links-group">
+                    <a href="fish.html?categoryId=1" class="btn btn-sm btn-outline-primary">Freshwater Fish</a>
+                    <a href="fish.html?categoryId=2" class="btn btn-sm btn-outline-primary">Tropical Fish</a>
+                    <a href="fish.html?categoryId=3" class="btn btn-sm btn-outline-primary">Saltwater Fish</a>
+                    <a href="fish.html?categoryId=4" class="btn btn-sm btn-outline-primary">Community Fish</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section">
+        <div class="container stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">15+</span>
+                <span class="stat-label">Fish Breeds</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">150+</span>
+                <span class="stat-label">Fish Listings</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">50+</span>
+                <span class="stat-label">Aquarium Species</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Curated Selection</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="cta-section">
+        <div class="container cta-container">
+            <div class="cta-content">
+                <h2>Find Your Perfect Fish</h2>
+                <p>Explore our complete aquarium fish collection and discover species that fit your aquarium setup.</p>
+                <a href="fish.html" class="btn btn-light btn-lg">Browse All Fish</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Breed Preview Modal -->
+<div class="modal-backdrop" id="breedModalBackdrop" aria-hidden="true">
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalBreedName">
+        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="modal-body" id="modalBodyContent">
+            <!-- Dynamically populated content -->
+        </div>
+    </div>
+</div>
+
+<!-- Customer Footer -->
+<footer class="site-footer">
+    <div class="container footer-grid">
+        <div class="footer-col brand-col">
+            <a href="index.html" class="footer-logo">
+                <i class="fa-solid fa-fish-fins"></i>
+                <span>Aquarium Fish</span>
+            </a>
+            <p class="footer-desc">Your premier online destination for healthy aquarium fish, expert guidance, and quality supplies delivered to your door.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul class="footer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="fish.html">Fish</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="breeds.html">Breeds</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Customer</h4>
+            <ul class="footer-links">
+                <li><a href="profile.html">My Profile</a></li>
+                <li><a href="orders.html">My Orders</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="wishlist.html">Wishlist</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Support</h4>
+            <ul class="footer-links">
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="shipping.html">Shipping</a></li>
+                <li><a href="returns.html">Returns</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <p>&copy; 2026 Aquarium Fish. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="js/breeds.js" defer></script>
+</body>
+</html>

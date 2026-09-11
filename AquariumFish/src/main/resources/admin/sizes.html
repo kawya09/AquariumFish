@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Sizes - Aquarium Fish</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="sizes.css">
+</head>
+<body>
+<!-- Toast Notification Container -->
+<div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+<!-- Header / Navbar -->
+<header class="site-header">
+    <div class="nav-container">
+        <a href="index.html" class="logo">
+            <i class="fa-solid fa-fish-fins logo-icon"></i>
+            <span>Aquarium Fish</span>
+        </a>
+
+        <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="fish.html">Fish</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="breeds.html">Breeds</a></li>
+                <li><a href="sizes.html" class="active" aria-current="page">Sizes</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-controls">
+            <button class="control-btn search-trigger" aria-label="Search website" title="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <a href="wishlist.html" class="control-btn wishlist-btn" aria-label="Wishlist" title="Wishlist">
+                <i class="fa-regular fa-heart"></i>
+            </a>
+            <a href="cart.html" class="control-btn cart-btn" aria-label="Shopping Cart" title="Cart">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-badge" id="cart-badge">0</span>
+            </a>
+            <div class="account-dropdown-wrapper">
+                <button class="control-btn account-btn" id="account-menu-btn" aria-expanded="false" aria-haspopup="true" aria-label="Account menu" title="Account">
+                    <i class="fa-regular fa-user"></i>
+                </button>
+                <div class="account-dropdown" id="account-dropdown">
+                    <!-- Populated dynamically via JS based on auth state -->
+                </div>
+            </div>
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <span class="badge demo-badge" id="demo-indicator" style="display: none;"><i class="fa-solid fa-flask"></i> Demo Data Mode</span>
+            <h1>Explore Fish Sizes</h1>
+            <p>Find aquarium fish by size and discover species that fit your aquarium setup.</p>
+            <div class="hero-search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="hero-search-input" placeholder="Search fish sizes..." aria-label="Search fish sizes">
+                <button id="hero-search-btn" class="btn btn-primary">Search</button>
+            </div>
+            <div class="hero-cta">
+                <a href="fish.html" class="btn btn-outline"><i class="fa-solid fa-fish"></i> Browse All Fish</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search, Filter & Sort Toolbar Section -->
+    <section class="toolbar-section container">
+        <div class="toolbar-wrapper">
+            <div class="filter-pills" id="filter-pills" role="toolbar" aria-label="Size filters">
+                <button class="filter-pill active" data-filter="all">All Sizes</button>
+                <button class="filter-pill" data-filter="Small">Small</button>
+                <button class="filter-pill" data-filter="Medium">Medium</button>
+                <button class="filter-pill" data-filter="Large">Large</button>
+                <button class="filter-pill" data-filter="Extra Large">Extra Large</button>
+            </div>
+
+            <div class="sort-search-group">
+                <div class="results-counter" id="results-counter" aria-live="polite">Showing all sizes</div>
+                <div class="sort-dropdown-wrapper">
+                    <label for="sort-select" class="sr-only">Sort sizes</label>
+                    <select id="sort-select" class="sort-select" aria-label="Sort sizes by">
+                        <option value="name-asc">Name: A-Z</option>
+                        <option value="name-desc">Name: Z-A</option>
+                        <option value="count-desc">Most Fish</option>
+                        <option value="count-asc">Least Fish</option>
+                    </select>
+                </div>
+                <button id="clear-filters-btn" class="btn btn-text" style="display: none;">Clear Filters</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Size Grid Section -->
+    <section class="sizes-grid-section container">
+        <!-- Loading State -->
+        <div id="loading-state" class="loading-grid" aria-hidden="true">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="empty-state" style="display: none;">
+            <div class="empty-icon"><i class="fa-solid fa-fish-fins"></i></div>
+            <h3>No Fish Sizes Found</h3>
+            <p>We couldn't find any fish sizes matching your search criteria.</p>
+            <button id="empty-clear-btn" class="btn btn-primary">Clear Filters</button>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-state" class="error-state" style="display: none;">
+            <div class="error-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h3>Unable to Load Fish Sizes</h3>
+            <p>Something went wrong while loading the available sizes from the server.</p>
+            <button id="retry-btn" class="btn btn-primary">Try Again</button>
+        </div>
+
+        <!-- Actual Grid -->
+        <div class="size-grid" id="size-grid" role="region" aria-label="Fish sizes list"></div>
+    </section>
+
+    <!-- Popular Sizes Section -->
+    <section class="popular-sizes-section container">
+        <div class="section-header">
+            <h2>Popular Fish Sizes</h2>
+            <p>Most frequently searched and chosen aquarium dimensions</p>
+        </div>
+        <div class="popular-grid" id="popular-grid">
+            <!-- Populated via JS -->
+        </div>
+    </section>
+
+    <!-- Size Selection Guide Section -->
+    <section class="guide-section container">
+        <div class="section-header">
+            <h2>Choosing the Right Fish Size</h2>
+            <p>Consider your aquarium dimensions, swimming space, stocking plan, and the adult size of the species before choosing your fish.</p>
+        </div>
+        <div class="guide-cards-grid">
+            <article class="guide-card">
+                <div class="guide-icon"><i class="fa-solid fa-water"></i></div>
+                <h3>Aquarium Space</h3>
+                <p>Make sure your aquarium provides enough swimming space for the fish as they mature and establish territory.</p>
+            </article>
+            <article class="guide-card">
+                <div class="guide-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <h3>Adult Growth</h3>
+                <p>Consider the expected adult size rather than only the size at purchase to prevent overcrowding.</p>
+            </article>
+            <article class="guide-card">
+                <div class="guide-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                <h3>Aquarium Compatibility</h3>
+                <p>Choose fish sizes that work well with the rest of your community to ensure peaceful coexistence.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section">
+        <div class="container stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">7+</span>
+                <span class="stat-label">Size Options</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">150+</span>
+                <span class="stat-label">Fish Listings</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">50+</span>
+                <span class="stat-label">Species</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Curated Selection</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category and Breed Connection Section -->
+    <section class="explore-more-section container">
+        <div class="explore-box">
+            <div class="explore-content">
+                <h2>Explore More</h2>
+                <p>Discover our comprehensive collection categorized by types, breeds, and species.</p>
+            </div>
+            <div class="explore-actions">
+                <a href="categories.html" class="btn btn-outline">Browse Categories</a>
+                <a href="breeds.html" class="btn btn-outline">Browse Breeds</a>
+                <a href="fish.html" class="btn btn-primary">Browse All Fish</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="cta-section">
+        <div class="container cta-content">
+            <h2>Find Fish That Fit Your Aquarium</h2>
+            <p>Explore our complete fish collection and discover species available in different sizes.</p>
+            <a href="fish.html" class="btn btn-light btn-lg">Browse All Fish</a>
+        </div>
+    </section>
+</main>
+
+<!-- Size Preview Modal -->
+<div id="size-modal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+        <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+        <div class="modal-visual" id="modal-visual">
+            <i class="fa-solid fa-fish"></i>
+        </div>
+        <div class="modal-body">
+            <h3 id="modal-title">Size Name</h3>
+            <p id="modal-desc">Description goes here...</p>
+            <div class="modal-meta" id="modal-meta">
+                <i class="fa-solid fa-fish-fins"></i> <span id="modal-count">0</span> Fish Available
+            </div>
+            <div class="modal-actions">
+                <button id="modal-browse-btn" class="btn btn-primary w-100">Browse Fish</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="container footer-grid">
+        <div class="footer-col brand-col">
+            <a href="index.html" class="footer-logo">
+                <i class="fa-solid fa-fish-fins"></i>
+                <span>Aquarium Fish</span>
+            </a>
+            <p>Your premier online destination for healthy, vibrant aquarium fish and expert aquatic care guidance.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="fish.html">Fish</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="breeds.html">Breeds</a></li>
+                <li><a href="sizes.html">Sizes</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Customer</h4>
+            <ul>
+                <li><a href="profile.html">My Profile</a></li>
+                <li><a href="orders.html">My Orders</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="wishlist.html">Wishlist</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Support</h4>
+            <ul>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="shipping.html">Shipping</a></li>
+                <li><a href="returns.html">Returns</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <p>&copy; 2026 Aquarium Fish. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="js/sizes.js" defer></script>
+</body>
+</html>
