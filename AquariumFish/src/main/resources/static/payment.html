@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment | AquaLife Aquarium Store</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/payment.css">
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+    <div class="container top-bar-content">
+        <span><i class="fa-solid fa-truck-fast"></i> Safe & Oxygenated Live Fish Delivery Island-wide</span>
+        <span><i class="fa-solid fa-headset"></i> Support: +94 11 234 5678</span>
+    </div>
+</div>
+
+<!-- Sticky Navigation Header -->
+<header class="navbar-header">
+    <div class="container navbar-container">
+        <a href="index.html" class="brand-logo">
+            <i class="fa-solid fa-fish-fins logo-icon"></i>
+            <span class="logo-text">Aqua<span>Life</span></span>
+        </a>
+
+        <nav class="nav-menu" id="navMenu">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="fish.html" class="nav-link">Fish</a></li>
+                <li><a href="categories.html" class="nav-link">Categories</a></li>
+                <li><a href="about.html" class="nav-link">About Us</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-actions">
+            <div class="cart-icon-wrapper">
+                <a href="cart.html" aria-label="View Cart">
+                    <i class="fa-solid fa-basket-shopping"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </a>
+            </div>
+            <div class="user-action" id="userActionArea">
+                <a href="login.html" class="btn btn-outline-sm" id="authBtn">Login</a>
+            </div>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="main-content container">
+
+    <!-- Navigation Breadcrumbs -->
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="cart.html">Cart</a></li>
+            <li class="breadcrumb-item"><a href="checkout.html">Checkout</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Payment</li>
+        </ol>
+    </nav>
+
+    <!-- Checkout Progress Bar -->
+    <div class="progress-indicator-container">
+        <ul class="progress-steps">
+            <li class="step completed">
+                <div class="step-icon"><i class="fa-solid fa-check"></i></div>
+                <span class="step-label">01 Cart</span>
+            </li>
+            <li class="step completed">
+                <div class="step-icon"><i class="fa-solid fa-check"></i></div>
+                <span class="step-label">02 Checkout</span>
+            </li>
+            <li class="step active" aria-current="step">
+                <div class="step-icon">03</div>
+                <span class="step-label">03 Payment</span>
+            </li>
+            <li class="step upcoming">
+                <div class="step-icon">04</div>
+                <span class="step-label">04 Complete</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Page Heading & Security Badge -->
+    <div class="page-header flex-between">
+        <div>
+            <h1><i class="fa-solid fa-lock security-lock-icon"></i> Secure Payment</h1>
+            <p>Complete your payment securely to confirm your aquarium fish order.</p>
+        </div>
+        <div class="security-badge-header">
+            <i class="fa-solid fa-shield-halved"></i> 256-Bit SSL Encrypted
+        </div>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+    <!-- Back Link -->
+    <div class="back-link-wrapper">
+        <a href="checkout.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Checkout</a>
+    </div>
+
+    <!-- Loading State Skeleton -->
+    <div id="loadingState" class="loading-skeleton-container" style="display: none;">
+        <div class="skeleton skeleton-header"></div>
+        <div class="skeleton-grid">
+            <div class="skeleton skeleton-card-large"></div>
+            <div class="skeleton skeleton-card-small"></div>
+        </div>
+    </div>
+
+    <!-- Main Payment Container Grid -->
+    <div class="payment-layout" id="paymentLayout">
+
+        <!-- Left Column: Order Overview, Payment Method, Interactive Panels -->
+        <div class="payment-main-col">
+
+            <!-- Order Identity Banner -->
+            <div class="card order-id-card">
+                <div class="card-body flex-between">
+                    <div>
+                        <span class="order-id-label">Order Identifier</span>
+                        <h2 class="order-id-val" id="orderIdDisplay">Order #---</h2>
+                    </div>
+                    <div id="paymentStatusBadge" class="status-badge status-pending">
+                        <i class="fa-solid fa-clock"></i> Pending Payment
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Method Selection Form -->
+            <section class="card payment-card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-credit-card"></i> Choose Payment Method</h2>
+                </div>
+                <div class="card-body">
+                    <fieldset class="payment-fieldset">
+                        <legend class="sr-only">Payment Options</legend>
+                        <div class="radio-cards-group" id="paymentMethodsGroup">
+
+                            <!-- Card Payment Radio Option -->
+                            <div class="radio-card active" data-method="CARD">
+                                <input type="radio" name="paymentMethod" value="CARD" id="payment-card" checked>
+                                <label for="payment-card" class="radio-card-label">
+                                    <div class="radio-info">
+                                        <span class="title"><i class="fa-solid fa-credit-card"></i> Card Payment</span>
+                                        <span class="desc">Secure online payment using Credit or Debit card (Visa, MasterCard)</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- Cash on Delivery Radio Option -->
+                            <div class="radio-card" data-method="CASH_ON_DELIVERY">
+                                <input type="radio" name="paymentMethod" value="CASH_ON_DELIVERY" id="payment-cod">
+                                <label for="payment-cod" class="radio-card-label">
+                                    <div class="radio-info">
+                                        <span class="title"><i class="fa-solid fa-money-bill-wave"></i> Cash on Delivery</span>
+                                        <span class="desc">Pay in cash when your oxygen-packed fish arrive at your doorstep</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- Bank Transfer Radio Option -->
+                            <div class="radio-card" data-method="BANK_TRANSFER">
+                                <input type="radio" name="paymentMethod" value="BANK_TRANSFER" id="payment-bank">
+                                <label for="payment-bank" class="radio-card-label">
+                                    <div class="radio-info">
+                                        <span class="title"><i class="fa-solid fa-building-columns"></i> Bank Transfer</span>
+                                        <span class="desc">Direct bank deposit. Order confirmed upon bank receipt verification</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                        </div>
+                    </fieldset>
+                </div>
+            </section>
+
+            <!-- Dynamic Detail Panels Based on Selection -->
+            <div class="card payment-details-card">
+                <div class="card-body">
+
+                    <!-- Panel 1: Card Payment Gateway Placeholder -->
+                    <div id="cardPaymentPanel" class="payment-panel active">
+                        <div class="gateway-placeholder">
+                            <i class="fa-solid fa-shield-cat placeholder-icon"></i>
+                            <h3>Hosted Secure Gateway Integration</h3>
+                            <p>You will be securely redirected or connected to our PCI-DSS compliant payment provider to complete your card transaction safely.</p>
+                            <div class="card-brands">
+                                <i class="fa-brands fa-cc-visa"></i>
+                                <i class="fa-brands fa-cc-mastercard"></i>
+                                <i class="fa-brands fa-cc-amex"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 2: Cash On Delivery -->
+                    <div id="codPaymentPanel" class="payment-panel" style="display: none;">
+                        <div class="panel-info-box">
+                            <i class="fa-solid fa-hand-holding-dollar panel-icon"></i>
+                            <h3>Pay Upon Delivery</h3>
+                            <p>Please ensure someone is available at the delivery address with exact cash to accept your live aquatic shipment.</p>
+                            <ul class="info-list">
+                                <li><i class="fa-solid fa-circle-check"></i> Pre-insulated oxygen box delivery</li>
+                                <li><i class="fa-solid fa-circle-check"></i> Inspection allowed before payment</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Panel 3: Bank Transfer -->
+                    <div id="bankPaymentPanel" class="payment-panel" style="display: none;">
+                        <div class="panel-info-box">
+                            <i class="fa-solid fa-building-columns panel-icon"></i>
+                            <h3>Bank Transfer Instructions</h3>
+                            <div class="demo-badge-inline">DEMO / PLACEHOLDER INFORMATION</div>
+                            <div class="bank-details-grid">
+                                <div class="bank-item"><strong>Bank Name:</strong> Commercial Bank</div>
+                                <div class="bank-item"><strong>Account Name:</strong> AquaLife (Pvt) Ltd</div>
+                                <div class="bank-item"><strong>Account No:</strong> 8000 1234 5678 901</div>
+                                <div class="bank-item"><strong>Branch:</strong> Colombo Main Branch</div>
+                            </div>
+                            <p class="bank-note">Please include your <strong>Order ID</strong> in the bank transfer reference note.</p>
+                        </div>
+                    </div>
+
+                    <!-- Action Submit Section -->
+                    <div class="action-btn-wrapper">
+                        <button type="button" id="btnProcessPayment" class="btn btn-primary btn-block btn-lg">
+                            <span id="btnText">Continue Securely</span>
+                            <i class="fa-solid fa-arrow-right" id="btnIcon"></i>
+                        </button>
+                    </div>
+
+                    <!-- Processing State Overlay Overlay Text -->
+                    <div id="processingState" class="processing-overlay" style="display: none;">
+                        <i class="fa-solid fa-spinner fa-spin spinner-icon"></i>
+                        <h3>Processing Payment...</h3>
+                        <p>Please do not refresh, close, or navigate away from this page.</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Trust and Security Banner -->
+            <div class="security-trust-box card">
+                <div class="card-body trust-grid">
+                    <div class="trust-cell">
+                        <i class="fa-solid fa-lock"></i>
+                        <div>
+                            <h4>Secure Payment</h4>
+                            <p>Processed securely with end-to-end encryption</p>
+                        </div>
+                    </div>
+                    <div class="trust-cell">
+                        <i class="fa-solid fa-user-shield"></i>
+                        <div>
+                            <h4>Protected Information</h4>
+                            <p>We never store sensitive payment credentials</p>
+                        </div>
+                    </div>
+                    <div class="trust-cell">
+                        <i class="fa-solid fa-file-invoice"></i>
+                        <div>
+                            <h4>Verified Order</h4>
+                            <p>Amount is strictly verified by our secure backend</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column: Order Summary & Item List -->
+        <div class="payment-sidebar-col">
+            <div class="card checkout-card summary-card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-receipt"></i> Your Order Summary</h2>
+                </div>
+                <div class="card-body">
+
+                    <!-- Order Items Scrollable Container -->
+                    <div class="order-items-list" id="orderItemsList">
+                        <!-- Rendered dynamically -->
+                    </div>
+
+                    <hr class="summary-divider">
+
+                    <!-- Breakdown Pricing Lines -->
+                    <div class="summary-line">
+                        <span>Subtotal</span>
+                        <span id="summarySubtotal">LKR 0.00</span>
+                    </div>
+                    <div class="summary-line">
+                        <span>Delivery Charge</span>
+                        <span id="summaryDelivery">LKR 0.00</span>
+                    </div>
+                    <div class="summary-line discount-line" id="discountRow" style="display: none;">
+                        <span>Discount Applied</span>
+                        <span id="summaryDiscount">- LKR 0.00</span>
+                    </div>
+
+                    <hr class="summary-divider">
+
+                    <div class="summary-line total-line">
+                        <span>Total Payable</span>
+                        <span id="summaryTotal" class="highlight-total">LKR 0.00</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Invalid Order State -->
+    <div class="empty-state-card card" id="invalidOrderState" style="display: none;">
+        <i class="fa-solid fa-circle-exclamation error-icon"></i>
+        <h2>Invalid Payment Request</h2>
+        <p>We couldn't identify or verify the order you are trying to pay for.</p>
+        <a href="cart.html" class="btn btn-primary"><i class="fa-solid fa-basket-shopping"></i> Return to Cart</a>
+    </div>
+
+    <!-- Error State -->
+    <div class="empty-state-card card" id="errorState" style="display: none;">
+        <i class="fa-solid fa-triangle-exclamation error-icon"></i>
+        <h2>Unable to Load Payment Details</h2>
+        <p>We couldn't retrieve the payment information for this order. Please check your connection or login status.</p>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" onclick="initializePayment()"><i class="fa-solid fa-rotate-right"></i> Try Again</button>
+            <a href="cart.html" class="btn btn-secondary">Back to Cart</a>
+        </div>
+    </div>
+
+    <!-- Payment Failure Overlay Panel -->
+    <div class="empty-state-card card" id="failureState" style="display: none;">
+        <i class="fa-solid fa-circle-xmark error-icon"></i>
+        <h2>Payment Failed</h2>
+        <p id="failureMessage">We couldn't complete your payment transaction. Your order has not been confirmed.</p>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" onclick="resetToPaymentSelection()"><i class="fa-solid fa-rotate-left"></i> Try Again</button>
+            <a href="checkout.html" class="btn btn-secondary">Back to Checkout</a>
+        </div>
+    </div>
+
+    <!-- Payment Cancelled Overlay Panel -->
+    <div class="empty-state-card card" id="cancelledState" style="display: none;">
+        <i class="fa-solid fa-ban warning-icon"></i>
+        <h2>Payment Cancelled</h2>
+        <p>Your payment session was cancelled. Your order remains pending and awaiting payment.</p>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" onclick="resetToPaymentSelection()">Return to Payment</button>
+            <a href="cart.html" class="btn btn-secondary">Back to Cart</a>
+        </div>
+    </div>
+
+</main>
+
+<!-- Modal Confirmation for COD / Bank Transfer -->
+<div class="modal-backdrop" id="confirmationModal" style="display: none;">
+    <div class="modal-box card">
+        <div class="card-header flex-between">
+            <h3 id="modalTitle">Confirm Payment Method</h3>
+            <button type="button" class="close-btn" id="closeModalBtn">&times;</button>
+        </div>
+        <div class="card-body">
+            <p id="modalBodyText">Are you sure you want to confirm this order with the selected payment option?</p>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="btnCancelModal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="btnConfirmModal">Confirm Order</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container footer-content">
+        <div class="footer-col">
+            <a href="index.html" class="footer-brand">
+                <i class="fa-solid fa-fish-fins"></i> AquaLife
+            </a>
+            <p class="footer-desc">Bringing vibrant, healthy aquatic life and premium aquarium supplies directly to your home.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="fish.html">Fish</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Customer Service</h4>
+            <ul>
+                <li><a href="profile.html">My Account</a></li>
+                <li><a href="orders.html">Orders & Tracking</a></li>
+                <li><a href="delivery.html">Delivery Information</a></li>
+                <li><a href="faqs.html">FAQs</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Connect With Us</h4>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+            <p class="contact-info-sm"><i class="fa-solid fa-envelope"></i> support@aqualife.com</p>
+            <p class="contact-info-sm"><i class="fa-solid fa-phone"></i> +94 11 234 5678</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <p>&copy; 2026 AquaLife Aquarium. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Payment JS Module -->
+<script src="js/payment.js"></script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | AquaLife Aquarium Store</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Checkout CSS -->
+    <link rel="stylesheet" href="css/checkout.css">
+</head>
+<body>
+
+<!-- Top Announcement Bar -->
+<div class="top-bar">
+    <div class="container top-bar-content">
+        <span><i class="fa-solid fa-truck-fast"></i> Safe & Oxygenated Live Fish Delivery Island-wide</span>
+        <span><i class="fa-solid fa-headset"></i> Support: +94 11 234 5678</span>
+    </div>
+</div>
+
+<!-- Sticky Navigation Bar -->
+<header class="navbar-header">
+    <div class="container navbar-container">
+        <a href="index.html" class="brand-logo">
+            <i class="fa-solid fa-fish-fins logo-icon"></i>
+            <span class="logo-text">Aqua<span>Life</span></span>
+        </a>
+
+        <nav class="nav-menu" id="navMenu">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="fish.html" class="nav-link">Fish</a></li>
+                <li><a href="categories.html" class="nav-link">Categories</a></li>
+                <li><a href="about.html" class="nav-link">About Us</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-actions">
+            <div class="cart-icon-wrapper">
+                <a href="cart.html" aria-label="View Cart">
+                    <i class="fa-solid fa-basket-shopping"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </a>
+            </div>
+            <div class="user-action" id="userActionArea">
+                <a href="login.html" class="btn btn-outline-sm" id="authBtn">Login</a>
+            </div>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="main-content container">
+
+    <!-- Breadcrumb Navigation -->
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="cart.html">Cart</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+        </ol>
+    </nav>
+
+    <!-- Checkout Progress Indicator -->
+    <div class="progress-indicator-container">
+        <ul class="progress-steps">
+            <li class="step completed">
+                <div class="step-icon"><i class="fa-solid fa-check"></i></div>
+                <span class="step-label">01 Cart</span>
+            </li>
+            <li class="step active" aria-current="step">
+                <div class="step-icon">02</div>
+                <span class="step-label">02 Checkout</span>
+            </li>
+            <li class="step upcoming">
+                <div class="step-icon">03</div>
+                <span class="step-label">03 Payment</span>
+            </li>
+            <li class="step upcoming">
+                <div class="step-icon">04</div>
+                <span class="step-label">04 Complete</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Checkout Header -->
+    <div class="checkout-header">
+        <h1>Complete Your Order</h1>
+        <p>Review your details, choose your delivery option, and continue securely to payment.</p>
+    </div>
+
+    <!-- Live Toast Notification Container -->
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+    <!-- Main Checkout Layout -->
+    <div class="checkout-layout" id="checkoutLayout">
+
+        <!-- Left Column: Customer Details, Delivery & Payment -->
+        <div class="checkout-main-col">
+            <form id="checkoutForm" class="checkout-form" novalidate>
+
+                <!-- Section 1: Customer Information -->
+                <section class="card checkout-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-user-check"></i> Customer Information</h2>
+                        <div class="saved-address-toggle" id="savedAddressWrapper" style="display: none;">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="useSavedAddress">
+                                <span>Use my saved profile details</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="firstName">First Name <span class="required-star">*</span></label>
+                                <input type="text" id="firstName" name="firstName" class="form-control" placeholder="e.g. Hiruni" required>
+                                <span class="error-msg" id="firstNameError"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name <span class="required-star">*</span></label>
+                                <input type="text" id="lastName" name="lastName" class="form-control" placeholder="e.g. Perera" required>
+                                <span class="error-msg" id="lastNameError"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="email">Email Address <span class="required-star">*</span></label>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="customer@example.com" required>
+                                <span class="error-msg" id="emailError"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number <span class="required-star">*</span></label>
+                                <input type="tel" id="phone" name="phone" class="form-control" placeholder="0712345678 or +94712345678" required>
+                                <span class="error-msg" id="phoneError"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="deliveryAddress">Delivery Address <span class="required-star">*</span></label>
+                            <textarea id="deliveryAddress" name="deliveryAddress" class="form-control" rows="3" placeholder="House/Apartment No., Street Name" required></textarea>
+                            <span class="error-msg" id="addressError"></span>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="city">City <span class="required-star">*</span></label>
+                                <input type="text" id="city" name="city" class="form-control" placeholder="e.g. Colombo" required>
+                                <span class="error-msg" id="cityError"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="postalCode">Postal Code</label>
+                                <input type="text" id="postalCode" name="postalCode" class="form-control" placeholder="e.g. 00100">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Delivery Method -->
+                <section class="card checkout-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-truck-ram"></i> Delivery Option</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="radio-cards-group" id="deliveryOptionsGroup">
+                            <label class="radio-card active">
+                                <input type="radio" name="deliveryOption" value="STANDARD" checked>
+                                <div class="radio-card-content">
+                                    <div class="radio-info">
+                                        <span class="title">Standard Live Fish Delivery</span>
+                                        <span class="desc">3–5 business days • Climate controlled box</span>
+                                    </div>
+                                    <div class="radio-price" id="standardDeliveryPrice">LKR 500</div>
+                                </div>
+                            </label>
+                            <label class="radio-card">
+                                <input type="radio" name="deliveryOption" value="EXPRESS">
+                                <div class="radio-card-content">
+                                    <div class="radio-info">
+                                        <span class="title">Express Express Care</span>
+                                        <span class="desc">1–2 business days • Priority transit & double oxygenation</span>
+                                    </div>
+                                    <div class="radio-price" id="expressDeliveryPrice">LKR 1,200</div>
+                                </div>
+                            </label>
+                        </div>
+                        <span class="error-msg" id="deliveryOptionError"></span>
+                    </div>
+                </section>
+
+                <!-- Section 3: Payment Method -->
+                <section class="card checkout-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-credit-card"></i> Payment Method</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="radio-cards-group" id="paymentOptionsGroup">
+                            <label class="radio-card active">
+                                <input type="radio" name="paymentMethod" value="CARD" checked>
+                                <div class="radio-card-content">
+                                    <div class="radio-info">
+                                        <span class="title"><i class="fa-solid fa-credit-card"></i> Card Payment</span>
+                                        <span class="desc">Pay securely via Debit/Credit Card (Visa, MasterCard)</span>
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="radio-card">
+                                <input type="radio" name="paymentMethod" value="CASH_ON_DELIVERY">
+                                <div class="radio-card-content">
+                                    <div class="radio-info">
+                                        <span class="title"><i class="fa-solid fa-money-bill-wave"></i> Cash on Delivery</span>
+                                        <span class="desc">Pay cash when your live fish package arrives</span>
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="radio-card">
+                                <input type="radio" name="paymentMethod" value="BANK_TRANSFER">
+                                <div class="radio-card-content">
+                                    <div class="radio-info">
+                                        <span class="title"><i class="fa-solid fa-building-columns"></i> Bank Transfer</span>
+                                        <span class="desc">Direct bank deposit. Instructions provided on next page</span>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <span class="error-msg" id="paymentMethodError"></span>
+                    </div>
+                </section>
+
+                <!-- Terms and Conditions Agreement -->
+                <div class="form-group terms-wrapper">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="termsCheck" required>
+                        <span>I agree to the <a href="terms.html" target="_blank">Terms & Conditions</a> and <a href="privacy.html" target="_blank">Privacy Policy</a>. <span class="required-star">*</span></span>
+                    </label>
+                    <span class="error-msg" id="termsError"></span>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- Right Column: Order Review & Summary -->
+        <div class="checkout-sidebar-col">
+
+            <!-- Order Items Card -->
+            <div class="card checkout-card">
+                <div class="card-header flex-between">
+                    <h2><i class="fa-solid fa-box"></i> Your Order</h2>
+                    <a href="cart.html" class="edit-cart-link"><i class="fa-solid fa-pen-to-square"></i> Edit Cart</a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="order-items-list" id="orderItemsList">
+                        <!-- Dynamically populated cart items -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Promo Code Card -->
+            <div class="card checkout-card promo-card">
+                <div class="card-body">
+                    <label for="couponCode" class="promo-label">Have a promo code?</label>
+                    <div class="promo-input-group">
+                        <input type="text" id="couponCode" class="form-control" placeholder="Enter promo code">
+                        <button type="button" class="btn btn-secondary" id="applyCouponBtn">Apply</button>
+                    </div>
+                    <span class="promo-msg" id="promoMsg"></span>
+                </div>
+            </div>
+
+            <!-- Order Summary Card -->
+            <div class="card checkout-card summary-card">
+                <div class="card-header">
+                    <h2>Order Summary</h2>
+                </div>
+                <div class="card-body">
+                    <div class="summary-line">
+                        <span>Subtotal</span>
+                        <span id="summarySubtotal">LKR 0.00</span>
+                    </div>
+                    <div class="summary-line">
+                        <span>Delivery Fee</span>
+                        <span id="summaryDelivery">LKR 0.00</span>
+                    </div>
+                    <div class="summary-line discount-line" id="discountRow" style="display: none;">
+                        <span>Discount</span>
+                        <span id="summaryDiscount">- LKR 0.00</span>
+                    </div>
+                    <hr class="summary-divider">
+                    <div class="summary-line total-line">
+                        <span>Total</span>
+                        <span id="summaryTotal">LKR 0.00</span>
+                    </div>
+
+                    <button type="button" id="btnContinueCheckout" class="btn btn-primary btn-block btn-lg">
+                        <span id="btnText">Continue to Payment</span>
+                        <i class="fa-solid fa-arrow-right" id="btnIcon"></i>
+                    </button>
+
+                    <!-- Trust and Security Indicators -->
+                    <div class="trust-badges">
+                        <div class="trust-item">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <div>
+                                <strong>Secure Checkout</strong>
+                                <p>Your personal details are 100% protected</p>
+                            </div>
+                        </div>
+                        <div class="trust-item">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                            <div>
+                                <strong>Healthy Arrival Guarantee</strong>
+                                <p>Carefully oxygen packed for safe transit</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Empty Cart State -->
+    <div class="empty-state-card card" id="emptyCartState" style="display: none;">
+        <i class="fa-solid fa-fish-fins empty-icon"></i>
+        <h2>Your Cart is Empty</h2>
+        <p>There are no fish in your cart. Please explore our aquatic collection before proceeding to checkout.</p>
+        <a href="fish.html" class="btn btn-primary"><i class="fa-solid fa-store"></i> Browse Fish</a>
+    </div>
+
+    <!-- Error Loading State -->
+    <div class="empty-state-card card" id="errorState" style="display: none;">
+        <i class="fa-solid fa-triangle-exclamation error-icon"></i>
+        <h2>Unable to Load Checkout</h2>
+        <p>We couldn't retrieve your checkout information. Please check your internet connection or try again.</p>
+        <button type="button" class="btn btn-primary" onclick="initializeCheckout()"><i class="fa-solid fa-rotate-right"></i> Try Again</button>
+    </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container footer-content">
+        <div class="footer-col">
+            <a href="index.html" class="footer-brand">
+                <i class="fa-solid fa-fish-fins"></i> AquaLife
+            </a>
+            <p class="footer-desc">Bringing vibrant, healthy aquatic life and premium aquarium supplies right to your home.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="fish.html">Fish</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Customer Service</h4>
+            <ul>
+                <li><a href="profile.html">My Account</a></li>
+                <li><a href="orders.html">Orders & Tracking</a></li>
+                <li><a href="delivery.html">Delivery Information</a></li>
+                <li><a href="faqs.html">FAQs</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Connect With Us</h4>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+            <p class="contact-info-sm"><i class="fa-solid fa-envelope"></i> support@aqualife.com</p>
+            <p class="contact-info-sm"><i class="fa-solid fa-phone"></i> +94 11 234 5678</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <p>&copy; 2026 AquaLife Aquarium. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- JS Script -->
+<script src="js/checkout.js"></script>
+</body>
+</html>

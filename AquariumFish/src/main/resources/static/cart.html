@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Review your selected aquarium fish, adjust quantities, and proceed to checkout securely.">
+    <title>Shopping Cart - Aquarium Fish Shop</title>
+
+    <!-- Google Fonts CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/cart.css">
+</head>
+<body>
+
+<!-- Bubbles Overlay Background Animation -->
+<div class="bubbles-container" aria-hidden="true">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+</div>
+
+<!-- Navigation Bar -->
+<header class="navbar-header">
+    <nav class="navbar" aria-label="Main Navigation">
+        <a href="index.html" class="brand-logo">
+            <i class="fa-solid fa-fish-fins brand-icon"></i>
+            <span class="brand-name">Aquarium Fish</span>
+        </a>
+
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Navigation Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="nav-menu" id="navMenu">
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="fish.html" class="nav-link">Fish</a></li>
+                <li><a href="categories.html" class="nav-link">Categories</a></li>
+                <li><a href="about.html" class="nav-link">About Us</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="fish.html" class="nav-icon-btn" aria-label="Search Fish">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </a>
+                <a href="cart.html" class="nav-icon-btn cart-btn active" aria-label="Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </a>
+                <div class="auth-buttons" id="authContainer">
+                    <a href="login.html" class="btn btn-outline-sm">Login</a>
+                    <a href="register.html" class="btn btn-primary-sm">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main id="mainContent">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="container">
+            <nav aria-label="Breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Cart Header Section -->
+    <section class="cart-header-section">
+        <div class="container">
+            <div class="cart-header-wrapper">
+                <div>
+                    <h1 class="page-title">Your Shopping Cart</h1>
+                    <p class="page-subtitle">Review your selected fish before continuing to checkout.</p>
+                </div>
+                <div class="cart-count-pill" id="cartHeaderBadge">
+                    <i class="fa-solid fa-fish"></i> <span id="cartHeaderItemCount">0 items</span> in your cart
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Cart Content Section -->
+    <section class="cart-main-section">
+        <div class="container">
+            <!-- Skeleton Loader State -->
+            <div class="cart-grid" id="skeletonContainer">
+                <div class="cart-items-column">
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                </div>
+                <div class="order-summary-column">
+                    <div class="skeleton-card summary-sk"></div>
+                </div>
+            </div>
+
+            <!-- Active Cart View -->
+            <div class="cart-grid" id="cartContainer" style="display: none;">
+                <!-- Left Column: Cart Item Cards -->
+                <div class="cart-items-column">
+                    <div class="cart-column-header">
+                        <a href="fish.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Continue Shopping</a>
+                    </div>
+                    <div id="cartItemsList" class="cart-items-list">
+                        <!-- Dynamically Generated Cart Item Cards -->
+                    </div>
+                </div>
+
+                <!-- Right Column: Order Summary Card -->
+                <div class="order-summary-column">
+                    <div class="summary-card">
+                        <h2 class="summary-title">Order Summary</h2>
+
+                        <div class="summary-row">
+                            <span class="summary-label">Subtotal</span>
+                            <span class="summary-value" id="summarySubtotal">LKR 0</span>
+                        </div>
+
+                        <div class="summary-row">
+                            <span class="summary-label">Estimated Delivery</span>
+                            <span class="summary-value info-text">Calculated at checkout</span>
+                        </div>
+
+                        <div class="summary-row" id="discountRow" style="display: none;">
+                            <span class="summary-label">Discount</span>
+                            <span class="summary-value discount-text" id="summaryDiscount">-LKR 0</span>
+                        </div>
+
+                        <hr class="summary-divider">
+
+                        <div class="summary-row total-row">
+                            <span class="summary-label">Estimated Total</span>
+                            <span class="summary-value total-price" id="summaryTotal">LKR 0</span>
+                        </div>
+
+                        <!-- Coupon Code Input -->
+                        <div class="coupon-section">
+                            <label for="couponInput" class="coupon-label">Have a promo code?</label>
+                            <div class="coupon-input-group">
+                                <input type="text" id="couponInput" placeholder="Enter coupon code" aria-label="Coupon code input">
+                                <button class="btn btn-outline-sm" id="applyCouponBtn">Apply</button>
+                            </div>
+                            <div class="coupon-message" id="couponMessage"></div>
+                        </div>
+
+                        <!-- Primary Action Buttons -->
+                        <div class="summary-actions">
+                            <button class="btn btn-primary btn-checkout full-width" id="checkoutBtn">
+                                Proceed to Checkout <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                            <a href="fish.html" class="btn btn-outline-full full-width">Continue Shopping</a>
+                        </div>
+
+                        <div class="security-guarantee">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>Safe & Healthy Live Fish Guarantee</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty Cart State -->
+            <div class="state-card" id="emptyState" style="display: none;">
+                <div class="state-icon"><i class="fa-solid fa-cart-flatbed-suitcases"></i></div>
+                <h2 class="state-title">Your Cart is Empty</h2>
+                <p class="state-message">There are no fish in your shopping cart yet. Find beautiful aquarium fish and start building your collection.</p>
+                <a href="fish.html" class="btn btn-primary btn-lg">Browse Fish Catalog</a>
+            </div>
+
+            <!-- Error Loading Cart State -->
+            <div class="state-card" id="errorState" style="display: none;">
+                <div class="state-icon error"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <h2 class="state-title">Unable to Load Cart</h2>
+                <p class="state-message">We couldn't load your shopping cart at this moment. Please try again.</p>
+                <button class="btn btn-primary" id="retryBtn">Try Again</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Fish / Recommendations Section -->
+    <section class="related-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">You May Also Like</h2>
+                <p class="section-subtitle">Complement your aquarium setup with these popular healthy species.</p>
+            </div>
+            <div class="related-grid" id="relatedFishGrid">
+                <!-- Dynamically Rendered Related Fish Cards -->
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Modal Dialog for Item Removal Confirmation -->
+<div class="modal-overlay" id="removeModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal-card">
+        <button class="modal-close-btn" id="closeRemoveModalBtn" aria-label="Close modal">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="modal-body text-center">
+            <div class="modal-icon-warning">
+                <i class="fa-solid fa-trash-can"></i>
+            </div>
+            <h3 class="modal-title" id="modalTitle">Remove Item</h3>
+            <p class="modal-description" id="modalDescription">Are you sure you want to remove this fish from your shopping cart?</p>
+            <div class="modal-actions">
+                <button class="btn btn-outline-full" id="cancelRemoveBtn">Cancel</button>
+                <button class="btn btn-danger" id="confirmRemoveBtn">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reusable Toast Notification Container -->
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col brand-col">
+                <a href="index.html" class="brand-logo footer-logo">
+                    <i class="fa-solid fa-fish-fins brand-icon"></i>
+                    <span class="brand-name">Aquarium Fish</span>
+                </a>
+                <p class="footer-desc">Bringing beautiful, exotic, and healthy aquarium fish directly to your home with high standards of aquatic care.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="fish.html">Fish Catalog</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Customer Service</h4>
+                <ul class="footer-links">
+                    <li><a href="account.html">My Account</a></li>
+                    <li><a href="orders.html">Orders</a></li>
+                    <li><a href="delivery.html">Delivery Information</a></li>
+                    <li><a href="faq.html">FAQs</a></li>
+                    <li><a href="support.html">Contact Support</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Contact Info</h4>
+                <!-- DEMO / PLACEHOLDER CONTACT INFO -->
+                <ul class="contact-info-list">
+                    <li>
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>support@aquariumfish.com</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-phone"></i>
+                        <span>+94 11 234 5678</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>123 Ocean Drive, Colombo, Sri Lanka</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Aquarium Fish. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Custom JavaScript -->
+<script src="js/cart.js"></script>
+</body>
+</html>
