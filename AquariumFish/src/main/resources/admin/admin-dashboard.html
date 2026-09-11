@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Aquarium Fish Marketplace</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/admin-dashboard.css">
+</head>
+<body class="admin-body">
+
+<!-- Mobile Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- App Container -->
+<div class="app-container">
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <div class="brand-logo">
+                <i class="fa-solid fa-fish-fins"></i>
+                <span>Aquarium Admin</span>
+            </div>
+            <button class="mobile-close-btn" id="mobileCloseBtn" aria-label="Close Sidebar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-category">Main</div>
+            <a href="admin-dashboard.html" class="nav-item active">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <div class="nav-category">User Management</div>
+            <a href="users.html" class="nav-item">
+                <i class="fa-solid fa-users"></i>
+                <span>Users</span>
+            </a>
+            <a href="customers.html" class="nav-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Customers</span>
+            </a>
+            <a href="sellers.html" class="nav-item">
+                <i class="fa-solid fa-store"></i>
+                <span>Sellers</span>
+            </a>
+
+            <div class="nav-category">Catalog Management</div>
+            <a href="fish.html" class="nav-item">
+                <i class="fa-solid fa-fish"></i>
+                <span>Fish</span>
+            </a>
+            <a href="categories.html" class="nav-item">
+                <i class="fa-solid fa-folder-tree"></i>
+                <span>Categories</span>
+            </a>
+            <a href="breeds.html" class="nav-item">
+                <i class="fa-solid fa-dna"></i>
+                <span>Breeds</span>
+            </a>
+            <a href="sizes.html" class="nav-item">
+                <i class="fa-solid fa-ruler-combined"></i>
+                <span>Sizes</span>
+            </a>
+            <a href="colors.html" class="nav-item">
+                <i class="fa-solid fa-palette"></i>
+                <span>Colors</span>
+            </a>
+
+            <div class="nav-category">Operations</div>
+            <a href="orders.html" class="nav-item">
+                <i class="fa-solid fa-box-open"></i>
+                <span>Orders</span>
+            </a>
+            <a href="payments.html" class="nav-item">
+                <i class="fa-solid fa-credit-card"></i>
+                <span>Payments</span>
+            </a>
+            <a href="deliveries.html" class="nav-item">
+                <i class="fa-solid fa-truck-fast"></i>
+                <span>Deliveries</span>
+            </a>
+            <a href="reviews.html" class="nav-item">
+                <i class="fa-solid fa-star"></i>
+                <span>Reviews</span>
+            </a>
+
+            <div class="nav-category">System</div>
+            <a href="#" class="nav-item" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Top Header -->
+        <header class="admin-header">
+            <div class="header-left">
+                <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Sidebar">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="global-search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="globalAdminSearch" placeholder="Search admin pages...">
+                </div>
+            </div>
+
+            <div class="header-right">
+                <!-- Notifications Dropdown Toggle -->
+                <div class="dropdown-wrapper" id="notificationDropdownWrapper">
+                    <button class="header-icon-btn" id="notificationToggleBtn" aria-label="Notifications">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge-dot" id="notificationDot"></span>
+                    </button>
+                    <div class="dropdown-panel notification-panel" id="notificationPanel">
+                        <div class="dropdown-header">
+                            <h3>Notifications</h3>
+                            <span class="badge-count" id="notificationCount">4</span>
+                        </div>
+                        <div class="dropdown-body" id="notificationListContainer">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Profile Dropdown -->
+                <div class="dropdown-wrapper" id="adminMenuDropdownWrapper">
+                    <button class="admin-profile-btn" id="adminMenuToggleBtn">
+                        <div class="admin-avatar">AD</div>
+                        <div class="admin-info">
+                            <span class="admin-name" id="headerAdminName">System Admin</span>
+                            <span class="admin-role">Administrator</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-panel admin-menu-panel" id="adminMenuPanel">
+                        <a href="#" class="dropdown-item"><i class="fa-solid fa-user-gear"></i> My Profile</a>
+                        <a href="admin-dashboard.html" class="dropdown-item"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item text-danger" id="dropdownLogoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Scrollable Body Area -->
+        <main class="admin-main">
+
+            <!-- Breadcrumbs & Heading -->
+            <div class="dashboard-top-bar">
+                <div class="title-area">
+                    <nav class="breadcrumb-nav" aria-label="breadcrumb">
+                        <span>Admin Panel</span> / <span class="current">Dashboard</span>
+                    </nav>
+                    <div class="heading-with-badge">
+                        <h1>Admin Dashboard</h1>
+                        <span class="demo-badge" id="demoBadge">Demo Data</span>
+                    </div>
+                    <p class="subtitle">Monitor your Aquarium Fish marketplace at a glance.</p>
+                </div>
+                <div class="action-area">
+                    <div class="period-selector-wrapper">
+                        <button class="period-btn active" data-period="30d">30 Days</button>
+                        <button class="period-btn" data-period="7d">7 Days</button>
+                        <button class="period-btn" data-period="year">This Year</button>
+                        <button class="period-btn" data-period="today">Today</button>
+                    </div>
+                    <button class="btn-refresh" id="refreshDashboardBtn" title="Refresh Dashboard">
+                        <i class="fa-solid fa-rotate"></i>
+                        <span>Refresh</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Level 1: Main KPI Grid -->
+            <section class="kpi-grid">
+                <!-- Total Users -->
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-title">Total Users</span>
+                        <div class="kpi-icon users"><i class="fa-solid fa-users"></i></div>
+                    </div>
+                    <div class="kpi-body">
+                        <h3 class="kpi-value" id="kpiTotalUsers">1,248</h3>
+                        <span class="kpi-trend positive"><i class="fa-solid fa-arrow-up"></i> +8.4% <small>vs previous period</small></span>
+                    </div>
+                </div>
+
+                <!-- Customers -->
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-title">Customers</span>
+                        <div class="kpi-icon customers"><i class="fa-solid fa-user-tie"></i></div>
+                    </div>
+                    <div class="kpi-body">
+                        <h3 class="kpi-value" id="kpiTotalCustomers">1,180</h3>
+                        <span class="kpi-trend positive"><i class="fa-solid fa-arrow-up"></i> +7.2% <small>vs previous period</small></span>
+                    </div>
+                </div>
+
+                <!-- Sellers -->
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-title">Sellers</span>
+                        <div class="kpi-icon sellers"><i class="fa-solid fa-store"></i></div>
+                    </div>
+                    <div class="kpi-body">
+                        <h3 class="kpi-value" id="kpiTotalSellers">62</h3>
+                        <span class="kpi-trend positive"><i class="fa-solid fa-arrow-up"></i> +4.1% <small>vs previous period</small></span>
+                    </div>
+                </div>
+
+                <!-- Fish Listings -->
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-title">Fish Listings</span>
+                        <div class="kpi-icon fish"><i class="fa-solid fa-fish"></i></div>
+                    </div>
+                    <div class="kpi-body">
+                        <h3 class="kpi-value" id="kpiTotalFish">342</h3>
+                        <span class="kpi-trend positive"><i class="fa-solid fa-arrow-up"></i> +12.6% <small>vs previous period</small></span>
+                    </div>
+                </div>
+
+                <!-- Total Orders -->
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-title">Total Orders</span>
+                        <div class="kpi-icon orders"><i class="fa-solid fa-box-open"></i></div>
+                    </div>
+                    <div class="kpi-body">
+                        <h3 class="kpi-value" id="kpiTotalOrders">2,184</h3>
+                        <span class="kpi-trend positive"><i class="fa-solid fa-arrow-up"></i> +10.8% <small>vs previous period</small></span>
+                    </div>
+                </div>
+
+                <!-- Total Sales -->
+                <div class="kpi-card highlight-card">
+                    <div class="kpi-header">
+                        <span class="kpi-title">Total Sales</span>
+                        <div class="kpi-icon sales"><i class="fa-solid fa-wallet"></i></div>
+                    </div>
+                    <div class="kpi-body">
+                        <h3 class="kpi-value" id="kpiTotalSales">LKR 7,850,000.00</h3>
+                        <span class="kpi-trend positive"><i class="fa-solid fa-arrow-up"></i> +14.3% <small>vs previous period</small></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Level 2: Secondary Operational Row / Inventory & Pending Alerts -->
+            <section class="operational-grid">
+                <a href="fish.html?stock=low" class="op-card alert-card">
+                    <div class="op-icon low-stock"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="op-content">
+                        <span class="op-count" id="kpiLowStock">21</span>
+                        <span class="op-label">Low Stock Products</span>
+                    </div>
+                </a>
+
+                <a href="fish.html?stock=out" class="op-card alert-card">
+                    <div class="op-icon out-stock"><i class="fa-solid fa-ban"></i></div>
+                    <div class="op-content">
+                        <span class="op-count" id="kpiOutOfStock">8</span>
+                        <span class="op-label">Out of Stock Products</span>
+                    </div>
+                </a>
+
+                <a href="orders.html?status=PENDING" class="op-card">
+                    <div class="op-icon pending-order"><i class="fa-solid fa-clock"></i></div>
+                    <div class="op-content">
+                        <span class="op-count" id="kpiPendingOrders">38</span>
+                        <span class="op-label">Pending Orders</span>
+                    </div>
+                </a>
+
+                <a href="deliveries.html?status=PENDING" class="op-card">
+                    <div class="op-icon pending-delivery"><i class="fa-solid fa-truck"></i></div>
+                    <div class="op-content">
+                        <span class="op-count" id="kpiPendingDeliveries">26</span>
+                        <span class="op-label">Pending Deliveries</span>
+                    </div>
+                </a>
+            </section>
+
+            <!-- Level 3: Analytics & Core Visualizations -->
+            <div class="dashboard-grid-main">
+
+                <!-- Sales Overview & Dynamic Chart -->
+                <div class="card sales-overview-card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <h2>Sales Overview</h2>
+                            <p class="card-subtitle">Revenue trend over the selected period</p>
+                        </div>
+                        <div class="sales-summary-stats">
+                            <div class="stat-pill">
+                                <span class="pill-label">Total Revenue</span>
+                                <span class="pill-value" id="summarySalesRevenue">LKR 2,450,000</span>
+                            </div>
+                            <div class="stat-pill">
+                                <span class="pill-label">Orders</span>
+                                <span class="pill-value" id="summarySalesOrders">684</span>
+                            </div>
+                            <div class="stat-pill">
+                                <span class="pill-label">Avg Order</span>
+                                <span class="pill-value" id="summaryAvgOrder">LKR 3,581</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Custom Pure SVG/CSS Sales Chart -->
+                        <div class="chart-container" id="salesChartContainer">
+                            <svg class="custom-sales-svg" id="salesSvgChart" viewBox="0 0 800 260" preserveAspectRatio="none">
+                                <defs>
+                                    <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#00ffed" stop-opacity="0.35"/>
+                                        <stop offset="100%" stop-color="#0099ff" stop-opacity="0.0"/>
+                                    </linearGradient>
+                                </defs>
+                                <!-- Dynamic SVG elements generated via JavaScript -->
+                            </svg>
+                            <div class="chart-tooltip" id="chartTooltip" style="display: none;"></div>
+                        </div>
+                        <div class="visually-hidden" id="chartAccessibilitySummary">
+                            Sales increased during the selected period, with the highest sales occurring on Saturday.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Status Distribution -->
+                <div class="card order-status-card">
+                    <div class="card-header">
+                        <h2>Order Status Distribution</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="status-bars-container" id="orderStatusContainer">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Tables & Secondary Lists Grid -->
+            <div class="dashboard-grid-secondary">
+
+                <!-- Recent Orders Table -->
+                <div class="card recent-orders-card">
+                    <div class="card-header">
+                        <h2>Recent Orders</h2>
+                        <a href="orders.html" class="view-all-link">View All <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Payment</th>
+                                <th>Delivery</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="recentOrdersTableBody">
+                            <!-- Populated via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Top Selling Fish -->
+                <div class="card top-fish-card">
+                    <div class="card-header">
+                        <h2>Top Selling Fish</h2>
+                        <a href="fish.html" class="view-all-link">Manage Fish <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                    <div class="card-body">
+                        <div class="top-fish-list" id="topFishListContainer">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Level 4: Bottom Supplementary Section -->
+            <div class="dashboard-grid-footer-section">
+
+                <!-- Recent Users -->
+                <div class="card recent-users-card">
+                    <div class="card-header">
+                        <h2>Recent Users</h2>
+                        <a href="users.html" class="view-all-link">View All <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                            </tr>
+                            </thead>
+                            <tbody id="recentUsersTableBody">
+                            <!-- Populated via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Inventory & System Status Side Panel -->
+                <div class="sidebar-widgets-stack">
+
+                    <!-- Inventory Alerts Box -->
+                    <div class="card inventory-alerts-card">
+                        <div class="card-header">
+                            <h2>Inventory Alerts</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert-box-content">
+                                <div class="alert-item-warning">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                    <span id="lowStockAlertText">21 fish are low in stock</span>
+                                </div>
+                                <div class="alert-item-danger">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    <span id="outStockAlertText">8 fish are completely out of stock</span>
+                                </div>
+                            </div>
+                            <a href="fish.html" class="btn-primary-outline full-width">Review Inventory</a>
+                        </div>
+                    </div>
+
+                    <!-- System Health / Status -->
+                    <div class="card system-status-card">
+                        <div class="card-header">
+                            <h2>System Status</h2>
+                            <span class="status-live-badge"><span class="pulse-dot"></span> Live Demo</span>
+                        </div>
+                        <div class="card-body">
+                            <ul class="system-status-list">
+                                <li>
+                                    <span class="sys-label"><i class="fa-solid fa-server"></i> REST API Gateway</span>
+                                    <span class="sys-status operational">Operational</span>
+                                </li>
+                                <li>
+                                    <span class="sys-label"><i class="fa-solid fa-database"></i> MySQL Database (JPA)</span>
+                                    <span class="sys-status operational">Operational</span>
+                                </li>
+                                <li>
+                                    <span class="sys-label"><i class="fa-solid fa-credit-card"></i> Payment Gateway</span>
+                                    <span class="sys-status operational">Operational</span>
+                                </li>
+                                <li>
+                                    <span class="sys-label"><i class="fa-solid fa-truck-fast"></i> Delivery Dispatch</span>
+                                    <span class="sys-status operational">Operational</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Reviews & Quick Actions Row -->
+            <div class="dashboard-grid-bottom-row">
+
+                <!-- Reviews Overview -->
+                <div class="card reviews-overview-card">
+                    <div class="card-header">
+                        <h2>Reviews & Feedback</h2>
+                        <a href="reviews.html" class="view-all-link">All Reviews <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                    <div class="card-body">
+                        <div class="review-metrics-layout">
+                            <div class="review-score-box">
+                                <span class="score-number" id="avgRatingScore">4.7</span>
+                                <div class="stars-display">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                                </div>
+                                <span class="total-reviews-count" id="totalReviewsCount">Based on 1,284 reviews</span>
+                            </div>
+                            <div class="rating-bars-breakdown" id="ratingBreakdownContainer">
+                                <!-- Populated via JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card quick-actions-card">
+                    <div class="card-header">
+                        <h2>Quick Actions</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="quick-actions-grid">
+                            <a href="users.html" class="quick-action-btn"><i class="fa-solid fa-users-gear"></i> Manage Users</a>
+                            <a href="sellers.html" class="quick-action-btn"><i class="fa-solid fa-store"></i> Manage Sellers</a>
+                            <a href="fish.html" class="quick-action-btn"><i class="fa-solid fa-fish"></i> Manage Fish</a>
+                            <a href="categories.html" class="quick-action-btn"><i class="fa-solid fa-folder-tree"></i> Categories</a>
+                            <a href="orders.html" class="quick-action-btn"><i class="fa-solid fa-box-open"></i> View Orders</a>
+                            <a href="payments.html" class="quick-action-btn"><i class="fa-solid fa-credit-card"></i> Payments</a>
+                            <a href="deliveries.html" class="quick-action-btn"><i class="fa-solid fa-truck"></i> Deliveries</a>
+                            <a href="reviews.html" class="quick-action-btn"><i class="fa-solid fa-star"></i> Feedback</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="admin-footer">
+            <p>&copy; 2026 Aquarium Fish. All rights reserved. Admin Management Portal</p>
+        </footer>
+    </div>
+</div>
+
+<!-- Toast Notification Container -->
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<!-- JavaScript Link -->
+<script src="../js/admin-dashboard.js" defer></script>
+</body>
+</html>

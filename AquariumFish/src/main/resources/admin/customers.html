@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Management — Aquarium Fish Admin</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/customers.css">
+</head>
+<body>
+<div class="admin-layout">
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Left Sidebar -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-fish-fins"></i>
+            </div>
+            <div class="brand-text">
+                <h2>Aquarium Fish</h2>
+                <span>Admin Panel</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="admin-dashboard.html" class="nav-item">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="users.html" class="nav-item">
+                <i class="fa-solid fa-users"></i>
+                <span>Users</span>
+            </a>
+            <a href="customers.html" class="nav-item active">
+                <i class="fa-solid fa-user-group"></i>
+                <span>Customers</span>
+            </a>
+            <a href="sellers.html" class="nav-item">
+                <i class="fa-solid fa-store"></i>
+                <span>Sellers</span>
+            </a>
+            <a href="fish.html" class="nav-item">
+                <i class="fa-solid fa-fish"></i>
+                <span>Fish</span>
+            </a>
+            <a href="categories.html" class="nav-item">
+                <i class="fa-solid fa-layer-group"></i>
+                <span>Categories</span>
+            </a>
+            <a href="breeds.html" class="nav-item">
+                <i class="fa-solid fa-dna"></i>
+                <span>Breeds</span>
+            </a>
+            <a href="sizes.html" class="nav-item">
+                <i class="fa-solid fa-ruler-combined"></i>
+                <span>Sizes</span>
+            </a>
+            <a href="colors.html" class="nav-item">
+                <i class="fa-solid fa-palette"></i>
+                <span>Colors</span>
+            </a>
+            <a href="orders.html" class="nav-item">
+                <i class="fa-solid fa-box"></i>
+                <span>Orders</span>
+            </a>
+            <a href="payments.html" class="nav-item">
+                <i class="fa-solid fa-credit-card"></i>
+                <span>Payments</span>
+            </a>
+            <a href="deliveries.html" class="nav-item">
+                <i class="fa-solid fa-truck"></i>
+                <span>Deliveries</span>
+            </a>
+            <a href="reviews.html" class="nav-item">
+                <i class="fa-solid fa-star"></i>
+                <span>Reviews</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="demo-badge" id="demoBadge">
+                <i class="fa-solid fa-circle-info"></i> Demo Data Active
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="admin-wrapper">
+        <!-- Top Header -->
+        <header class="admin-header">
+            <div class="header-left">
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Sidebar">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="header-titles">
+                    <h1>Customer Management</h1>
+                    <p>View and manage registered customer accounts.</p>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <div class="header-notifications">
+                    <button class="icon-btn" aria-label="Notifications">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge-dot"></span>
+                    </button>
+                </div>
+                <div class="admin-profile">
+                    <div class="admin-avatar">
+                        <span>AD</span>
+                    </div>
+                    <div class="admin-info">
+                        <span class="admin-name">Admin User</span>
+                        <span class="admin-role">System Administrator</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Viewport -->
+        <main class="admin-main">
+            <!-- Page Breadcrumbs & Actions Bar -->
+            <div class="page-action-bar">
+                <div class="breadcrumbs">
+                    <span>Admin</span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                    <span class="current">Customers</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-outline" id="refreshBtn">
+                        <i class="fa-solid fa-rotate"></i> Refresh
+                    </button>
+                    <button class="btn btn-primary" id="exportCsvBtn">
+                        <i class="fa-solid fa-download"></i> Export CSV
+                    </button>
+                </div>
+            </div>
+
+            <!-- Customer Statistics Summary Cards -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon cyan">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Total Customers</span>
+                        <h3 class="stat-value" id="statTotal">0</h3>
+                        <span class="stat-desc">All registered customers</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fa-solid fa-user-check"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Active Customers</span>
+                        <h3 class="stat-value" id="statActive">0</h3>
+                        <span class="stat-desc">Active accounts</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon red">
+                        <i class="fa-solid fa-user-slash"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Inactive / Suspended</span>
+                        <h3 class="stat-value" id="statInactive">0</h3>
+                        <span class="stat-desc">Restricted accounts</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">New Customers</span>
+                        <h3 class="stat-value" id="statNew">0</h3>
+                        <span class="stat-desc">Registered recently</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Customers W/ Orders</span>
+                        <h3 class="stat-value" id="statWithOrders">0</h3>
+                        <span class="stat-desc">Placed at least 1 order</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filter & Search Section -->
+            <section class="filter-section">
+                <div class="search-bar-wrapper">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Search customers by name, email, username or phone..." autocomplete="off">
+                </div>
+
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label for="statusFilter">Status</label>
+                        <select id="statusFilter" class="form-control">
+                            <option value="ALL">All Statuses</option>
+                            <option value="ACTIVE">Active</option>
+                            <option value="INACTIVE">Inactive</option>
+                            <option value="SUSPENDED">Suspended</option>
+                            <option value="PENDING">Pending</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="dateFilter">Registration Date</label>
+                        <select id="dateFilter" class="form-control">
+                            <option value="ALL">Any Date</option>
+                            <option value="TODAY">Today</option>
+                            <option value="LAST_7_DAYS">Last 7 Days</option>
+                            <option value="LAST_30_DAYS">Last 30 Days</option>
+                            <option value="LAST_90_DAYS">Last 90 Days</option>
+                            <option value="THIS_YEAR">This Year</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="activityFilter">Customer Activity</label>
+                        <select id="activityFilter" class="form-control">
+                            <option value="ALL">All Customers</option>
+                            <option value="WITH_ORDERS">With Orders</option>
+                            <option value="WITHOUT_ORDERS">Without Orders</option>
+                            <option value="WITH_REVIEWS">With Reviews</option>
+                            <option value="WITHOUT_REVIEWS">Without Reviews</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="sortBy">Sort By</label>
+                        <select id="sortBy" class="form-control">
+                            <option value="NEWEST">Newest First</option>
+                            <option value="OLDEST">Oldest First</option>
+                            <option value="NAME_ASC">Name A-Z</option>
+                            <option value="NAME_DESC">Name Z-A</option>
+                            <option value="ORDERS_DESC">Most Orders</option>
+                            <option value="ORDERS_ASC">Least Orders</option>
+                            <option value="SPENT_DESC">Highest Total Spent</option>
+                            <option value="SPENT_ASC">Lowest Total Spent</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="filter-actions-row">
+                    <div class="result-counter" id="resultCounter">Showing 0 customers</div>
+                    <div class="filter-buttons">
+                        <button class="btn btn-secondary" id="clearFiltersBtn">Clear Filters</button>
+                        <button class="btn btn-primary" id="applyFiltersBtn">Apply Filters</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Customer Table Container -->
+            <section class="table-card">
+                <div class="table-responsive">
+                    <table class="data-table" id="customerTable">
+                        <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Orders</th>
+                            <th>Reviews</th>
+                            <th>Total Spent</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="customerTableBody">
+                        <!-- Dynamic rows populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Loading State Container -->
+                <div class="table-state-container loading-state" id="loadingState">
+                    <div class="spinner"></div>
+                    <p>Loading customers...</p>
+                </div>
+
+                <!-- Empty State Container -->
+                <div class="table-state-container empty-state hidden" id="emptyState">
+                    <i class="fa-solid fa-users-slash empty-icon"></i>
+                    <h3>No customers found</h3>
+                    <p>Try adjusting your search or filters.</p>
+                    <button class="btn btn-primary" id="emptyClearFiltersBtn">Clear Filters</button>
+                </div>
+
+                <!-- Error State Container -->
+                <div class="table-state-container error-state hidden" id="errorState">
+                    <i class="fa-solid fa-triangle-exclamation error-icon"></i>
+                    <h3>Unable to load customers</h3>
+                    <p id="errorMessageText">Something went wrong while retrieving customer information.</p>
+                    <button class="btn btn-primary" id="retryBtn">Retry</button>
+                </div>
+
+                <!-- Pagination Footer -->
+                <div class="pagination-footer" id="paginationFooter">
+                    <div class="pagination-info" id="paginationInfo">Showing 0–0 of 0 customers</div>
+                    <div class="pagination-controls" id="paginationControls">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="admin-footer">
+            <p>&copy; 2026 Aquarium Fish Admin Panel</p>
+        </footer>
+    </div>
+</div>
+
+<!-- View Customer Details Modal -->
+<div class="modal-backdrop" id="customerDetailsModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-container modal-lg">
+        <div class="modal-header">
+            <h3 id="modalTitle"><i class="fa-solid fa-user-gear"></i> Customer Details</h3>
+            <button class="modal-close" id="closeDetailsModal" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="modal-body" id="customerDetailsModalBody">
+            <!-- Dynamically populated customer details -->
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="modalViewOrdersBtn">View Orders</button>
+            <button class="btn btn-outline" id="modalViewReviewsBtn">View Reviews</button>
+            <button class="btn btn-warning" id="modalChangeStatusBtn">Change Status</button>
+            <button class="btn btn-secondary" id="closeDetailsModalBtn">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Change Status Modal -->
+<div class="modal-backdrop" id="statusModal" role="dialog" aria-modal="true" aria-labelledby="statusModalTitle">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3 id="statusModalTitle"><i class="fa-solid fa-shield-halved"></i> Change Customer Status</h3>
+            <button class="modal-close" id="closeStatusModal" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="status-modal-info">
+                <p><strong>Customer:</strong> <span id="statusModalCustomerName">-</span></p>
+                <p><strong>Email:</strong> <span id="statusModalCustomerEmail">-</span></p>
+                <p><strong>Current Status:</strong> <span id="statusModalCurrentStatus" class="badge">-</span></p>
+            </div>
+            <div class="form-group mt-3">
+                <label for="newStatusSelect">New Status</label>
+                <select id="newStatusSelect" class="form-control">
+                    <option value="ACTIVE">Active</option>
+                    <option value="INACTIVE">Inactive</option>
+                    <option value="SUSPENDED">Suspended</option>
+                    <option value="PENDING">Pending</option>
+                </select>
+            </div>
+            <div class="warning-banner mt-3">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>Changing account status may affect the customer's ability to sign in or place orders.</span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" id="cancelStatusBtn">Cancel</button>
+            <button class="btn btn-primary" id="confirmStatusBtn">Update Status</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- JavaScript -->
+<script src="../js/customers.js" defer></script>
+</body>
+</html>

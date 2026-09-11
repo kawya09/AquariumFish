@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Management - Aquarium Fish Admin</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Page Stylesheet -->
+    <link rel="stylesheet" href="../css/fish.css">
+</head>
+<body>
+
+<!-- Mobile Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="admin-container">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="sidebar-brand">
+            <i class="fa-solid fa-fish-fins brand-icon"></i>
+            <div class="brand-text">
+                <h2>Aquarium Fish</h2>
+                <span>Admin Panel</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="admin-dashboard.html" class="nav-item">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="users.html" class="nav-item">
+                <i class="fa-solid fa-users"></i>
+                <span>Users</span>
+            </a>
+            <a href="customers.html" class="nav-item">
+                <i class="fa-solid fa-user-group"></i>
+                <span>Customers</span>
+            </a>
+            <a href="sellers.html" class="nav-item">
+                <i class="fa-solid fa-store"></i>
+                <span>Sellers</span>
+            </a>
+            <a href="fish.html" class="nav-item active">
+                <i class="fa-solid fa-fish"></i>
+                <span>Fish</span>
+            </a>
+            <a href="categories.html" class="nav-item">
+                <i class="fa-solid fa-layer-group"></i>
+                <span>Categories</span>
+            </a>
+            <a href="breeds.html" class="nav-item">
+                <i class="fa-solid fa-dna"></i>
+                <span>Breeds</span>
+            </a>
+            <a href="sizes.html" class="nav-item">
+                <i class="fa-solid fa-ruler"></i>
+                <span>Sizes</span>
+            </a>
+            <a href="colors.html" class="nav-item">
+                <i class="fa-solid fa-palette"></i>
+                <span>Colors</span>
+            </a>
+            <a href="orders.html" class="nav-item">
+                <i class="fa-solid fa-box"></i>
+                <span>Orders</span>
+            </a>
+            <a href="payments.html" class="nav-item">
+                <i class="fa-solid fa-credit-card"></i>
+                <span>Payments</span>
+            </a>
+            <a href="deliveries.html" class="nav-item">
+                <i class="fa-solid fa-truck"></i>
+                <span>Deliveries</span>
+            </a>
+            <a href="reviews.html" class="nav-item">
+                <i class="fa-solid fa-star"></i>
+                <span>Reviews</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="demo-badge-container">
+                <span class="demo-badge" id="demoBadge">Demo Mode</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="admin-main">
+
+        <!-- TOP HEADER -->
+        <header class="admin-topbar">
+            <div class="topbar-left">
+                <button class="mobile-toggle-btn" id="mobileToggleBtn" aria-label="Toggle navigation drawer">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="page-title-container">
+                    <h1>Fish Management</h1>
+                    <p>Manage all aquarium fish listings, inventory, sellers, and product information.</p>
+                    <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                        <span>Admin</span> / <span class="current">Fish</span>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <div class="topbar-actions">
+                    <button class="btn btn-outline" id="refreshBtn" title="Refresh Data">
+                        <i class="fa-solid fa-rotate-right"></i> Refresh
+                    </button>
+                    <button class="btn btn-outline" id="exportCsvBtn" title="Export to CSV">
+                        <i class="fa-solid fa-file-csv"></i> Export CSV
+                    </button>
+                    <button class="btn btn-primary" id="addFishBtn" style="display: none;">
+                        <i class="fa-solid fa-plus"></i> Add Fish
+                    </button>
+                </div>
+
+                <div class="topbar-divider"></div>
+
+                <div class="admin-profile">
+                    <div class="notification-icon-wrapper">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="admin-avatar">
+                        <span>AD</span>
+                    </div>
+                    <div class="admin-info">
+                        <span class="admin-name">Admin User</span>
+                        <span class="admin-role">System Administrator</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- STATISTICS CARDS -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon-wrapper blue">
+                    <i class="fa-solid fa-fish"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Total Fish</span>
+                    <h3 class="stat-value" id="statTotalFish">0</h3>
+                    <p class="stat-desc">All marketplace listings</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon-wrapper green">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Active Listings</span>
+                    <h3 class="stat-value" id="statActiveFish">0</h3>
+                    <p class="stat-desc">Published and available</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon-wrapper red">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Out of Stock</span>
+                    <h3 class="stat-value" id="statOutOfStock">0</h3>
+                    <p class="stat-desc">Zero units remaining</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon-wrapper orange">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Low Stock</span>
+                    <h3 class="stat-value" id="statLowStock">0</h3>
+                    <p class="stat-desc">StockQty &le; 5 units</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon-wrapper purple">
+                    <i class="fa-solid fa-warehouse"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Total Stock</span>
+                    <h3 class="stat-value" id="statTotalStock">0</h3>
+                    <p class="stat-desc">Available items overall</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon-wrapper teal">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Categories</span>
+                    <h3 class="stat-value" id="statCategoriesCount">0</h3>
+                    <p class="stat-desc">Represented categories</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEARCH, FILTERS & CONTROLS -->
+        <section class="controls-section">
+            <div class="search-bar-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search fish by name, seller, category or breed...">
+                <button class="clear-search-btn" id="clearSearchBtn" style="display: none;" aria-label="Clear Search">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="categoryFilter">Category</label>
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="ALL">All Categories</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="breedFilter">Breed</label>
+                    <select id="breedFilter" class="filter-select">
+                        <option value="ALL">All Breeds</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="sizeFilter">Size</label>
+                    <select id="sizeFilter" class="filter-select">
+                        <option value="ALL">All Sizes</option>
+                        <option value="Small">Small</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Large">Large</option>
+                        <option value="Extra Large">Extra Large</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="colorFilter">Color</label>
+                    <select id="colorFilter" class="filter-select">
+                        <option value="ALL">All Colors</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="sellerFilter">Seller</label>
+                    <select id="sellerFilter" class="filter-select">
+                        <option value="ALL">All Sellers</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="stockFilter">Stock Status</label>
+                    <select id="stockFilter" class="filter-select">
+                        <option value="ALL">All Stock</option>
+                        <option value="IN_STOCK">In Stock</option>
+                        <option value="LOW_STOCK">Low Stock</option>
+                        <option value="OUT_OF_STOCK">Out of Stock</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="statusFilter">Listing Status</label>
+                    <select id="statusFilter" class="filter-select">
+                        <option value="ALL">All Statuses</option>
+                        <option value="ACTIVE">Active</option>
+                        <option value="INACTIVE">Inactive</option>
+                        <option value="SUSPENDED">Suspended</option>
+                        <option value="PENDING">Pending</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="sortBySelect">Sort By</label>
+                    <select id="sortBySelect" class="filter-select">
+                        <option value="NEWEST">Newest First</option>
+                        <option value="OLDEST">Oldest First</option>
+                        <option value="NAME_ASC">Fish Name A-Z</option>
+                        <option value="NAME_DESC">Fish Name Z-A</option>
+                        <option value="PRICE_ASC">Price Low to High</option>
+                        <option value="PRICE_DESC">Price High to Low</option>
+                        <option value="STOCK_ASC">Stock Low to High</option>
+                        <option value="STOCK_DESC">Stock High to Low</option>
+                        <option value="MOST_REVIEWED">Most Reviewed</option>
+                        <option value="HIGHEST_RATED">Highest Rated</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filter-actions-row">
+                <div class="active-filters-info">
+                    <span id="resultCountText">Showing 0 fish listings</span>
+                    <div id="activeChipsContainer" class="active-chips-container"></div>
+                </div>
+                <div class="filter-action-buttons">
+                    <button class="btn btn-outline btn-sm" id="clearFiltersBtn">
+                        <i class="fa-solid fa-filter-circle-xmark"></i> Clear Filters
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAIN DATA CONTAINER -->
+        <section class="table-card-section">
+
+            <!-- Loading State Container -->
+            <div id="loadingState" class="state-container" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading fish listings...</p>
+            </div>
+
+            <!-- Error State Container -->
+            <div id="errorState" class="state-container" style="display: none;">
+                <div class="state-icon error-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <h3>Unable to load fish listings</h3>
+                <p>Something went wrong while retrieving fish information.</p>
+                <button class="btn btn-primary" id="retryBtn">Retry</button>
+            </div>
+
+            <!-- Empty State Container -->
+            <div id="emptyState" class="state-container" style="display: none;">
+                <div class="state-icon empty-icon"><i class="fa-solid fa-fish"></i></div>
+                <h3>No fish listings found</h3>
+                <p>Try adjusting your search or filters.</p>
+                <button class="btn btn-outline" id="clearFiltersEmptyBtn">Clear Filters</button>
+            </div>
+
+            <!-- Table Container for Desktop/Tablet -->
+            <div class="table-responsive-wrapper" id="tableResponsiveWrapper">
+                <table class="admin-table" id="fishTable">
+                    <thead>
+                    <tr>
+                        <th scope="col">Fish</th>
+                        <th scope="col">Seller</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Breed</th>
+                        <th scope="col">Size</th>
+                        <th scope="col">Color</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" class="text-right">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="fishTableBody">
+                    <!-- Populated dynamically via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Card Grid Container for Mobile view fallback -->
+            <div class="mobile-card-grid" id="mobileCardGrid">
+                <!-- Populated dynamically via JS -->
+            </div>
+
+            <!-- Pagination Footer -->
+            <div class="pagination-footer" id="paginationFooter">
+                <div class="pagination-info" id="paginationInfo">
+                    Showing 0–0 of 0 fish
+                </div>
+                <div class="pagination-controls" id="paginationControls">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="admin-footer">
+            <p>&copy; 2026 Aquarium Fish Admin Panel. All rights reserved.</p>
+        </footer>
+
+    </main>
+</div>
+
+<!-- VIEW FISH DETAILS MODAL -->
+<div class="modal-backdrop" id="fishDetailsModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-header">
+            <h2>Fish Details</h2>
+            <button class="modal-close-btn" id="closeDetailsModalBtn" aria-label="Close modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-body" id="fishDetailsModalBody">
+            <!-- Populated dynamically -->
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="modalCloseActionBtn">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- LIGHTBOX MODAL -->
+<div class="lightbox-backdrop" id="lightboxModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxCloseBtn" aria-label="Close lightbox">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrevBtn" aria-label="Previous image">
+        <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <div class="lightbox-content">
+        <img id="lightboxImage" src="" alt="Enlarged fish image">
+        <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
+    </div>
+    <button class="lightbox-nav lightbox-next" id="lightboxNextBtn" aria-label="Next image">
+        <i class="fa-solid fa-chevron-right"></i>
+    </button>
+</div>
+
+<!-- DELETE / DEACTIVATE CONFIRMATION MODAL -->
+<div class="modal-backdrop" id="confirmModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-header">
+            <h2 id="confirmModalTitle">Confirm Action</h2>
+            <button class="modal-close-btn" id="closeConfirmModalBtn" aria-label="Close modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-body" id="confirmModalBody">
+            <!-- Populated dynamically -->
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="confirmCancelBtn">Cancel</button>
+            <button class="btn btn-danger" id="confirmActionBtn">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST NOTIFICATIONS CONTAINER -->
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<!-- JavaScript File -->
+<script src="../js/fish.js" defer></script>
+</body>
+</html>

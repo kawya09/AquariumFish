@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Categories - Aquarium Fish</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/categories.css">
+
+    <!-- JavaScript -->
+    <script src="js/categories.js" defer></script>
+</head>
+<body>
+
+<!-- Header & Navigation -->
+<header class="site-header">
+    <nav class="navbar" aria-label="Main Navigation">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-icon"><i class="fa-solid fa-fish-fins"></i></span>
+                <span class="brand-text">Aquarium Fish</span>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="fish.html" class="nav-link">Fish</a>
+                <a href="categories.html" class="nav-link active" aria-current="page">Categories</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="nav-action-btn search-trigger" aria-label="Search website" id="searchTrigger">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <a href="wishlist.html" class="nav-action-btn" aria-label="View Wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="badge wishlist-badge" id="wishlistCount">0</span>
+                </a>
+                <a href="cart.html" class="nav-action-btn" aria-label="View Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="badge cart-badge" id="cartCount">0</span>
+                </a>
+                <div class="account-menu-wrapper" id="accountMenuWrapper">
+                    <button class="nav-action-btn account-trigger" aria-label="Account Options" id="accountTrigger">
+                        <i class="fa-regular fa-user"></i>
+                    </button>
+                    <div class="dropdown-menu" id="accountDropdown">
+                        <!-- Dynamically populated based on auth state -->
+                    </div>
+                </div>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Main Content -->
+<main id="mainContent">
+
+    <!-- Hero Section -->
+    <section class="category-hero" aria-labelledby="heroHeading">
+        <div class="hero-container">
+            <div class="hero-content">
+                <span class="demo-badge" id="demoBadge" style="display: none;"><i class="fa-solid fa-flask"></i> Demo Data Mode</span>
+                <h1 id="heroHeading">Explore Our Fish Categories</h1>
+                <p>Discover beautiful aquarium fish by category and find the perfect species for your aquatic environment.</p>
+
+                <div class="hero-search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="heroSearchInput" placeholder="Search categories (e.g., Tropical, Freshwater)..." aria-label="Search categories">
+                    <button type="button" id="heroSearchBtn">Search</button>
+                </div>
+
+                <div class="hero-cta-group">
+                    <a href="fish.html" class="btn btn-primary">
+                        <i class="fa-solid fa-water"></i> Explore All Fish
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Discovery Section -->
+    <section class="category-discovery-section">
+        <div class="container">
+
+            <!-- Filter & Sort Toolbar -->
+            <div class="filter-toolbar">
+                <div class="filter-group" role="group" aria-label="Category Filters">
+                    <button type="button" class="filter-tag active" data-filter="all">All Categories</button>
+                    <button type="button" class="filter-tag" data-filter="Freshwater">Freshwater</button>
+                    <button type="button" class="filter-tag" data-filter="Saltwater">Saltwater</button>
+                    <button type="button" class="filter-tag" data-filter="Tropical">Tropical</button>
+                    <button type="button" class="filter-tag" data-filter="Community">Community</button>
+                    <button type="button" class="filter-tag" data-filter="Beginner">Beginner Friendly</button>
+                </div>
+
+                <div class="toolbar-controls">
+                    <div class="results-counter" id="resultsCounter" aria-live="polite">
+                        Showing 0 of 0 categories
+                    </div>
+
+                    <div class="sort-wrapper">
+                        <label for="sortSelect" class="sr-only">Sort Categories</label>
+                        <select id="sortSelect" aria-label="Sort Categories">
+                            <option value="name-asc">Name: A-Z</option>
+                            <option value="name-desc">Name: Z-A</option>
+                            <option value="count-desc">Most Fish</option>
+                            <option value="count-asc">Least Fish</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="btn-clear-filters" id="clearFiltersBtn" style="display: none;">
+                        <i class="fa-solid fa-rotate-left"></i> Clear Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading State (Skeletons) -->
+            <div class="category-grid loading-state" id="loadingState">
+                <!-- Skeleton 1 -->
+                <div class="category-card-skeleton">
+                    <div class="skeleton-img"></div>
+                    <div class="skeleton-content">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line text"></div>
+                        <div class="skeleton-line text short"></div>
+                        <div class="skeleton-line button"></div>
+                    </div>
+                </div>
+                <!-- Skeleton 2 -->
+                <div class="category-card-skeleton">
+                    <div class="skeleton-img"></div>
+                    <div class="skeleton-content">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line text"></div>
+                        <div class="skeleton-line text short"></div>
+                        <div class="skeleton-line button"></div>
+                    </div>
+                </div>
+                <!-- Skeleton 3 -->
+                <div class="category-card-skeleton">
+                    <div class="skeleton-img"></div>
+                    <div class="skeleton-content">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line text"></div>
+                        <div class="skeleton-line text short"></div>
+                        <div class="skeleton-line button"></div>
+                    </div>
+                </div>
+                <!-- Skeleton 4 -->
+                <div class="category-card-skeleton">
+                    <div class="skeleton-img"></div>
+                    <div class="skeleton-content">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line text"></div>
+                        <div class="skeleton-line text short"></div>
+                        <div class="skeleton-line button"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Grid Container -->
+            <div class="category-grid" id="categoryGrid" style="display: none;" role="region" aria-label="Categories List">
+                <!-- Dynamically rendered category cards go here -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;" role="region" aria-label="No Categories Found">
+                <div class="empty-icon"><i class="fa-solid fa-fish"></i></div>
+                <h3>No Categories Found</h3>
+                <p>We couldn't find any categories matching your search or filter criteria.</p>
+                <button type="button" class="btn btn-primary" id="emptyClearBtn">Clear Filters & Search</button>
+            </div>
+
+            <!-- Error State -->
+            <div class="error-state" id="errorState" style="display: none;" role="region" aria-label="Error Loading Categories">
+                <div class="error-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <h3>Unable to Load Categories</h3>
+                <p id="errorMessageText">Something went wrong while loading the category list from the server.</p>
+                <button type="button" class="btn btn-primary" id="retryFetchBtn">
+                    <i class="fa-solid fa-rotate-right"></i> Try Again
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Popular Categories Highlight Section -->
+    <section class="popular-categories-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Popular Categories</h2>
+                <p>Hand-picked community favorites for your aquatic journey</p>
+            </div>
+            <div class="popular-grid" id="popularGrid">
+                <!-- Dynamically injected featured categories -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Fish Categories</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Fish Listings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Aquarium Species</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Healthy Selection</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call To Action Section -->
+    <section class="cta-banner-section">
+        <div class="container">
+            <div class="cta-banner-card">
+                <div class="cta-content">
+                    <h2>Find Your Perfect Aquarium Fish</h2>
+                    <p>Explore our complete collection and discover fish that match your unique aquarium setup and water parameters.</p>
+                    <a href="fish.html" class="btn btn-light">
+                        Browse All Fish <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="cta-graphic">
+                    <i class="fa-solid fa-fish-fins"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col brand-col">
+                <a href="index.html" class="footer-brand">
+                    <i class="fa-solid fa-fish-fins"></i> Aquarium Fish
+                </a>
+                <p>Your premier destination for healthy aquarium fish, expert guidance, and top-tier aquatic equipment.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="fish.html">Fish Catalog</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Customer Area</h4>
+                <ul>
+                    <li><a href="profile.html">My Profile</a></li>
+                    <li><a href="orders.html">My Orders</a></li>
+                    <li><a href="cart.html">Shopping Cart</a></li>
+                    <li><a href="wishlist.html">Wishlist</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="faq.html">FAQ & Help</a></li>
+                    <li><a href="shipping.html">Shipping Info</a></li>
+                    <li><a href="returns.html">Returns & Guarantee</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Aquarium Fish. All rights reserved.</p>
+            <div class="footer-legal">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Toast Notifications Container -->
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+</body>
+</html>

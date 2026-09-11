@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Management - Aquarium Fish Admin</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/sellers.css">
+</head>
+<body>
+
+<div class="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <i class="fa-solid fa-fish-fins brand-icon"></i>
+            <div class="brand-text">
+                <h2>Aquarium Fish</h2>
+                <span>Admin Panel</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="admin-dashboard.html" class="nav-item">
+                <i class="fa-solid fa-chart-line"></i> Dashboard
+            </a>
+            <a href="users.html" class="nav-item">
+                <i class="fa-solid fa-users"></i> Users
+            </a>
+            <a href="customers.html" class="nav-item">
+                <i class="fa-solid fa-user-group"></i> Customers
+            </a>
+            <a href="sellers.html" class="nav-item active">
+                <i class="fa-solid fa-store"></i> Sellers
+            </a>
+            <a href="fish.html" class="nav-item">
+                <i class="fa-solid fa-fish"></i> Fish
+            </a>
+            <a href="categories.html" class="nav-item">
+                <i class="fa-solid fa-layer-group"></i> Categories
+            </a>
+            <a href="breeds.html" class="nav-item">
+                <i class="fa-solid fa-dna"></i> Breeds
+            </a>
+            <a href="sizes.html" class="nav-item">
+                <i class="fa-solid fa-ruler"></i> Sizes
+            </a>
+            <a href="colors.html" class="nav-item">
+                <i class="fa-solid fa-palette"></i> Colors
+            </a>
+            <a href="orders.html" class="nav-item">
+                <i class="fa-solid fa-box"></i> Orders
+            </a>
+            <a href="payments.html" class="nav-item">
+                <i class="fa-solid fa-credit-card"></i> Payments
+            </a>
+            <a href="deliveries.html" class="nav-item">
+                <i class="fa-solid fa-truck"></i> Deliveries
+            </a>
+            <a href="reviews.html" class="nav-item">
+                <i class="fa-solid fa-star"></i> Reviews
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div id="demoBadgeContainer"></div>
+        </div>
+    </aside>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Top Header -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="mobile-toggle-btn" id="mobileToggleBtn" aria-label="Toggle Sidebar">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="breadcrumb-container">
+                    <span class="breadcrumb-root">Admin</span>
+                    <i class="fa-solid fa-chevron-right separator"></i>
+                    <span class="breadcrumb-current">Sellers</span>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <button class="topbar-btn" id="refreshBtn" title="Refresh Data" aria-label="Refresh Data">
+                    <i class="fa-solid fa-rotate"></i>
+                </button>
+                <button class="topbar-btn" id="exportCsvBtn" title="Export CSV" aria-label="Export CSV">
+                    <i class="fa-solid fa-file-csv"></i>
+                </button>
+                <div class="notification-badge-wrapper">
+                    <button class="topbar-btn" id="notificationBtn" aria-label="Notifications">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge-dot"></span>
+                    </button>
+                </div>
+                <div class="admin-profile">
+                    <div class="admin-avatar">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div class="admin-meta">
+                        <span class="admin-name">Super Admin</span>
+                        <span class="admin-role">Administrator</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+
+            <!-- Page Header Section -->
+            <section class="page-header">
+                <div class="page-title-group">
+                    <h1>Seller Management</h1>
+                    <p>Manage seller accounts, shops, listings, and seller activity.</p>
+                </div>
+                <div class="page-actions">
+                    <button class="btn btn-primary" id="exportCsvTopBtn">
+                        <i class="fa-solid fa-download"></i> Export CSV
+                    </button>
+                </div>
+            </section>
+
+            <!-- Statistics Cards Grid -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon-wrap bg-primary">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Total Sellers</span>
+                        <h2 class="stat-value" id="statTotalSellers">0</h2>
+                        <span class="stat-support">Registered shops</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon-wrap bg-success">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Active Sellers</span>
+                        <h2 class="stat-value" id="statActiveSellers">0</h2>
+                        <span class="stat-support">Fully operational</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon-wrap bg-warning">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Suspended / Inactive</span>
+                        <h2 class="stat-value" id="statInactiveSellers">0</h2>
+                        <span class="stat-support">Action restricted</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon-wrap bg-info">
+                        <i class="fa-solid fa-fish"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Total Listings</span>
+                        <h2 class="stat-value" id="statTotalListings">0</h2>
+                        <span class="stat-support">Seller fish pool</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filters & Search Card -->
+            <section class="filters-card">
+                <div class="search-row">
+                    <div class="search-input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="searchInput" class="search-input" placeholder="Search sellers by shop, name, email or username...">
+                    </div>
+                    <div class="sorting-wrapper">
+                        <label for="sortSelect">Sort By:</label>
+                        <select id="sortSelect" class="form-select">
+                            <option value="NEWEST">Newest First</option>
+                            <option value="OLDEST">Oldest First</option>
+                            <option value="SHOP_AZ">Shop Name A-Z</option>
+                            <option value="SHOP_ZA">Shop Name Z-A</option>
+                            <option value="MOST_LISTINGS">Most Listings</option>
+                            <option value="LEAST_LISTINGS">Least Listings</option>
+                            <option value="HIGHEST_STOCK">Highest Stock</option>
+                            <option value="LOWEST_STOCK">Lowest Stock</option>
+                            <option value="HIGHEST_SALES">Highest Sales</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="filters-row">
+                    <div class="filter-group">
+                        <select id="statusFilter" class="form-select">
+                            <option value="ALL">All Statuses</option>
+                            <option value="ACTIVE">Active</option>
+                            <option value="INACTIVE">Inactive</option>
+                            <option value="SUSPENDED">Suspended</option>
+                            <option value="PENDING">Pending</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <select id="activityFilter" class="form-select">
+                            <option value="ALL">All Sellers</option>
+                            <option value="ACTIVE_LISTINGS">Active Listings</option>
+                            <option value="NO_LISTINGS">No Listings</option>
+                            <option value="LOW_STOCK">Low Stock</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <select id="sizeFilter" class="form-select">
+                            <option value="ALL">All Shop Sizes</option>
+                            <option value="RANGE_1_5">1–5 Listings</option>
+                            <option value="RANGE_6_20">6–20 Listings</option>
+                            <option value="RANGE_21_PLUS">21+ Listings</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <select id="dateFilter" class="form-select">
+                            <option value="ALL">Any Registration Date</option>
+                            <option value="TODAY">Today</option>
+                            <option value="LAST_7">Last 7 Days</option>
+                            <option value="LAST_30">Last 30 Days</option>
+                            <option value="LAST_90">Last 90 Days</option>
+                            <option value="THIS_YEAR">This Year</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-actions">
+                        <button id="applyFiltersBtn" class="btn btn-secondary">
+                            <i class="fa-solid fa-filter"></i> Apply Filters
+                        </button>
+                        <button id="clearFiltersBtn" class="btn btn-text">
+                            <i class="fa-solid fa-xmark"></i> Clear
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seller Management Table Card -->
+            <section class="seller-management-card">
+                <div class="card-header-row">
+                    <h3>Sellers Directory</h3>
+                    <span id="resultCountBadge" class="result-count-badge">0 Sellers Found</span>
+                </div>
+
+                <!-- Table Container -->
+                <div class="table-responsive">
+                    <table class="admin-table" id="sellersTable">
+                        <thead>
+                        <tr>
+                            <th>Seller / Shop</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Listings</th>
+                            <th>Stock</th>
+                            <th>Orders</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="sellersTableBody">
+                        <!-- Dynamic Render Rows -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile Card Container -->
+                <div class="mobile-cards-container" id="mobileCardsContainer">
+                    <!-- Dynamic Mobile Cards -->
+                </div>
+
+                <!-- Loading State Container -->
+                <div id="loadingState" class="state-container hidden">
+                    <div class="spinner"></div>
+                    <p>Loading sellers...</p>
+                </div>
+
+                <!-- Empty State Container -->
+                <div id="emptyState" class="state-container hidden">
+                    <i class="fa-solid fa-store-slash empty-icon"></i>
+                    <h4>No sellers found</h4>
+                    <p>Try adjusting your search or filters.</p>
+                    <button id="emptyClearBtn" class="btn btn-secondary">Clear Filters</button>
+                </div>
+
+                <!-- Error State Container -->
+                <div id="errorState" class="state-container hidden">
+                    <i class="fa-solid fa-triangle-exclamation error-icon"></i>
+                    <h4>Unable to load sellers</h4>
+                    <p>Something went wrong while retrieving seller information.</p>
+                    <button id="errorRetryBtn" class="btn btn-primary">Retry</button>
+                </div>
+
+                <!-- Pagination Footer -->
+                <div class="pagination-footer" id="paginationFooter">
+                    <div class="pagination-info" id="paginationInfo">
+                        Showing 0–0 of 0 sellers
+                    </div>
+                    <div class="pagination-controls" id="paginationControls">
+                        <!-- Dynamic Pagination -->
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 Aquarium Fish Admin Panel</p>
+        </footer>
+
+    </div>
+</div>
+
+<!-- Seller Details Modal -->
+<div class="modal-overlay" id="sellerDetailsModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Seller Details</h3>
+                <button class="modal-close-btn" id="closeDetailsModalBtn" aria-label="Close Modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="sellerDetailsModalBody">
+                <!-- Populated dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="detailsModalCloseBtn">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Seller Status Update Modal -->
+<div class="modal-overlay" id="statusModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Change Seller Account Status</h3>
+                <button class="modal-close-btn" id="closeStatusModalBtn" aria-label="Close Modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="statusModalBody">
+                <div class="status-target-info" id="statusTargetInfo">
+                    <!-- Populated dynamically -->
+                </div>
+                <div class="form-group mt-3">
+                    <label for="newStatusSelect">New status:</label>
+                    <select id="newStatusSelect" class="form-select">
+                        <option value="ACTIVE">Active</option>
+                        <option value="INACTIVE">Inactive</option>
+                        <option value="SUSPENDED">Suspended</option>
+                        <option value="PENDING">Pending</option>
+                    </select>
+                </div>
+                <div class="warning-box mt-3">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>Changing the seller's account status may affect their ability to access the seller panel and manage listings.</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-text" id="statusModalCancelBtn">Cancel</button>
+                <button class="btn btn-primary" id="confirmStatusUpdateBtn">Update Status</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+<!-- JavaScript Execution -->
+<script src="../js/sellers.js" defer></script>
+</body>
+</html>
