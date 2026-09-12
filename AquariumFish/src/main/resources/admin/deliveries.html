@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Deliveries | Aquarium Fish</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/deliveries.css">
+</head>
+<body>
+<!-- Navbar -->
+<header class="header">
+    <div class="nav-container">
+        <a href="index.html" class="logo">
+            <i class="fa-solid fa-fish-fins"></i>
+            <span>Aquarium Fish</span>
+        </a>
+
+        <nav class="nav-menu" id="navMenu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="fish.html" class="nav-link">Fish</a>
+            <a href="categories.html" class="nav-link">Categories</a>
+            <a href="breeds.html" class="nav-link">Breeds</a>
+            <a href="sizes.html" class="nav-link">Sizes</a>
+            <a href="colors.html" class="nav-link">Colors</a>
+            <a href="index.html#about" class="nav-link">About</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="fish.html?search=" class="nav-icon-btn" aria-label="Search"><i class="fa-solid fa-search"></i></a>
+            <a href="wishlist.html" class="nav-icon-btn" aria-label="Wishlist"><i class="fa-regular fa-heart"></i></a>
+            <a href="cart.html" class="nav-icon-btn cart-btn" aria-label="Cart">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </a>
+            <div class="account-dropdown">
+                <button class="nav-icon-btn active" aria-label="Account Menu"><i class="fa-regular fa-user"></i></button>
+                <div class="dropdown-menu">
+                    <a href="profile.html"><i class="fa-solid fa-id-card"></i> My Profile</a>
+                    <a href="orders.html"><i class="fa-solid fa-box-open"></i> My Orders</a>
+                    <a href="deliveries.html" class="active"><i class="fa-solid fa-truck-fast"></i> My Deliveries</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                </div>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">My Deliveries</li>
+            </ol>
+        </nav>
+
+        <!-- Page Header -->
+        <div class="page-header-wrapper">
+            <div class="page-header">
+                <div class="header-text">
+                    <h1>My Deliveries <span id="demoBadge" class="demo-badge" style="display: none;">Demo Data</span></h1>
+                    <p>Track your aquarium fish orders and stay updated on every delivery.</p>
+                </div>
+                <div class="header-icon">
+                    <i class="fa-solid fa-truck-fast"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Statistics -->
+        <section class="stats-grid" aria-label="Delivery Statistics">
+            <div class="stat-card">
+                <div class="stat-icon total"><i class="fa-solid fa-boxes-stacked"></i></div>
+                <div class="stat-info">
+                    <span class="stat-value" id="statTotal">0</span>
+                    <span class="stat-label">Total Deliveries</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon transit"><i class="fa-solid fa-truck-arrow-right"></i></div>
+                <div class="stat-info">
+                    <span class="stat-value" id="statTransit">0</span>
+                    <span class="stat-label">In Transit</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon out"><i class="fa-solid fa-motorcycle"></i></div>
+                <div class="stat-info">
+                    <span class="stat-value" id="statOut">0</span>
+                    <span class="stat-label">Out for Delivery</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon delivered"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="stat-info">
+                    <span class="stat-value" id="statDelivered">0</span>
+                    <span class="stat-label">Delivered</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search and Filter Toolbar -->
+        <section class="filter-toolbar" aria-label="Filter Deliveries">
+            <div class="search-box">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search by tracking number, order number, or fish name..." aria-label="Search deliveries">
+            </div>
+            <div class="filter-controls">
+                <div class="select-wrapper">
+                    <select id="statusFilter" aria-label="Filter by status">
+                        <option value="">All Statuses</option>
+                        <option value="PENDING">Pending</option>
+                        <option value="PROCESSING">Processing</option>
+                        <option value="SHIPPED">Shipped</option>
+                        <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
+                        <option value="DELIVERED">Delivered</option>
+                        <option value="CANCELLED">Cancelled</option>
+                        <option value="FAILED">Failed</option>
+                    </select>
+                </div>
+                <div class="select-wrapper">
+                    <select id="dateFilter" aria-label="Filter by date range">
+                        <option value="">All Dates</option>
+                        <option value="7">Last 7 Days</option>
+                        <option value="30">Last 30 Days</option>
+                        <option value="90">Last 3 Months</option>
+                        <option value="180">Last 6 Months</option>
+                        <option value="365">This Year</option>
+                    </select>
+                </div>
+                <div class="select-wrapper">
+                    <select id="sortFilter" aria-label="Sort deliveries">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="delivery-latest">Latest Delivery First</option>
+                        <option value="delivery-earliest">Earliest Delivery First</option>
+                    </select>
+                </div>
+                <button class="btn-secondary" id="clearFiltersBtn">
+                    <i class="fa-solid fa-rotate-left"></i> Clear Filters
+                </button>
+            </div>
+        </section>
+
+        <!-- Deliveries Container / States -->
+        <div id="deliveriesContainer">
+            <!-- Loading State -->
+            <div id="loadingState" class="state-container">
+                <div class="spinner"></div>
+                <p>Loading your deliveries...</p>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="state-container" style="display: none;">
+                <div class="state-icon-large"><i class="fa-solid fa-fish"></i></div>
+                <h3>No deliveries yet</h3>
+                <p>Your delivery information will appear here once you place an order.</p>
+                <a href="fish.html" class="btn-primary">Browse Fish</a>
+            </div>
+
+            <!-- No Results State -->
+            <div id="noResultsState" class="state-container" style="display: none;">
+                <div class="state-icon-large"><i class="fa-solid fa-magnifying-glass"></i></div>
+                <h3>No matching deliveries</h3>
+                <p>We couldn't find any deliveries matching your current filters.</p>
+                <button class="btn-primary" id="resetFiltersBtn">Clear Filters</button>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="state-container" style="display: none;">
+                <div class="state-icon-large error"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <h3>Unable to load deliveries</h3>
+                <p id="errorMessage">We couldn't retrieve your delivery information right now. Please try again.</p>
+                <button class="btn-primary" id="retryBtn">Try Again</button>
+            </div>
+
+            <!-- Deliveries List Grid -->
+            <div id="deliveriesList" class="deliveries-list" style="display: none;"></div>
+
+            <!-- Pagination -->
+            <div id="paginationContainer" class="pagination-container" style="display: none;"></div>
+        </div>
+    </div>
+</main>
+
+<!-- Delivery Details Modal -->
+<div id="deliveryModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" style="display: none;">
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Delivery Details</h3>
+            <button class="modal-close" id="modalCloseBtn" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body" id="modalBody">
+            <!-- Dynamically populated -->
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" id="modalCopyBtn"><i class="fa-regular fa-copy"></i> Copy Tracking Number</button>
+            <a href="#" id="modalViewOrderBtn" class="btn-primary">View Order</a>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification Container -->
+<div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container footer-container">
+        <div class="footer-col">
+            <div class="footer-logo">
+                <i class="fa-solid fa-fish-fins"></i>
+                <span>Aquarium Fish</span>
+            </div>
+            <p>Your trusted online destination for premium aquarium fish, healthy aquatic plants, and top-tier tank supplies.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" aria-label="Youtube"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="fish.html">Fish</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="orders.html">My Orders</a></li>
+                <li><a href="deliveries.html">My Deliveries</a></li>
+                <li><a href="profile.html">My Profile</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Customer Support</h4>
+            <ul>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="deliveries.html">Delivery Information</a></li>
+                <li><a href="returns.html">Returns & Refunds</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Newsletter</h4>
+            <p>Subscribe for care guides, new exotic arrivals, and special delivery updates.</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Subscribed successfully!', 'success');">
+                <input type="email" placeholder="Your email address" required aria-label="Email for newsletter">
+                <button type="submit" class="btn-primary">Join</button>
+            </form>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 Aquarium Fish. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="js/deliveries.js"></script>
+</body>
+</html>

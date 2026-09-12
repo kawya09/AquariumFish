@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - Aquarium Fish</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="orders.css">
+</head>
+<body>
+
+<!-- Top Announcement Bar -->
+<div class="announcement-bar">
+    <span><i class="fa-solid fa-water"></i> Island-wide live delivery with 100% health guarantee!</span>
+</div>
+
+<!-- Global Navbar -->
+<header class="navbar-header" id="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="logo">
+            <i class="fa-solid fa-fish-fins logo-icon"></i>
+            <span class="logo-text">Aquarium Fish</span>
+        </a>
+
+        <nav class="nav-menu" id="navMenu">
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="fish.html" class="nav-link">Fish</a></li>
+                <li><a href="categories.html" class="nav-link">Categories</a></li>
+                <li><a href="breeds.html" class="nav-link">Breeds</a></li>
+                <li><a href="sizes.html" class="nav-link">Sizes</a></li>
+                <li><a href="colors.html" class="nav-link">Colors</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-right">
+            <a href="fish.html?search=" class="nav-icon-btn" aria-label="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </a>
+            <a href="wishlist.html" class="nav-icon-btn" aria-label="Wishlist">
+                <i class="fa-regular fa-heart"></i>
+            </a>
+            <a href="cart.html" class="nav-icon-btn cart-btn" aria-label="Cart">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </a>
+            <div class="user-menu-wrapper" id="userMenuWrapper">
+                <button class="nav-icon-btn user-btn" id="userMenuBtn" aria-expanded="false" aria-label="Account Menu">
+                    <i class="fa-solid fa-user"></i>
+                </button>
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="dropdown-header">
+                        <span class="dropdown-user-name" id="dropdownUserName">Hiruni Kawya</span>
+                        <span class="dropdown-user-email">customer@aquariumfish.lk</span>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a href="profile.html" class="dropdown-item"><i class="fa-solid fa-user-pen"></i> My Profile</a>
+                    <a href="orders.html" class="dropdown-item active"><i class="fa-solid fa-box-archive"></i> My Orders</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item text-danger" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                </div>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content Container -->
+<main class="main-content">
+
+    <!-- Breadcrumb & Header -->
+    <section class="page-header-section">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="index.html">Home</a>
+                <i class="fa-solid fa-chevron-right separator"></i>
+                <span class="current">My Orders</span>
+            </nav>
+            <div class="header-flex">
+                <div>
+                    <h1 class="page-title">
+                        My Orders
+                        <span class="demo-badge" id="demoBadge" style="display: none;" title="Mock Mode Active">
+                                <i class="fa-solid fa-flask"></i> Demo Data
+                            </span>
+                    </h1>
+                    <p class="page-subtitle">View and manage your aquarium fish orders in one place.</p>
+                </div>
+                <div class="header-ocean-icon">
+                    <i class="fa-solid fa-water"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Summary Statistics -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid" id="statsGrid">
+                <!-- Stat Card 1: Total Orders -->
+                <div class="stat-card">
+                    <div class="stat-icon total">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Orders</span>
+                        <h3 class="stat-value" id="statTotalOrders">--</h3>
+                    </div>
+                </div>
+                <!-- Stat Card 2: Pending -->
+                <div class="stat-card">
+                    <div class="stat-icon pending">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Pending</span>
+                        <h3 class="stat-value" id="statPendingOrders">--</h3>
+                    </div>
+                </div>
+                <!-- Stat Card 3: In Progress -->
+                <div class="stat-card">
+                    <div class="stat-icon progress">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">In Progress</span>
+                        <h3 class="stat-value" id="statInProgressOrders">--</h3>
+                    </div>
+                </div>
+                <!-- Stat Card 4: Delivered -->
+                <div class="stat-card">
+                    <div class="stat-icon delivered">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Delivered</span>
+                        <h3 class="stat-value" id="statDeliveredOrders">--</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search and Filter Toolbar Section -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="filter-card">
+                <div class="search-bar-wrapper">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search by order number or fish name..." aria-label="Search orders">
+                    <button class="search-clear-btn" id="searchClearBtn" style="display: none;" aria-label="Clear search">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="filter-controls-grid">
+                    <div class="filter-group">
+                        <label for="statusFilter">Status</label>
+                        <select id="statusFilter" class="filter-select">
+                            <option value="ALL">All Statuses</option>
+                            <option value="PENDING">Pending</option>
+                            <option value="CONFIRMED">Confirmed</option>
+                            <option value="PROCESSING">Processing</option>
+                            <option value="SHIPPED">Shipped</option>
+                            <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
+                            <option value="DELIVERED">Delivered</option>
+                            <option value="CANCELLED">Cancelled</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="paymentFilter">Payment</label>
+                        <select id="paymentFilter" class="filter-select">
+                            <option value="ALL">All Payments</option>
+                            <option value="PENDING">Pending</option>
+                            <option value="PAID">Paid</option>
+                            <option value="FAILED">Failed</option>
+                            <option value="REFUNDED">Refunded</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="deliveryFilter">Delivery</label>
+                        <select id="deliveryFilter" class="filter-select">
+                            <option value="ALL">All Delivery Statuses</option>
+                            <option value="PENDING">Pending</option>
+                            <option value="PROCESSING">Processing</option>
+                            <option value="SHIPPED">Shipped</option>
+                            <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
+                            <option value="DELIVERED">Delivered</option>
+                            <option value="CANCELLED">Cancelled</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="dateFilter">Date Range</label>
+                        <select id="dateFilter" class="filter-select">
+                            <option value="ALL">All Dates</option>
+                            <option value="7">Last 7 Days</option>
+                            <option value="30">Last 30 Days</option>
+                            <option value="90">Last 3 Months</option>
+                            <option value="180">Last 6 Months</option>
+                            <option value="365">This Year</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="sortFilter">Sort By</label>
+                        <select id="sortFilter" class="filter-select">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="highest">Highest Total</option>
+                            <option value="lowest">Lowest Total</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="filter-actions-bar">
+                    <span class="results-count" id="resultsCount">Showing 0 orders</span>
+                    <button class="btn btn-outline-secondary btn-sm" id="clearFiltersBtn">
+                        <i class="fa-solid fa-rotate-left"></i> Clear Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Orders List Container -->
+    <section class="orders-list-section">
+        <div class="container">
+
+            <!-- Loading State (Skeleton) -->
+            <div id="loadingState" class="orders-loading-container" style="display: none;">
+                <div class="order-skeleton-card">
+                    <div class="skeleton-header"></div>
+                    <div class="skeleton-body"></div>
+                    <div class="skeleton-footer"></div>
+                </div>
+                <div class="order-skeleton-card">
+                    <div class="skeleton-header"></div>
+                    <div class="skeleton-body"></div>
+                    <div class="skeleton-footer"></div>
+                </div>
+                <div class="order-skeleton-card">
+                    <div class="skeleton-header"></div>
+                    <div class="skeleton-body"></div>
+                    <div class="skeleton-footer"></div>
+                </div>
+            </div>
+
+            <!-- Empty State: No Orders At All -->
+            <div id="emptyState" class="empty-state-container" style="display: none;">
+                <div class="empty-icon-wrapper">
+                    <i class="fa-solid fa-fish-fins"></i>
+                </div>
+                <h2>No orders yet</h2>
+                <p>You haven't placed an order yet. Explore our aquarium fish collection and find your next aquatic companion.</p>
+                <a href="fish.html" class="btn btn-primary btn-lg">
+                    <i class="fa-solid fa-magnifying-glass"></i> Browse Fish
+                </a>
+            </div>
+
+            <!-- No Search Results State -->
+            <div id="noResultsState" class="empty-state-container" style="display: none;">
+                <div class="empty-icon-wrapper">
+                    <i class="fa-solid fa-filter-circle-xmark"></i>
+                </div>
+                <h2>No matching orders</h2>
+                <p>We couldn't find any orders matching your current filters or search query.</p>
+                <div class="empty-action-buttons">
+                    <button class="btn btn-outline-primary" id="resetSearchFiltersBtn">
+                        <i class="fa-solid fa-rotate-left"></i> Clear Filters
+                    </button>
+                    <a href="orders.html" class="btn btn-primary">
+                        Browse All Orders
+                    </a>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="empty-state-container error-state" style="display: none;">
+                <div class="empty-icon-wrapper error">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h2>Unable to load orders</h2>
+                <p id="errorMessageText">We couldn't retrieve your orders right now. Please try again.</p>
+                <button class="btn btn-primary" id="retryFetchBtn">
+                    <i class="fa-solid fa-rotate"></i> Try Again
+                </button>
+            </div>
+
+            <!-- Actual Dynamic Orders List -->
+            <div class="orders-grid" id="ordersGrid">
+                <!-- Dynamic Order Cards will be injected here -->
+            </div>
+
+            <!-- Pagination Container -->
+            <div class="pagination-container" id="paginationContainer" style="display: none;">
+                <button class="pagination-btn" id="prevPageBtn" disabled>
+                    <i class="fa-solid fa-chevron-left"></i> Previous
+                </button>
+                <div class="pagination-numbers" id="paginationNumbers">
+                    <!-- Dynamic page numbers -->
+                </div>
+                <button class="pagination-btn" id="nextPageBtn">
+                    Next <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<!-- Order Quick View / Details Modal -->
+<div class="modal-backdrop" id="orderModalBackdrop" aria-hidden="true">
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-header">
+            <div>
+                <span class="modal-subtitle" id="modalOrderDate">Ordered on Sep 05, 2026</span>
+                <h3 id="modalTitle">Order #AQ-2026-00125</h3>
+            </div>
+            <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-body" id="modalBodyContent">
+            <!-- Dynamically populated order details modal content -->
+        </div>
+        <div class="modal-footer" id="modalFooterActions">
+            <!-- Dynamically populated action buttons -->
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Modal (e.g., Cancel Order) -->
+<div class="modal-backdrop" id="confirmModalBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+        <div class="modal-header">
+            <h3 id="confirmModalTitle">Cancel Order?</h3>
+            <button class="modal-close-btn" id="confirmModalCloseBtn" aria-label="Close modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p id="confirmModalMessage">Are you sure you want to cancel this order?</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline-secondary" id="confirmModalCancelBtn">Keep Order</button>
+            <button class="btn btn-danger" id="confirmModalConfirmBtn">Cancel Order</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notifications Container -->
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <i class="fa-solid fa-fish-fins"></i>
+                    <span>Aquarium Fish</span>
+                </div>
+                <p class="footer-desc">Your premier online marketplace for exotic aquarium fish, aquatic plants, and premium supplies with 100% live arrival guarantee.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-title">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="fish.html">Browse Fish</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="orders.html">My Orders</a></li>
+                    <li><a href="profile.html">My Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-title">Customer Support</h4>
+                <ul class="footer-links">
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="delivery-info.html">Delivery Information</a></li>
+                    <li><a href="returns.html">Returns & Health Policy</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-title">Newsletter</h4>
+                <p class="footer-desc">Subscribe for new fish arrivals, care tips, and exclusive discounts.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed successfully!');">
+                    <input type="email" placeholder="Enter your email" required class="newsletter-input" aria-label="Email address">
+                    <button type="submit" class="btn btn-primary">Join</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Aquarium Fish. All rights reserved.</p>
+            <div class="footer-payment-icons">
+                <i class="fa-brands fa-cc-visa" title="Visa"></i>
+                <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+                <i class="fa-solid fa-money-bill-wave" title="Cash on Delivery"></i>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="js/orders.js"></script>
+</body>
+</html>

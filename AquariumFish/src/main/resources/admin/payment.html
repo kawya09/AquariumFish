@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment — Aquarium Fish</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/payment.css">
+</head>
+<body>
+
+<!-- Global Navbar -->
+<header class="site-header">
+    <div class="top-bar" id="demoModeBanner" style="display: none;">
+        <div class="container flex-between">
+            <span><i class="fa-solid fa-triangle-exclamation"></i> Demo Payment Mode — No real transaction will occur.</span>
+            <span id="demoBadge" class="badge-demo">DEMO ACTIVE</span>
+        </div>
+    </div>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="nav-brand">
+                <i class="fa-solid fa-fish-fins"></i> Aquarium Fish
+            </a>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="fish.html">Fish</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="breeds.html">Breeds</a></li>
+                    <li><a href="sizes.html">Sizes</a></li>
+                    <li><a href="colors.html">Colors</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="search.html" class="nav-icon-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></a>
+                    <a href="wishlist.html" class="nav-icon-btn" aria-label="Wishlist"><i class="fa-solid fa-heart"></i></a>
+                    <a href="cart.html" class="nav-icon-btn cart-btn" aria-label="Cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="cart-badge" id="cartBadge">0</span>
+                    </a>
+                    <div class="account-dropdown-wrapper">
+                        <button class="nav-icon-btn account-trigger" aria-label="Account"><i class="fa-solid fa-user"></i></button>
+                        <div class="account-dropdown">
+                            <a href="profile.html">My Profile</a>
+                            <a href="orders.html">My Orders</a>
+                            <a href="#" id="logoutBtn">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="container">
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="cart.html">Cart</a> /
+            <a href="checkout.html">Checkout</a> /
+            <span class="current" aria-current="page">Payment</span>
+        </nav>
+
+        <!-- Checkout Progress Indicator -->
+        <div class="checkout-progress" aria-label="Checkout Progress">
+            <div class="progress-step completed">
+                <span class="step-icon"><i class="fa-solid fa-check"></i></span>
+                <span class="step-label">Cart</span>
+            </div>
+            <div class="progress-line completed"></div>
+            <div class="progress-step completed">
+                <span class="step-icon"><i class="fa-solid fa-check"></i></span>
+                <span class="step-label">Checkout</span>
+            </div>
+            <div class="progress-line completed"></div>
+            <div class="progress-step active">
+                <span class="step-icon">3</span>
+                <span class="step-label">Payment</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step">
+                <span class="step-icon">4</span>
+                <span class="step-label">Complete</span>
+            </div>
+        </div>
+
+        <!-- Page Header -->
+        <header class="page-header">
+            <div>
+                <h1 class="page-title">Secure Payment</h1>
+                <p class="page-subtitle">Complete your payment securely to place your aquarium fish order.</p>
+            </div>
+            <div class="security-badge-header">
+                <i class="fa-solid fa-lock"></i> Secure Checkout
+            </div>
+        </header>
+
+        <!-- Loading State Container -->
+        <div id="loadingContainer" class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading order information...</p>
+        </div>
+
+        <!-- Error State Container -->
+        <div id="errorContainer" class="error-state" style="display: none;">
+            <div class="error-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h2 id="errorTitle">Payment Information Unavailable</h2>
+            <p id="errorMessage">We couldn't identify the order you want to pay for.</p>
+            <a href="orders.html" class="btn btn-primary" id="errorActionBtn">Back to Orders</a>
+        </div>
+
+        <!-- Main Payment Workspace -->
+        <div id="paymentWorkspace" class="payment-workspace" style="display: none;">
+
+            <!-- Left Column: Payment Methods & Actions -->
+            <div class="payment-left-col">
+
+                <!-- Dynamic Status Banner / State Panels -->
+                <div id="statusBanner" class="status-banner" style="display: none;"></div>
+
+                <!-- Payment Methods Card -->
+                <div class="card payment-methods-card" id="paymentMethodsCard">
+                    <h2 class="card-title">Select Payment Method</h2>
+
+                    <div class="payment-methods-list" id="paymentMethodsList">
+                        <!-- Injected dynamically based on availability -->
+                    </div>
+
+                    <!-- Gateway Placeholder Area (Online) -->
+                    <div id="gatewayPlaceholder" class="gateway-placeholder" style="display: none;">
+                        <div class="gateway-header">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>Secure Payment Gateway</span>
+                        </div>
+                        <p class="gateway-desc">Your payment details will be handled by the secure payment provider in a hosted or tokenized environment.</p>
+                        <!-- TODO: Replace this placeholder with official hosted/tokenized gateway integration when selected. -->
+                    </div>
+
+                    <!-- COD Notice Area -->
+                    <div id="codNotice" class="cod-notice" style="display: none;">
+                        <div class="cod-header">
+                            <i class="fa-solid fa-truck-fast"></i>
+                            <span>Cash on Delivery Active</span>
+                        </div>
+                        <p>You will pay with cash when your aquarium fish order is safely delivered to your address.</p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="payment-actions">
+                        <a href="#" id="backToCheckoutBtn" class="btn btn-outline"><i class="fa-solid fa-arrow-left"></i> Back to Checkout</a>
+                        <button type="button" id="proceedPaymentBtn" class="btn btn-primary btn-lg" disabled>
+                            <span class="btn-text">Continue to Secure Payment</span>
+                            <span class="spinner-small" style="display: none;"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Trust / Security Information -->
+                <div class="card security-trust-card">
+                    <div class="security-trust-content">
+                        <i class="fa-solid fa-lock security-icon"></i>
+                        <div>
+                            <h3>Secure Checkout Guarantee</h3>
+                            <p>Your payment is processed securely through our verified payment partners. Aquarium Fish never stores your card PIN, CVV, OTP, or banking password.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Order Summary & Delivery Info -->
+            <div class="payment-right-col">
+
+                <!-- Order Summary Card -->
+                <div class="card order-summary-card">
+                    <h2 class="card-title">Order Summary</h2>
+                    <div class="order-id-display" id="summaryOrderId">Order #---</div>
+
+                    <div class="order-items-list" id="orderItemsList">
+                        <!-- Dynamic Items -->
+                    </div>
+
+                    <div class="order-totals">
+                        <div class="total-row">
+                            <span>Subtotal</span>
+                            <span id="summarySubtotal">LKR 0.00</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Delivery Fee</span>
+                            <span id="summaryDeliveryFee">LKR 0.00</span>
+                        </div>
+                        <div class="total-row grand-total">
+                            <span>Total Amount</span>
+                            <span id="summaryTotalAmount">LKR 0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delivery Information Card -->
+                <div class="card delivery-info-card">
+                    <h3 class="card-subtitle"><i class="fa-solid fa-location-dot"></i> Delivery Address</h3>
+                    <div id="deliveryDetailsContent" class="delivery-details-text">
+                        Loading delivery details...
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</main>
+
+<!-- Global Footer -->
+<footer class="site-footer">
+    <div class="container footer-container">
+        <div class="footer-col">
+            <a href="index.html" class="footer-brand"><i class="fa-solid fa-fish-fins"></i> Aquarium Fish</a>
+            <p class="footer-desc">Your premier destination for exotic aquatic life, premium tanks, and professional aquarium supplies.</p>
+        </div>
+        <div class="footer-col">
+            <h4 class="footer-heading">Quick Links</h4>
+            <ul class="footer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="fish.html">Fish</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="orders.html">My Orders</a></li>
+                <li><a href="profile.html">My Profile</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4 class="footer-heading">Customer Support</h4>
+            <ul class="footer-links">
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="delivery.html">Delivery Information</a></li>
+                <li><a href="returns.html">Returns & Refunds</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4 class="footer-heading">Secure Payments</h4>
+            <p class="footer-desc">We support trusted payment gateways and secure cash-on-delivery options.</p>
+            <div class="payment-icons">
+                <i class="fa-brands fa-cc-visa"></i>
+                <i class="fa-brands fa-cc-mastercard"></i>
+                <i class="fa-solid fa-money-bill-wave"></i>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <p>&copy; 2026 Aquarium Fish. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Toast Notification Container -->
+<div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+<!-- Custom Script -->
+<script src="js/payment.js"></script>
+</body>
+</html>

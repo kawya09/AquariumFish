@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Reviews - Aquarium Fish</title>
+    <link rel="stylesheet" href="css/reviews.css">
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Header & Navigation -->
+<header class="site-header">
+    <div class="top-announcement" id="demoModeBadge" style="display: none;">
+        <i class="fa-solid fa-flask"><span>Demo Data Mode Active</span></i>
+    </div>
+    <div class="nav-container">
+        <a href="index.html" class="brand-logo">
+            <i class="fa-solid fa-fish-fins"></i>
+            <span>Aquarium Fish</span>
+        </a>
+
+        <nav class="main-nav" id="mainNav">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="fish.html">Fish</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="breeds.html">Breeds</a></li>
+                <li><a href="sizes.html">Sizes</a></li>
+                <li><a href="colors.html">Colors</a></li>
+                <li><a href="index.html#about">About</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="fish.html" class="action-btn search-trigger" aria-label="Search Fish">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </a>
+            <a href="cart.html" class="action-btn cart-btn" aria-label="Cart">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span class="cart-badge" id="cartCount">0</span>
+            </a>
+            <div class="profile-dropdown-container">
+                <button class="action-btn profile-btn active" id="profileDropdownBtn" aria-expanded="false" aria-label="Account Menu">
+                    <i class="fa-solid fa-user"></i>
+                </button>
+                <div class="dropdown-menu" id="profileDropdown">
+                    <a href="profile.html"><i class="fa-solid fa-id-card"></i> My Profile</a>
+                    <a href="orders.html"><i class="fa-solid fa-box"></i> My Orders</a>
+                    <a href="deliveries.html"><i class="fa-solid fa-truck"></i> My Deliveries</a>
+                    <a href="reviews.html" class="active"><i class="fa-solid fa-star"></i> My Reviews</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                </div>
+            </div>
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Mobile Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-content">
+    <!-- Breadcrumb & Header -->
+    <section class="page-header-section">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="breadcrumb">
+                <a href="index.html">Home</a> / <span aria-current="page">My Reviews</span>
+            </nav>
+            <div class="header-content-flex">
+                <div>
+                    <h1 class="page-title">My Reviews</h1>
+                    <p class="page-subtitle">Share your experience and keep track of your fish reviews.</p>
+                </div>
+                <div class="header-fish-visual">
+                    <i class="fa-solid fa-fish"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Authentication State Wrappers -->
+    <div id="authErrorContainer" class="container" style="display: none;"></div>
+
+    <!-- Dashboard Body Container -->
+    <div class="container dashboard-container" id="dashboardContent">
+
+        <!-- Summary Stats Cards -->
+        <section class="summary-cards-grid">
+            <div class="summary-card">
+                <div class="summary-icon"><i class="fa-solid fa-comments"></i></div>
+                <div class="summary-details">
+                    <span class="summary-value" id="statTotalReviews">0</span>
+                    <span class="summary-label">Total Reviews</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon"><i class="fa-solid fa-star"></i></div>
+                <div class="summary-details">
+                    <div class="rating-value-row">
+                        <span class="summary-value" id="statAvgRating">0.0</span>
+                        <div class="mini-stars" id="statAvgStars"></div>
+                    </div>
+                    <span class="summary-label">Average Rating</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon"><i class="fa-solid fa-award"></i></div>
+                <div class="summary-details">
+                    <span class="summary-value" id="statFiveStarCount">0</span>
+                    <span class="summary-label">5-Star Reviews</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon"><i class="fa-solid fa-calendar-day"></i></div>
+                <div class="summary-details">
+                    <span class="summary-value latest-date" id="statLatestReviewDate">-</span>
+                    <span class="summary-label">Latest Review</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rating Distribution & Filters Grid -->
+        <section class="analytics-toolbar-grid">
+            <!-- Distribution Box -->
+            <div class="distribution-box">
+                <h3>Rating Breakdown</h3>
+                <div class="distribution-list" id="ratingDistributionList">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <!-- Search and Filter Toolbar -->
+            <div class="toolbar-box">
+                <div class="toolbar-top-row">
+                    <div class="search-input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchInput" placeholder="Search your reviews..." autocomplete="off">
+                    </div>
+                    <button class="btn btn-secondary" id="clearFiltersBtn">
+                        <i class="fa-solid fa-rotate-right"></i> Clear Filters
+                    </button>
+                </div>
+                <div class="toolbar-bottom-row">
+                    <div class="filter-dropdown-group">
+                        <select id="ratingFilter" aria-label="Filter by rating">
+                            <option value="all">All Ratings</option>
+                            <option value="5">5 Stars</option>
+                            <option value="4">4 Stars</option>
+                            <option value="3">3 Stars</option>
+                            <option value="2">2 Stars</option>
+                            <option value="1">1 Star</option>
+                        </select>
+                        <select id="sortFilter" aria-label="Sort reviews">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="highest">Highest Rating</option>
+                            <option value="lowest">Lowest Rating</option>
+                            <option value="name-asc">Fish Name A-Z</option>
+                            <option value="name-desc">Fish Name Z-A</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Share Your Experience / Eligible Fish Section -->
+        <section class="eligible-section" id="eligibleSection" style="display: none;">
+            <div class="section-title-wrap">
+                <h2>Share Your Experience</h2>
+                <p>Your feedback helps other aquarium owners make better choices.</p>
+            </div>
+            <div class="eligible-fish-grid" id="eligibleFishGrid">
+                <!-- Populated dynamically -->
+            </div>
+        </section>
+
+        <!-- Main Reviews List Section -->
+        <section class="reviews-list-section">
+            <div class="list-header-row">
+                <h2>Your Submitted Reviews</h2>
+                <span class="review-count-badge" id="filteredCountBadge">0 reviews</span>
+            </div>
+
+            <!-- Loading State Skeleton Container -->
+            <div class="reviews-grid skeleton-grid" id="loadingSkeleton" style="display: none;">
+                <!-- Skeletons generated dynamically -->
+            </div>
+
+            <!-- Error State Container -->
+            <div class="state-container error-state" id="errorStateContainer" style="display: none;">
+                <div class="state-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <h3>Unable to load your reviews</h3>
+                <p>Something went wrong while loading your reviews. Please try again.</p>
+                <button class="btn btn-primary" id="retryLoadBtn">Try Again</button>
+            </div>
+
+            <!-- Empty State Container (No Reviews At All) -->
+            <div class="state-container empty-state" id="emptyStateContainer" style="display: none;">
+                <div class="state-icon"><i class="fa-solid fa-comment-slash"></i></div>
+                <h3>You haven't written any reviews yet</h3>
+                <p>Share your experience with the fish you've purchased and help other aquarium enthusiasts.</p>
+                <div class="empty-actions">
+                    <a href="fish.html" class="btn btn-primary">Browse Fish</a>
+                    <a href="orders.html" class="btn btn-secondary">View My Orders</a>
+                </div>
+            </div>
+
+            <!-- Search/Filter Empty State Container -->
+            <div class="state-container empty-state" id="searchEmptyStateContainer" style="display: none;">
+                <div class="state-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                <h3>No reviews found</h3>
+                <p>Try changing your search or filter settings.</p>
+                <button class="btn btn-secondary" id="clearSearchFiltersBtn">Clear Filters</button>
+            </div>
+
+            <!-- Actual Reviews Grid -->
+            <div class="reviews-grid" id="reviewsGrid">
+                <!-- Populated via JS -->
+            </div>
+
+            <!-- Pagination Container -->
+            <div class="pagination-container" id="paginationContainer" style="display: none;">
+                <!-- Populated via JS -->
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="container footer-grid">
+        <div class="footer-col">
+            <div class="footer-brand">
+                <i class="fa-solid fa-fish-fins"></i>
+                <span>Aquarium Fish</span>
+            </div>
+            <p class="footer-desc">Your trusted destination for beautiful, healthy aquarium fish.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="fish.html">Fish</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="breeds.html">Breeds</a></li>
+                <li><a href="sizes.html">Sizes</a></li>
+                <li><a href="colors.html">Colors</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Customer</h4>
+            <ul>
+                <li><a href="profile.html">My Profile</a></li>
+                <li><a href="orders.html">My Orders</a></li>
+                <li><a href="deliveries.html">My Deliveries</a></li>
+                <li><a href="reviews.html">My Reviews</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Support</h4>
+            <ul>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="shipping.html">Shipping Information</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <p>&copy; 2026 Aquarium Fish. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Modals -->
+
+<!-- Edit/Create Review Modal -->
+<div class="modal-backdrop" id="reviewModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Edit Your Review</h3>
+                <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="reviewForm">
+                    <input type="hidden" id="reviewModalId">
+                    <input type="hidden" id="reviewModalFishId">
+
+                    <div class="form-group">
+                        <label>Fish</label>
+                        <div class="readonly-fish-display" id="modalFishNameDisplay">Blue Gourami</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Rating</label>
+                        <div class="star-rating-selector" id="starRatingSelector">
+                            <i class="fa-solid fa-star" data-rating="1" tabindex="0" aria-label="1 star"></i>
+                            <i class="fa-solid fa-star" data-rating="2" tabindex="0" aria-label="2 stars"></i>
+                            <i class="fa-solid fa-star" data-rating="3" tabindex="0" aria-label="3 stars"></i>
+                            <i class="fa-solid fa-star" data-rating="4" tabindex="0" aria-label="4 stars"></i>
+                            <i class="fa-solid fa-star" data-rating="5" tabindex="0" aria-label="5 stars"></i>
+                        </div>
+                        <input type="hidden" id="selectedRatingInput" value="5">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reviewCommentInput">Comment</label>
+                        <textarea id="reviewCommentInput" rows="4" maxlength="1000" placeholder="Tell us about your experience with this fish..."></textarea>
+                        <div class="character-counter"><span id="charCount">0</span> / 1000</div>
+                    </div>
+
+                    <div class="modal-footer-actions">
+                        <button type="button" class="btn btn-secondary" id="modalCancelBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="modalSubmitBtn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal-backdrop" id="deleteModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="deleteModalTitle">Delete Review?</h3>
+                <button class="modal-close-btn" id="deleteModalCloseBtn" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="delete-confirmation-text">Are you sure you want to delete this review? This action cannot be undone.</p>
+                <input type="hidden" id="deleteReviewIdTarget">
+                <div class="modal-footer-actions">
+                    <button type="button" class="btn btn-secondary" id="deleteCancelBtn">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete Review</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Unsaved Changes Confirmation Modal -->
+<div class="modal-backdrop" id="unsavedModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Discard your changes?</h3>
+            </div>
+            <div class="modal-body">
+                <p>You have unsaved changes. Are you sure you want to discard them?</p>
+                <div class="modal-footer-actions">
+                    <button type="button" class="btn btn-secondary" id="keepEditingBtn">Keep Editing</button>
+                    <button type="button" class="btn btn-danger" id="discardChangesBtn">Discard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification Container -->
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="js/reviews.js" defer></script>
+</body>
+</html>
