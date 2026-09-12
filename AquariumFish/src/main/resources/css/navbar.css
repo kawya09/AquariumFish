@@ -1,0 +1,570 @@
+/* =============================================================
+   1. Navbar Variables / Local Defaults
+   ============================================================= */
+:root {
+    --nav-height: 72px;
+    --nav-height-mobile: 64px;
+    --nav-bg: rgba(255, 255, 255, 0.95);
+    --nav-bg-fallback: #ffffff;
+    --nav-border: var(--border, #dbe7ee);
+    --nav-shadow: var(--shadow-sm, 0 1px 3px rgba(15, 23, 42, 0.08));
+    --nav-z-index: var(--z-sticky, 1000);
+}
+
+/* =============================================================
+   2. Header Base
+   ============================================================= */
+.site-header {
+    position: relative;
+    width: 100%;
+}
+
+.announcement-bar {
+    background: linear-gradient(135deg, var(--secondary, #0f172a), var(--primary-dark, #075985));
+    color: var(--text-inverse, #ffffff);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    text-align: center;
+    padding: var(--space-2, 8px) var(--space-4, 16px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2, 8px);
+}
+
+/* =============================================================
+   3. Navbar Layout
+   ============================================================= */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: var(--nav-z-index);
+    background-color: var(--nav-bg-fallback);
+    background-color: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--nav-border);
+    box-shadow: var(--nav-shadow);
+    width: 100%;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.navbar.scrolled {
+    box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(15, 23, 42, 0.08));
+}
+
+.navbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--nav-height);
+    gap: var(--space-4, 16px);
+}
+
+/* =============================================================
+   4. Brand
+   ============================================================= */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2, 8px);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--secondary, #0f172a);
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+}
+
+.brand:hover {
+    opacity: 0.85;
+}
+
+.brand-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary, #087ea4);
+    font-size: 1.35rem;
+}
+
+.brand-text {
+    letter-spacing: -0.01em;
+}
+
+/* =============================================================
+   5. Desktop Navigation
+   ============================================================= */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1, 4px);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* =============================================================
+   6. Navigation Link States
+   ============================================================= */
+.nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2, 8px);
+    padding: var(--space-2, 8px) var(--space-3, 12px);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--text-secondary, #475569);
+    border-radius: var(--radius-md, 10px);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 180ms ease, background-color 180ms ease;
+}
+
+.nav-link:hover {
+    color: var(--primary, #087ea4);
+    background-color: var(--surface-alt, #eef7fb);
+}
+
+.nav-link.active,
+.nav-link[aria-current="page"] {
+    color: var(--primary, #087ea4);
+    background-color: var(--surface-alt, #eef7fb);
+    font-weight: 600;
+}
+
+.nav-link:disabled,
+.nav-link[aria-disabled="true"] {
+    color: var(--text-muted, #64748b);
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* =============================================================
+   7. Navigation Actions
+   ============================================================= */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2, 8px);
+}
+
+.icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full, 999px);
+    background: transparent;
+    border: none;
+    color: var(--text, #0f172a);
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    transition: background-color 180ms ease, color 180ms ease;
+}
+
+.icon-button:hover {
+    background-color: var(--surface-alt, #eef7fb);
+    color: var(--primary, #087ea4);
+}
+
+/* =============================================================
+   8. Search
+   ============================================================= */
+.navbar-search {
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex: 1;
+    max-width: 320px;
+    margin-inline: var(--space-4, 16px);
+}
+
+.navbar-search .search-input {
+    width: 100%;
+    padding: 8px 14px 8px 36px;
+    font-size: 0.875rem;
+    background-color: var(--surface-alt, #eef7fb);
+    border: 1px solid var(--border, #dbe7ee);
+    border-radius: var(--radius-full, 999px);
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.navbar-search .search-input:hover {
+    border-color: var(--text-light, #94a3b8);
+}
+
+.navbar-search .search-input:focus {
+    background-color: var(--surface, #ffffff);
+    border-color: var(--primary, #087ea4);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(8, 126, 164, 0.15);
+}
+
+.navbar-search .search-icon {
+    position: absolute;
+    left: 12px;
+    color: var(--text-muted, #64748b);
+    pointer-events: none;
+    font-size: 0.875rem;
+}
+
+/* =============================================================
+   9. Cart
+   ============================================================= */
+.cart-button {
+    position: relative;
+}
+
+.cart-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: var(--text-inverse, #ffffff);
+    background-color: var(--primary, #087ea4);
+    border-radius: var(--radius-full, 999px);
+    box-shadow: 0 0 0 2px var(--surface, #ffffff);
+    pointer-events: none;
+}
+
+/* =============================================================
+   10. Account Button
+   ============================================================= */
+.account-menu-wrapper {
+    position: relative;
+}
+
+.account-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2, 8px);
+    height: 44px;
+    padding: 0 var(--space-3, 12px);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-full, 999px);
+    cursor: pointer;
+    color: var(--text, #0f172a);
+    font-weight: 500;
+    font-size: 0.9375rem;
+    transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.account-button:hover {
+    background-color: var(--surface-alt, #eef7fb);
+    border-color: var(--border, #dbe7ee);
+}
+
+.account-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background-color: var(--primary-light, #38bdf8);
+    color: var(--text-inverse, #ffffff);
+    border-radius: var(--radius-full, 999px);
+    font-size: 0.75rem;
+}
+
+.account-chevron {
+    font-size: 0.75rem;
+    color: var(--text-muted, #64748b);
+    transition: transform 0.2s ease;
+}
+
+.account-button[aria-expanded="true"] .account-chevron {
+    transform: rotate(180deg);
+}
+
+/* =============================================================
+   11. Account Dropdown
+   ============================================================= */
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + var(--space-2, 8px));
+    right: 0;
+    width: 240px;
+    background-color: var(--surface, #ffffff);
+    border: 1px solid var(--border, #dbe7ee);
+    border-radius: var(--radius-lg, 16px);
+    box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(15, 23, 42, 0.08));
+    padding: var(--space-2, 8px);
+    z-index: var(--z-dropdown, 1000);
+    display: none;
+    flex-direction: column;
+    animation: dropdownFadeIn 0.15s ease;
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.account-menu-wrapper:hover .dropdown-menu,
+.account-button[aria-expanded="true"] + .dropdown-menu,
+.dropdown-menu.open {
+    display: flex;
+}
+
+.dropdown-header {
+    padding: var(--space-3, 12px) var(--space-4, 16px);
+    border-bottom: 1px solid var(--border-light, #e7f0f5);
+    margin-bottom: var(--space-1, 4px);
+}
+
+.dropdown-header-title {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--secondary, #0f172a);
+}
+
+.dropdown-header-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-muted, #64748b);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3, 12px);
+    padding: 10px var(--space-4, 16px);
+    font-size: 0.875rem;
+    color: var(--text-secondary, #475569);
+    border-radius: var(--radius-md, 10px);
+    text-decoration: none;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: var(--surface-alt, #eef7fb);
+    color: var(--primary, #087ea4);
+    outline: none;
+}
+
+.dropdown-item.active {
+    background-color: var(--surface-alt, #eef7fb);
+    color: var(--primary, #087ea4);
+    font-weight: 600;
+}
+
+.dropdown-item.logout {
+    color: var(--danger, #dc2626);
+}
+
+.dropdown-item.logout:hover,
+.dropdown-item.logout:focus {
+    background-color: var(--danger-bg, #fee2e2);
+    color: var(--danger, #dc2626);
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: var(--border-light, #e7f0f5);
+    margin: var(--space-1, 4px) 0;
+}
+
+/* =============================================================
+   12. Mobile Menu Toggle
+   ============================================================= */
+.nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md, 10px);
+    color: var(--secondary, #0f172a);
+    cursor: pointer;
+    font-size: 1.25rem;
+    transition: background-color 180ms ease;
+}
+
+.nav-toggle:hover {
+    background-color: var(--surface-alt, #eef7fb);
+}
+
+/* =============================================================
+   13. Mobile Navigation
+   ============================================================= */
+.mobile-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--surface, #ffffff);
+    border-bottom: 1px solid var(--border, #dbe7ee);
+    box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(15, 23, 42, 0.08));
+    padding: var(--space-4, 16px);
+    z-index: var(--z-dropdown, 1000);
+    max-height: calc(100vh - var(--nav-height-mobile));
+    overflow-y: auto;
+}
+
+.mobile-nav.open,
+.navbar.mobile-open .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4, 16px);
+    animation: mobileNavSlideDown 0.2s ease;
+}
+
+@keyframes mobileNavSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1, 4px);
+}
+
+.mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3, 12px);
+    padding: 12px var(--space-4, 16px);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text, #0f172a);
+    border-radius: var(--radius-md, 10px);
+    text-decoration: none;
+    min-height: 48px;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+    background-color: var(--surface-alt, #eef7fb);
+    color: var(--primary, #087ea4);
+}
+
+.mobile-nav-section {
+    padding-top: var(--space-3, 12px);
+    border-top: 1px solid var(--border-light, #e7f0f5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1, 4px);
+}
+
+.mobile-nav-section-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted, #64748b);
+    padding: 0 var(--space-4, 16px) var(--space-2, 8px);
+}
+
+/* =============================================================
+   14. Responsive Breakpoints
+   ============================================================= */
+@media (max-width: 1199px) {
+    .navbar-search {
+        max-width: 240px;
+    }
+}
+
+@media (max-width: 991px) {
+    .nav-links,
+    .navbar-search,
+    .account-menu-wrapper {
+        display: none;
+    }
+
+    .nav-toggle {
+        display: inline-flex;
+    }
+
+    .navbar-inner {
+        min-height: var(--nav-height-mobile);
+    }
+}
+
+@media (max-width: 576px) {
+    .brand-text {
+        font-size: 1.125rem;
+    }
+
+    .icon-button {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* =============================================================
+   15. Reduced Motion
+   ============================================================= */
+@media (prefers-reduced-motion: reduce) {
+    .navbar,
+    .nav-link,
+    .icon-button,
+    .account-button,
+    .dropdown-menu,
+    .mobile-nav,
+    .account-chevron {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* =============================================================
+   16. Accessibility / Focus
+   ============================================================= */
+.nav-link:focus-visible,
+.icon-button:focus-visible,
+.nav-toggle:focus-visible,
+.account-button:focus-visible,
+.dropdown-item:focus-visible,
+.mobile-nav-link:focus-visible {
+    outline: 3px solid var(--primary-light, #38bdf8);
+    outline-offset: 2px;
+}
+
+/* =============================================================
+   17. Optional Announcement/Search Components
+   ============================================================= */
+.announcement-close {
+    background: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 0.875rem;
+    opacity: 0.8;
+    padding: var(--space-1, 4px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+}
+
+.announcement-close:hover {
+    opacity: 1;
+}

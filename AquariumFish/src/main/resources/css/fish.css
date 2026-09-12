@@ -1,0 +1,1059 @@
+/* =========================================
+   Aquarium Fish Catalog
+   ========================================= */
+
+/* Page Layout */
+.fish-page {
+    position: relative;
+    min-height: 100vh;
+    background-color: var(--surface-soft, #f4f8fb);
+    color: var(--text, #0f172a);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hero */
+.fish-hero {
+    position: relative;
+    background: linear-gradient(135deg, var(--secondary, #0f172a) 0%, var(--primary-dark, #075985) 100%);
+    color: var(--text-inverse, #ffffff);
+    padding: 3.5rem 1.5rem;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.fish-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.fish-hero-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+}
+
+.fish-hero-text {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    opacity: 0.85;
+    margin-bottom: 1.5rem;
+}
+
+.fish-hero-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.fish-hero-decoration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Breadcrumb */
+.fish-breadcrumb {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 1.5rem 1rem;
+    font-size: 0.875rem;
+    color: var(--text-muted, #64748b);
+}
+
+/* Catalog Summary */
+.fish-results-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    color: var(--text-secondary, #475569);
+    margin-bottom: 1rem;
+}
+
+/* Catalog Layout */
+.fish-catalog-layout {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    width: 100%;
+}
+
+@media (min-width: 992px) {
+    .fish-catalog-layout {
+        grid-template-columns: 280px 1fr;
+    }
+}
+
+/* Filters Sidebar */
+.fish-filter-sidebar {
+    background: var(--surface, #ffffff);
+    border: 1px solid var(--border, #dbe7ee);
+    border-radius: var(--radius, 12px);
+    padding: 1.5rem;
+    height: fit-content;
+    display: none;
+}
+
+@media (min-width: 992px) {
+    .fish-filter-sidebar {
+        display: block;
+    }
+}
+
+.fish-filter-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-light, #e7f0f5);
+}
+
+.fish-filter-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--secondary, #0f172a);
+}
+
+.fish-clear-filters {
+    background: transparent;
+    border: none;
+    color: var(--primary, #087ea4);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.fish-clear-filters:hover {
+    text-decoration: underline;
+}
+
+.fish-filter-group {
+    margin-bottom: 1.25rem;
+}
+
+.fish-filter-group-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--secondary, #0f172a);
+    margin-bottom: 0.75rem;
+}
+
+.fish-filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.fish-filter-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    color: var(--text-secondary, #475569);
+    cursor: pointer;
+}
+
+.fish-filter-checkbox,
+.fish-filter-radio {
+    accent-color: var(--primary, #087ea4);
+    cursor: pointer;
+}
+
+.fish-filter-select {
+    width: 100%;
+    height: 40px;
+    padding: 0 0.75rem;
+    border: 1px solid var(--border, #dbe7ee);
+    border-radius: var(--radius, 8px);
+    background-color: var(--surface, #ffffff);
+    color: var(--text, #0f172a);
+    font-size: 0.875rem;
+}
+
+/* Mobile Filter Drawer */
+.fish-filter-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 40px;
+    padding: 0 1rem;
+    background: var(--surface, #ffffff);
+    border: 1px solid var(--border, #dbe7ee);
+    border-radius: var(--radius, 8px);
+    color: var(--secondary, #0f172a);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+@media (min-width: 992px) {
+    .fish-filter-toggle {
+        display: none;
+    }
+}
+
+.fish-filter-drawer {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 320px;
+    height: 100%;
+    background: var(--surface, #ffffff);
+    z-index: 1050;
+    box-shadow: 10px 0 25px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.fish-filter-drawer.is-open,
+.fish-filter-drawer.open {
+    left: 0;
+}
+
+.fish-filter-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border, #dbe7ee);
+}
+
+.fish-filter-drawer-close {
+    background: transparent;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    color: var(--text-muted, #64748b);
+}
+
+.fish-filter-drawer-body {
+    padding: 1.25rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.fish-filter-drawer-footer {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--border, #dbe7ee);
+}
+
+/* Search / Toolbar */
+.fish-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.fish-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: var(--surface, #ffffff);
+    border: 1px solid var(--border, #dbe7ee);
+    border-radius: var(--radius, 12px);
+    padding: 1rem 1.25rem;
+}
+
+.fish-toolbar-left,
+.fish-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.fish-search {
+    flex: 1;
+    min-width: 240px;
+}
+
+.fish-search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.fish-search-icon {
+    position: absolute;
+    left: 0.875rem;
+    color: var(--text-muted, #64748b);
+    font-size: 0.875rem;
+    pointer-events: none;
+}
+
+.fish-search-input {
+    width: 100%;
+    height: 40px;
+    padding: 0 2.25rem 0 2.5rem;
+    border: 1px solid var(--border, #dbe7ee);
+    border-radius: var(--radius, 8px);
+    background: var(--surface-soft, #f8fafc);
+    font-size: 0.875rem;
+    color: var(--text, #0f172a);
+    transition: all 0.2s ease;
+}
+
+.fish-search-input:focus {
+    outline: none;
+    border-color: var(--primary, #087ea4);
+    background: var(--surface, #ffffff);
+    box-shadow: 0 0 0 3px rgba(8, 126, 164, 0.15);
+}
+
+.fish-search-clear {
+    position: absolute;
+    right: 0.75rem;
+    background: transparent;
+    border: none;
+    color: var(--text-muted, #64748b);
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.fish-sort {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.fish-sort-label {
+    font-size: 0.875rem;
+    color: var(--text-muted, #64748b);
+    white-space: nowrap;
+}
+
+.fish-sort-select {
+    height: 40px;
+    padding: 0 0.75rem;
+    border: 1px solid var(--border, #dbe7ee);
+    border-radius: var(--radius, 8px);
+    background: var(--surface, #ffffff);
+    color: var(--text, #0f172a);
+    font-size: 0.875rem;
+}
+
+.fish-view-toggle {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border, #dbe7ee);
+    border-radius: var(--radius, 8px);
+    overflow: hidden;
+    background: var(--surface, #ffffff);
+}
+
+.fish-view-grid,
+.fish-view-list {
+    background: transparent;
+    border: none;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-muted, #64748b);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.fish-view-grid:hover,
+.fish-view-list:hover,
+.fish-view-grid.active,
+.fish-view-list.active {
+    background: var(--surface-alt, #eef7fb);
+    color: var(--primary, #087ea4);
+}
+
+/* Active Filters */
+.fish-active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.fish-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    background: var(--surface-alt, #eef7fb);
+    color: var(--primary, #087ea4);
+    border: 1px solid rgba(8, 126, 164, 0.2);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.fish-filter-chip-remove {
+    background: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fish-filter-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary, #087ea4);
+    color: var(--text-inverse, #ffffff);
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-left: 0.25rem;
+}
+
+/* Fish Grid */
+.fish-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.fish-grid.list-view {
+    grid-template-columns: 1fr;
+}
+
+.fish-grid.list-view .fish-card {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+}
+
+@media (max-width: 768px) {
+    .fish-grid.list-view .fish-card {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Fish Card */
+.fish-card {
+    background: var(--surface, #ffffff);
+    border: 1px solid var(--border, #dbe7ee);
+    border-radius: var(--radius, 12px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+}
+
+.fish-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.08);
+    border-color: var(--text-light, #94a3b8);
+}
+
+.fish-card-image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--surface-soft, #f8fafc);
+}
+
+.fish-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.fish-card:hover .fish-card-image {
+    transform: scale(1.05);
+}
+
+.fish-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, transparent 40%);
+    pointer-events: none;
+}
+
+.fish-card-badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: var(--secondary, #0f172a);
+    color: var(--text-inverse, #ffffff);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    z-index: 2;
+}
+
+.fish-card-wishlist {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(4px);
+    border: none;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-muted, #64748b);
+    z-index: 2;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.fish-card-wishlist:hover {
+    background: var(--surface, #ffffff);
+    color: var(--danger, #dc2626);
+    transform: scale(1.05);
+}
+
+.fish-card-wishlist.is-wishlisted {
+    color: var(--danger, #dc2626);
+    background: var(--surface, #ffffff);
+}
+
+.fish-card-quick-view {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(15, 23, 42, 0.85);
+    color: var(--text-inverse, #ffffff);
+    border: none;
+    padding: 0.375rem 0.875rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 2;
+    backdrop-filter: blur(4px);
+}
+
+.fish-card:hover .fish-card-quick-view {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Fish Card Content */
+.fish-card-content {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 0.5rem;
+}
+
+.fish-card-category {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--primary, #087ea4);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.fish-card-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--secondary, #0f172a);
+    text-decoration: none;
+    line-height: 1.4;
+    transition: color 0.2s ease;
+}
+
+.fish-card-name:hover {
+    color: var(--primary, #087ea4);
+}
+
+.fish-card-description {
+    font-size: 0.8125rem;
+    color: var(--text-muted, #64748b);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+.fish-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.25rem 0;
+}
+
+.fish-card-meta-item {
+    font-size: 0.75rem;
+    color: var(--text-secondary, #475569);
+    background: var(--surface-soft, #f8fafc);
+    padding: 0.125rem 0.375rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-light, #e7f0f5);
+}
+
+/* Rating */
+.fish-card-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.75rem;
+    color: var(--text-muted, #64748b);
+    margin-top: auto;
+}
+
+.fish-card-stars {
+    color: #fbbf24;
+}
+
+.fish-card-rating-value {
+    font-weight: 600;
+    color: var(--secondary, #0f172a);
+}
+
+/* Price */
+.fish-card-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.fish-card-price-current {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--secondary, #0f172a);
+}
+
+.fish-card-price-old {
+    font-size: 0.875rem;
+    color: var(--text-muted, #64748b);
+    text-decoration: line-through;
+}
+
+.fish-card-discount {
+    font-size: 0.75rem;
+    color: var(--danger, #dc2626);
+    font-weight: 600;
+}
+
+/* Stock */
+.fish-card-stock {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 0.25rem;
+}
+
+.fish-card-stock.stock-in {
+    color: var(--success, #16a34a);
+}
+
+.fish-card-stock.stock-low {
+    color: var(--warning, #d97706);
+}
+
+.fish-card-stock.stock-out {
+    color: var(--danger, #dc2626);
+}
+
+/* Card Actions */
+.fish-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border-light, #e7f0f5);
+}
+
+.fish-card-add-cart {
+    flex: 1;
+    height: 38px;
+    background: var(--primary, #087ea4);
+    color: var(--text-inverse, #ffffff);
+    border: none;
+    border-radius: var(--radius, 8px);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.fish-card-add-cart:hover {
+    background: var(--primary-dark, #075985);
+}
+
+.fish-card-add-cart:active {
+    transform: scale(0.98);
+}
+
+.fish-card-add-cart.is-added {
+    background: var(--success, #16a34a);
+}
+
+.fish-card-add-cart:disabled,
+.fish-card-add-cart.is-disabled {
+    background: var(--border, #dbe7ee);
+    color: var(--text-muted, #64748b);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.fish-card-view {
+    width: 38px;
+    height: 38px;
+    background: var(--surface-soft, #f8fafc);
+    border: 1px solid var(--border, #dbe7ee);
+    border-radius: var(--radius, 8px);
+    color: var(--text-secondary, #475569);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.fish-card-view:hover {
+    background: var(--surface-alt, #eef7fb);
+    color: var(--primary, #087ea4);
+    border-color: var(--primary, #087ea4);
+}
+
+/* Empty / Loading / Error States */
+.fish-empty-state,
+.fish-error-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--surface, #ffffff);
+    border: 1px solid var(--border, #dbe7ee);
+    border-radius: var(--radius, 12px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.fish-empty-icon,
+.fish-error-icon {
+    font-size: 2.5rem;
+    color: var(--text-muted, #64748b);
+    margin-bottom: 0.5rem;
+}
+
+.fish-empty-title,
+.fish-error-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--secondary, #0f172a);
+}
+
+.fish-empty-text,
+.fish-error-text {
+    font-size: 0.875rem;
+    color: var(--text-muted, #64748b);
+    max-width: 400px;
+}
+
+.fish-empty-action,
+.fish-error-action {
+    margin-top: 0.5rem;
+    height: 40px;
+    padding: 0 1.25rem;
+    background: var(--primary, #087ea4);
+    color: var(--text-inverse, #ffffff);
+    border: none;
+    border-radius: var(--radius, 8px);
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+
+/* Loading Skeletons */
+.fish-loading {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.fish-card-skeleton {
+    background: var(--surface, #ffffff);
+    border: 1px solid var(--border, #dbe7ee);
+    border-radius: var(--radius, 12px);
+    overflow: hidden;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.fish-skeleton {
+    background: linear-gradient(90deg, var(--surface-soft, #f8fafc) 25%, var(--border-light, #e7f0f5) 50%, var(--surface-soft, #f8fafc) 75%);
+    background-size: 200% 100%;
+    animation: fishSkeletonLoading 1.5s infinite;
+    border-radius: 4px;
+}
+
+@keyframes fishSkeletonLoading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.fish-skeleton-image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius, 8px);
+}
+
+.fish-skeleton-line {
+    height: 16px;
+    width: 100%;
+}
+
+.fish-skeleton-short {
+    height: 16px;
+    width: 60%;
+}
+
+.fish-skeleton-button {
+    height: 38px;
+    width: 100%;
+    border-radius: var(--radius, 8px);
+    margin-top: 0.5rem;
+}
+
+/* Pagination */
+.fish-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.fish-pagination-info {
+    font-size: 0.875rem;
+    color: var(--text-muted, #64748b);
+    text-align: center;
+    margin-top: 1rem;
+}
+
+/* Quick View Modal */
+.fish-quick-view {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.fish-quick-view.is-open {
+    display: flex;
+}
+
+.fish-quick-view-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+}
+
+.fish-quick-view-dialog {
+    position: relative;
+    background: var(--surface, #ffffff);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+    .fish-quick-view-dialog {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.fish-quick-view-header {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+}
+
+.fish-quick-view-close {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--border, #dbe7ee);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--secondary, #0f172a);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.fish-quick-view-image {
+    width: 100%;
+    height: 100%;
+    min-height: 280px;
+    object-fit: cover;
+    background: var(--surface-soft, #f8fafc);
+}
+
+.fish-quick-view-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.fish-quick-view-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--secondary, #0f172a);
+}
+
+.fish-quick-view-price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary, #087ea4);
+}
+
+.fish-quick-view-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary, #475569);
+}
+
+.fish-quick-view-actions {
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+/* Decorative Elements */
+.fish-aquarium-decoration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.fish-bubble {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.fish-glow {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+    .fish-hero {
+        padding: 2.5rem 1rem;
+    }
+    .fish-catalog-layout {
+        padding: 0 1rem 3rem;
+    }
+    .fish-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .fish-toolbar-left,
+    .fish-toolbar-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .fish-search {
+        width: 100%;
+    }
+}
+
+/* Accessibility & Reduced Motion */
+.fish-card-add-cart:focus-visible,
+.fish-card-view:focus-visible,
+.fish-card-wishlist:focus-visible,
+.fish-search-input:focus-visible,
+.fish-sort-select:focus-visible,
+.fish-filter-select:focus-visible,
+.fish-filter-toggle:focus-visible,
+.fish-clear-filters:focus-visible {
+    outline: 3px solid var(--primary-light, #38bdf8);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fish-card,
+    .fish-card-image,
+    .fish-card-wishlist,
+    .fish-card-quick-view,
+    .fish-filter-drawer {
+        transition: none !important;
+        animation: none !important;
+    }
+}
