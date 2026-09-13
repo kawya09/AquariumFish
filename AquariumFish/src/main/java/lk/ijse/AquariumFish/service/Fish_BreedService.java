@@ -1,20 +1,20 @@
 package lk.ijse.AquariumFish.service;
 
-import lk.ijse.AquariumFish.dto.DeliveryDTO;
 import lk.ijse.AquariumFish.dto.Fish_BreedDTO;
 
 import java.util.List;
 
 public interface Fish_BreedService {
-    void saveFish_Breed(Fish_BreedDTO fish_breedDTO);
 
-    List<Fish_BreedDTO> getAllFish_Breeds();
+    void saveBreed(Fish_BreedDTO dto);
 
-    void updateFish_Breed(Fish_BreedDTO fish_breedDTO);
+    List<Fish_BreedDTO> getAllBreeds();
 
-    void changeFish_BreedStatus(long fish_breedDTO);
+    Fish_BreedDTO getBreedById(Long id);
 
-    List<Fish_BreedDTO> filterFish_Breeds(String username);
+    void updateBreed(Fish_BreedDTO dto);
 
-    void changeFish_BreedRole(long fish_breedID, long roleID);
+    void changeBreedStatus(Long id);
+
+    List<Fish_BreedDTO> filterBreeds(String breedName);
 }

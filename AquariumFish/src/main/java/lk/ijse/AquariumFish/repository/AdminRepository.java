@@ -9,4 +9,6 @@ import java.util.List;
 public interface AdminRepository extends JpaRepository<Admin,Long> {
     @Query(value = "SELECT * FROM admin WHERE ?1 IS NULL OR admin_name LIKE %1%", nativeQuery = true)
     List<Admin> findByUsernameContaining(String username);
+
+    Admin[] findByAdminNameContaining(String adminName);
 }

@@ -1,151 +1,96 @@
 package lk.ijse.AquariumFish.service.impl;
 
-import lk.ijse.AquariumFish.dto.AdminDTO;
 import lk.ijse.AquariumFish.dto.Cart_ItemDTO;
-import lk.ijse.AquariumFish.entity.Admin;
 import lk.ijse.AquariumFish.entity.Cart_Item;
-import lk.ijse.AquariumFish.entity.Role;
 import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lk.ijse.AquariumFish.repository.Cart_ItemRepository;
-import lk.ijse.AquariumFish.repository.RoleRepository;
-import lk.ijse.AquariumFish.service.AdminService;
 import lk.ijse.AquariumFish.service.Cart_ItemService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-@Slf4j
 public class Cart_ItemServiceImpl implements Cart_ItemService {
-    private final Cart_ItemRepository cartItemRepository;
-    private final RoleRepository roleRepository;
 
-    public Cart_ItemServiceImpl(Cart_ItemRepository cartItemRepository,RoleRepository roleRepository) {
-        this.cartItemRepository = cartItemRepository;
-        this.roleRepository = roleRepository;
-    }
-    @Override
-    public void saveCart_Item(Cart_ItemDTO cart_itemDTO) {
-        log.info("Save Cart Item");
+    private final Cart_ItemRepository repository;
 
-        try{
-            Role role = roleRepository.findById(cart_itemDTO.getId())
-                    .orElseThrow(() -> new RuntimeException( "Cart Item not found " ));
-
-            Cart_Item cart_item= new Cart_Item();
-            cart_item.setId(cart_itemDTO.getId());
-            cart_item.setQuantity(cart_itemDTO.getQuantity());
-            cart_item.setUnitPrice(cart_itemDTO.getUnitPrice());
-            cart_item.setStatus(cart_itemDTO.getStatus());
-            cartItemRepository.save(cart_item);
-
-        }catch(Exception e){
-            log.error("Error saving cart item");
-            throw e;
-        }
-
+    public Cart_ItemServiceImpl(Cart_ItemRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public List<Cart_ItemDTO> getAllCart_Items() {
-        try {
-            List<Cart_ItemDTO> cartItemDTOList = new ArrayList<>();
-            List<Cart_Item> cartItems =cartItemRepository.findAll();
-            for (Cart_Item cart_item : cartItems) {
-                Cart_ItemDTO cartItemDTO = new Cart_ItemDTO();
-                cartItemDTOList.add(cartItemDTO);
+    public void saveCartItem(Cart_ItemDTO dto) {
 
-            }
-            return cartItemDTOList;
-        } catch (Exception e) {
-            log.error("Error getting all cart items");
-            throw e;
-        }
+        Cart_Item item = new Cart_Item();
+
+        item.setQuantity(dto.getQuantity());
+        item.setUnitPrice(dto.getUnitPrice());
+        item.setStatus(dto.getStatus());
+
+        repository.save(item);
     }
 
     @Override
-    public void updateCart_Item(Cart_ItemDTO cart_itemDTO) {
-        log.info("Update Cart Item");
-        try{
-            Optional<Cart_Item> cart_item = cartItemRepository.findById(cart_itemDTO.getId());
-            if(cart_item.isEmpty()){
-                throw new RuntimeException( "Cart item not found " );
+    public List<Cart_ItemDTO> getAllCartItems() {
 
-            }
-            Cart_Item cart_item1 = cart_item.get();
-            cart_item1.setQuantity(cart_itemDTO.getQuantity());
-            cart_item1.setUnitPrice(cart_itemDTO.getUnitPrice());
-            cart_item1.setStatus(cart_itemDTO.getStatus());
+        List<Cart_ItemDTO> list = new ArrayList<>();
 
-            Role role = roleRepository.findById(cart_itemDTO.getId()).orElseThrow(() -> new RuntimeException( "Role not found " ));
-            Cart_Item cart_item2 =cart_item.get();
-            cartItemRepository.save(cart_item1);
-        }catch(Exception e){
-            log.error("Error updating cart item");
-            throw e;
+        for (Cart_Item item : repository.findAll()) {
+
+            Cart_ItemDTO dto = new Cart_ItemDTO();
+
+            dto.setId(item.getId());
+            dto.setQuantity(item.getQuantity());
+            dto.setUnitPrice(item.getUnitPrice());
+            dto.setStatus(item.getStatus());
+
+            list.add(dto);
         }
 
-
+        return list;
     }
 
     @Override
-    public void changeCart_ItemStatus(long cart_itemId) {
-        log.info("Change cart item status");
-        try {
-            Optional<Cart_Item> cart_item = cartItemRepository.findById(cart_itemId);
-            if(cart_item.isEmpty()){
-                throw new RuntimeException( "cart item not found " );
-            }
-            Cart_Item cart_item1 = cart_item.get();
-            cart_item1.setStatus(UserStatus.INACTIVE);
-            cartItemRepository.save(cart_item1);
-        } catch (Exception e) {
-            log.error("Error changing cart item status");
-            throw e;
-        }
+    public Cart_ItemDTO getCartItemById(Long id) {
 
+        Cart_Item item = repository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Cart item not found"));
+
+        Cart_ItemDTO dto = new Cart_ItemDTO();
+
+        dto.setId(item.getId());
+        dto.setQuantity(item.getQuantity());
+        dto.setUnitPrice(item.getUnitPrice());
+        dto.setStatus(item.getStatus());
+
+        return dto;
     }
 
     @Override
-    public List<Cart_ItemDTO> filterCart_Items(String username) {
+    public void updateCartItem(Cart_ItemDTO dto) {
 
-        try {
-            List<Cart_ItemDTO> cartItemDTOList = new ArrayList<>();
-            List<Cart_Item> cartItems = cartItemRepository.findByUsernameContaining((username));
-            for (Cart_Item cart_item :cartItems) {
-                Cart_ItemDTO cartItemDTO = new Cart_ItemDTO();
-                cartItemDTO.setId(cart_item.getId());
-                cartItemDTO.setQuantity(cart_item.getQuantity());
-                cartItemDTO.setUnitPrice(cart_item.getUnitPrice());
-                cartItemDTO.setStatus(cart_item.getStatus());
+        Cart_Item item = repository.findById(dto.getId())
+                .orElseThrow(() ->
+                        new RuntimeException("Cart item not found"));
 
-                cartItemDTOList.add(cartItemDTO);
-            }
-            return cartItemDTOList;
-        } catch (Exception e) {
-            log.error("Error filtering cart item");
-            throw e;
-        }
+        item.setQuantity(dto.getQuantity());
+        item.setUnitPrice(dto.getUnitPrice());
+        item.setStatus(dto.getStatus());
+
+        repository.save(item);
     }
 
     @Override
-    public void changeCart_ItemRole(long cart_itemID, long roleID) {
-        log.info("Change cart item role");
-        try {
-            Optional<Cart_Item> cart_item = cartItemRepository.findById(cart_itemID);
-            if(cart_item.isEmpty()){
-                throw new RuntimeException( "cart item not found " );
-            }
-            Role role = roleRepository.findById(roleID).orElseThrow(() -> new RuntimeException( "Role not found " ));
-            Cart_Item cart_item1 = cart_item.get();
-            cartItemRepository.save(cart_item1);
-        }catch(Exception e){
-            log.error("Error changing cart item role");
-            throw e;
-        }
+    public void changeCartItemStatus(Long id) {
 
+        Cart_Item item = repository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Cart item not found"));
+
+        item.setStatus(UserStatus.INACTIVE);
+
+        repository.save(item);
     }
 }

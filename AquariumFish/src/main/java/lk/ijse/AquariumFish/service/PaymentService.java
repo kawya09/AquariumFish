@@ -1,18 +1,20 @@
 package lk.ijse.AquariumFish.service;
 
 import lk.ijse.AquariumFish.dto.PaymentDTO;
-import lk.ijse.AquariumFish.dto.ReviewDTO;
 
 import java.util.List;
 
 public interface PaymentService {
-    void savePayment(PaymentDTO paymentDTO);
+
+    void savePayment(PaymentDTO dto);
 
     List<PaymentDTO> getAllPayments();
 
-    void updatePayments(PaymentDTO paymentDTO);
+    PaymentDTO getPaymentById(Long id);
 
-    void changePaymentStatus(long paymentDTO);
+    void updatePayment(PaymentDTO dto);
 
-    List<PaymentDTO> filterPayments(String username);
+    void changePaymentStatus(Long id);
+
+    List<PaymentDTO> filterPayments(String paymentStatus);
 }

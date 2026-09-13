@@ -20,136 +20,193 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+
+    public UserServiceImpl(UserRepository userRepository,
+                           RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
     }
+
     @Override
     public void saveUser(UserDTO userDTO) {
         log.info("Save user");
 
-        try{
-            Role role = roleRepository.findById(userDTO.getId())
-                    .orElseThrow(() -> new RuntimeException( "Role not found " ));
+        try {
+            Role role = roleRepository.findById(userDTO.getRoleId())
+                    .orElseThrow(() ->
+                            new RuntimeException("Role not found"));
 
             User user = new User();
+
             user.setUsername(userDTO.getUsername());
             user.setPassword(userDTO.getPassword());
             user.setEmail(userDTO.getEmail());
             user.setStatus(userDTO.getStatus());
             user.setRole(role);
+
             userRepository.save(user);
-        }catch(Exception e){
-            log.error("Error saving user",e);
+
+        } catch (Exception e) {
+            log.error("Error saving user", e);
             throw e;
         }
-
     }
 
     @Override
     public List<UserDTO> getAllUsers() {
+
         try {
+
             List<UserDTO> userDTOList = new ArrayList<>();
+
             List<User> users = userRepository.findAll();
+
             for (User user : users) {
+
                 UserDTO userDTO = new UserDTO();
+
                 userDTO.setId(user.getId());
                 userDTO.setUsername(user.getUsername());
                 userDTO.setPassword(user.getPassword());
                 userDTO.setEmail(user.getEmail());
                 userDTO.setStatus(user.getStatus());
+
+                if (user.getRole() != null) {
+                    userDTO.setRoleId(user.getRole().getId());
+                }
+
                 userDTOList.add(userDTO);
             }
+
             return userDTOList;
+
         } catch (Exception e) {
-            log.error("Error getting All user");
+            log.error("Error getting all users", e);
             throw e;
         }
-
     }
 
     @Override
     public void updateUser(UserDTO userDTO) {
-        log.info("Update user");
-        try{
-            Optional<User> user = userRepository.findById(userDTO.getId());
-            if(user.isEmpty()){
-                throw new RuntimeException( "User not found " );
 
+        log.info("Update user");
+
+        try {
+
+            Optional<User> optionalUser =
+                    userRepository.findById(userDTO.getId());
+
+            if (optionalUser.isEmpty()) {
+                throw new RuntimeException("User not found");
             }
-           User user1 = user.get();
-            user1.setUsername(userDTO.getUsername());
-            user1.setPassword(userDTO.getPassword());
-            user1.setEmail(userDTO.getEmail());
-            user1.setStatus(userDTO.getStatus());
-            Role role = roleRepository.findById(userDTO.getRoleId()).orElseThrow(() -> new RuntimeException( "Role not found " ));
-            User user2 = user.get();
-            user1.setRole(role);
-            userRepository.save(user1);
-        }catch(Exception e){
-            log.error("Error updating user");
+
+            User user = optionalUser.get();
+
+            user.setUsername(userDTO.getUsername());
+            user.setPassword(userDTO.getPassword());
+            user.setEmail(userDTO.getEmail());
+            user.setStatus(userDTO.getStatus());
+
+            if (userDTO.getRoleId() != null) {
+
+                Role role = roleRepository.findById(userDTO.getRoleId())
+                        .orElseThrow(() ->
+                                new RuntimeException("Role not found"));
+
+                user.setRole(role);
+            }
+
+            userRepository.save(user);
+
+        } catch (Exception e) {
+            log.error("Error updating user", e);
             throw e;
         }
-
-
-
     }
 
     @Override
     public void changeUserStatus(long userId) {
+
         log.info("Change user status");
+
         try {
-            Optional<User> user = userRepository.findById(userId);
-            if(user.isEmpty()){
-                throw new RuntimeException( "User not found " );
+
+            Optional<User> optionalUser =
+                    userRepository.findById(userId);
+
+            if (optionalUser.isEmpty()) {
+                throw new RuntimeException("User not found");
             }
-            User user1 = user.get();
-            user1.setStatus(UserStatus.INACTIVE);
-            userRepository.save(user1);
+
+            User user = optionalUser.get();
+
+            user.setStatus(UserStatus.INACTIVE);
+
+            userRepository.save(user);
+
         } catch (Exception e) {
-            log.error("Error canging user status");
+            log.error("Error changing user status", e);
             throw e;
         }
-
     }
 
     @Override
     public List<UserDTO> filterUsers(String username) {
+
         try {
+
             List<UserDTO> userDTOList = new ArrayList<>();
-            List<User> users = userRepository.findByUsernameContaining((username));
+
+            List<User> users =
+                    userRepository.findByUsernameContaining(username);
+
             for (User user : users) {
+
                 UserDTO userDTO = new UserDTO();
+
+                userDTO.setId(user.getId());
                 userDTO.setUsername(user.getUsername());
                 userDTO.setPassword(user.getPassword());
                 userDTO.setEmail(user.getEmail());
                 userDTO.setStatus(user.getStatus());
+
+                if (user.getRole() != null) {
+                    userDTO.setRoleId(user.getRole().getId());
+                }
+
                 userDTOList.add(userDTO);
             }
+
             return userDTOList;
+
         } catch (Exception e) {
-            log.error("Error filter user");
+            log.error("Error filtering users", e);
             throw e;
         }
-
     }
 
     @Override
     public void changeUserRole(long userID, long roleID) {
+
         log.info("Change user role");
+
         try {
-            Optional<User> user = userRepository.findById(userID);
-            if(user.isEmpty()){
-                throw new RuntimeException( "User not found " );
-            }
-            Role role = roleRepository.findById(roleID).orElseThrow(() -> new RuntimeException( "Role not found " ));
-            User user1 = user.get();
-            user1.setRole(role);
-            userRepository.save(user1);
-        }catch(Exception e){
-            log.error("Error saving user");
+
+            User user = userRepository.findById(userID)
+                    .orElseThrow(() ->
+                            new RuntimeException("User not found"));
+
+            Role role = roleRepository.findById(roleID)
+                    .orElseThrow(() ->
+                            new RuntimeException("Role not found"));
+
+            user.setRole(role);
+
+            userRepository.save(user);
+
+        } catch (Exception e) {
+            log.error("Error changing user role", e);
             throw e;
         }
-
     }
 }

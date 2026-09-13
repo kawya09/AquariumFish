@@ -1,20 +1,22 @@
 package lk.ijse.AquariumFish.service;
 
 import lk.ijse.AquariumFish.dto.SellerDTO;
-import lk.ijse.AquariumFish.dto.UserDTO;
 
 import java.util.List;
 
 public interface SellerService {
+
     void saveSeller(SellerDTO sellerDTO);
 
     List<SellerDTO> getAllSellers();
 
+    SellerDTO getSellerById(Long id);
+
     void updateSeller(SellerDTO sellerDTO);
 
-    void changeSellerStatus(long sellerDTO);
+    void changeSellerStatus(Long id);
 
-    List<SellerDTO> filterSellers(String username);
+    List<SellerDTO> filterSellers(String shopName);
 
-    void changeSellerRole(long sellerID, long roleID);
+    void changeSellerRole(Long sellerId, Long roleId);
 }

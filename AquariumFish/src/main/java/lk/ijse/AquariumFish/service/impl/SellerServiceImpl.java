@@ -1,151 +1,175 @@
 package lk.ijse.AquariumFish.service.impl;
 
 import lk.ijse.AquariumFish.dto.SellerDTO;
-import lk.ijse.AquariumFish.dto.UserDTO;
 import lk.ijse.AquariumFish.entity.Role;
 import lk.ijse.AquariumFish.entity.Seller;
-import lk.ijse.AquariumFish.entity.User;
 import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lk.ijse.AquariumFish.repository.RoleRepository;
 import lk.ijse.AquariumFish.repository.SellerRepository;
 import lk.ijse.AquariumFish.service.SellerService;
-import lk.ijse.AquariumFish.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
-
 public class SellerServiceImpl implements SellerService {
 
-    private SellerRepository sellerRepository;
-    private RoleRepository roleRepository;
+    private final SellerRepository sellerRepository;
+    private final RoleRepository roleRepository;
 
-    public SellerServiceImpl(SellerRepository sellerRepository, RoleRepository roleRepository) {
+    public SellerServiceImpl(SellerRepository sellerRepository,
+                             RoleRepository roleRepository) {
         this.sellerRepository = sellerRepository;
         this.roleRepository = roleRepository;
     }
 
     @Override
-    public void saveSeller(SellerDTO sellerDTO) {
-        log.info("Saving seller");
+    public void saveSeller(SellerDTO dto) {
 
-        try {
-            Role role = roleRepository.findById(sellerDTO.getId())
-                    .orElseThrow(() -> new RuntimeException( "seller not found " ));
-            Seller seller = new Seller();
-            seller.setShopName(sellerDTO.getShopName());
-            seller.setPhone(sellerDTO.getPhone());
-            seller.setAddress(sellerDTO.getAddress());
-            seller.setStatus(sellerDTO.getStatus());
+        Seller seller = new Seller();
+
+        seller.setShopName(dto.getShopName());
+        seller.setPhone(dto.getPhone());
+        seller.setAddress(dto.getAddress());
+        seller.setStatus(dto.getStatus());
+
+        if (dto.getRoleId() != null) {
+
+            Role role = roleRepository.findById(dto.getRoleId())
+                    .orElseThrow(() ->
+                            new RuntimeException("Role not found"));
+
             seller.setRole(role);
-            sellerRepository.save(seller);
-        }catch (Exception e){
-            log.error("Error saving seller",e);
-            throw e;
         }
 
+        sellerRepository.save(seller);
     }
 
     @Override
     public List<SellerDTO> getAllSellers() {
-        try {
-            List<SellerDTO> sellerDTOList = new ArrayList<>();
-            List<Seller> sellers = sellerRepository.findAll();
-            for (Seller seller : sellers) {
-                SellerDTO sellerDTO = new SellerDTO();
-                sellerDTO.setId(seller.getId());
-                sellerDTO.setShopName(seller.getShopName());
-                sellerDTO.setPhone(seller.getPhone());
-                sellerDTO.setAddress(seller.getAddress());
-                sellerDTO.setStatus(seller.getStatus());
-                sellerDTOList.add(sellerDTO);
 
+        List<SellerDTO> list = new ArrayList<>();
+
+        for (Seller seller : sellerRepository.findAll()) {
+
+            SellerDTO dto = new SellerDTO();
+
+            dto.setId(seller.getId());
+            dto.setShopName(seller.getShopName());
+            dto.setPhone(seller.getPhone());
+            dto.setAddress(seller.getAddress());
+            dto.setStatus(seller.getStatus());
+
+            if (seller.getRole() != null) {
+                dto.setRoleId(seller.getRole().getId());
             }
-            return sellerDTOList;
-        } catch (Exception e) {
-            log.error("Error getting all seller");
-            throw e;
+
+            list.add(dto);
         }
 
+        return list;
     }
 
     @Override
-    public void updateSeller(SellerDTO sellerDTO) {
-        log.info("Update seller");
-        try{
-            Optional<Seller> seller = sellerRepository.findById(sellerDTO.getId());
-            if(seller.isEmpty()){
-                throw new RuntimeException( "Seller not found " );
+    public SellerDTO getSellerById(Long id) {
 
-            }
-            Seller seller1 = seller.get();
-           seller1.setShopName(sellerDTO.getShopName());
-           seller1.setPhone(sellerDTO.getPhone());
-           seller1.setAddress(sellerDTO.getAddress());
-           seller1.setStatus(sellerDTO.getStatus());
-            Role role = roleRepository.findById(sellerDTO.getRoleId()).orElseThrow(() -> new RuntimeException( "Role not found " ));
-            Seller seller2 = seller.get();
-            seller1.setRole(role);
-            sellerRepository.save(seller1);
-        }catch(Exception e){
-            log.error("Error updating seller");
-            throw e;
+        Seller seller = sellerRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Seller not found"));
+
+        SellerDTO dto = new SellerDTO();
+
+        dto.setId(seller.getId());
+        dto.setShopName(seller.getShopName());
+        dto.setPhone(seller.getPhone());
+        dto.setAddress(seller.getAddress());
+        dto.setStatus(seller.getStatus());
+
+        if (seller.getRole() != null) {
+            dto.setRoleId(seller.getRole().getId());
         }
+
+        return dto;
     }
 
     @Override
-    public void changeSellerStatus(long sellerId) {
-        log.info("Change seller status");
-        try {
-            Optional<Seller> seller = sellerRepository.findById(sellerId);
-            if(seller.isEmpty()){
-                throw new RuntimeException( "Seller not found " );
-            }
-            Seller seller1 = seller.get();
-            seller1.setStatus(UserStatus.INACTIVE);
-            sellerRepository.save(seller1);
-        } catch (Exception e) {
-            log.error("Error changing seller status");
-            throw e;
+    public void updateSeller(SellerDTO dto) {
+
+        Seller seller = sellerRepository.findById(dto.getId())
+                .orElseThrow(() ->
+                        new RuntimeException("Seller not found"));
+
+        seller.setShopName(dto.getShopName());
+        seller.setPhone(dto.getPhone());
+        seller.setAddress(dto.getAddress());
+        seller.setStatus(dto.getStatus());
+
+        if (dto.getRoleId() != null) {
+
+            Role role = roleRepository.findById(dto.getRoleId())
+                    .orElseThrow(() ->
+                            new RuntimeException("Role not found"));
+
+            seller.setRole(role);
         }
+
+        sellerRepository.save(seller);
     }
 
     @Override
-    public List<SellerDTO> filterSellers(String username) {
-        try {
-            List<SellerDTO> sellerDTOList = new ArrayList<>();
-            List<Seller> sellers = sellerRepository.findByUsernameContaining((username));
-            for (Seller seller :sellers) {
+    public void changeSellerStatus(Long id) {
 
-            }
-            return sellerDTOList;
-        } catch (Exception e) {
-            log.error("Error filtering seller");
-            throw e;
-        }
+        Seller seller = sellerRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Seller not found"));
+
+        seller.setStatus(UserStatus.INACTIVE);
+
+        sellerRepository.save(seller);
     }
 
     @Override
-    public void changeSellerRole(long sellerID, long roleID) {
-        log.info("Change seller role");
-        try {
-            Optional<Seller> seller = sellerRepository.findById(sellerID);
-            if(seller.isEmpty()){
-                throw new RuntimeException( "seller not found " );
+    public List<SellerDTO> filterSellers(String shopName) {
+
+        List<SellerDTO> list = new ArrayList<>();
+
+        for (Seller seller :
+                sellerRepository.findByShopNameContaining(shopName)) {
+
+            SellerDTO dto = new SellerDTO();
+
+            dto.setId(seller.getId());
+            dto.setShopName(seller.getShopName());
+            dto.setPhone(seller.getPhone());
+            dto.setAddress(seller.getAddress());
+            dto.setStatus(seller.getStatus());
+
+            if (seller.getRole() != null) {
+                dto.setRoleId(seller.getRole().getId());
             }
-            Role role = roleRepository.findById(roleID).orElseThrow(() -> new RuntimeException( "Role not found " ));
-            Seller seller1 = seller.get();
-//            seller1.setRole(role);
-            sellerRepository.save(seller1);
-        }catch(Exception e){
-            log.error("Error changing seller role");
-            throw e;
+
+            list.add(dto);
         }
 
+        return list;
+    }
+
+    @Override
+    public void changeSellerRole(Long sellerId, Long roleId) {
+
+        Seller seller = sellerRepository.findById(sellerId)
+                .orElseThrow(() ->
+                        new RuntimeException("Seller not found"));
+
+        Role role = roleRepository.findById(roleId)
+                .orElseThrow(() ->
+                        new RuntimeException("Role not found"));
+
+        seller.setRole(role);
+
+        sellerRepository.save(seller);
     }
 }

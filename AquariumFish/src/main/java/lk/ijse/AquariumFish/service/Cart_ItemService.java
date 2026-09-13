@@ -1,21 +1,18 @@
 package lk.ijse.AquariumFish.service;
 
-import lk.ijse.AquariumFish.dto.AdminDTO;
 import lk.ijse.AquariumFish.dto.Cart_ItemDTO;
-import lk.ijse.AquariumFish.entity.Cart_Item;
 
 import java.util.List;
 
 public interface Cart_ItemService {
-    void saveCart_Item(Cart_ItemDTO cart_itemDTO);
 
-    List<Cart_ItemDTO> getAllCart_Items();
+    void saveCartItem(Cart_ItemDTO dto);
 
-    void updateCart_Item(Cart_ItemDTO cart_itemDTO);
+    List<Cart_ItemDTO> getAllCartItems();
 
-    void changeCart_ItemStatus(long cart_itemDTO);
+    Cart_ItemDTO getCartItemById(Long id);
 
-    List<Cart_ItemDTO> filterCart_Items(String username);
+    void updateCartItem(Cart_ItemDTO dto);
 
-    void changeCart_ItemRole(long cart_itemID, long roleID);
+    void changeCartItemStatus(Long id);
 }
