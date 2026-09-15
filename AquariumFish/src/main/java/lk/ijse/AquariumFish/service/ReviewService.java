@@ -1,18 +1,20 @@
 package lk.ijse.AquariumFish.service;
 
 import lk.ijse.AquariumFish.dto.ReviewDTO;
-import lk.ijse.AquariumFish.dto.RoleDTO;
 
 import java.util.List;
 
 public interface ReviewService {
-    void saveReview(ReviewDTO reviewDTO);
+
+    void saveReview(ReviewDTO dto);
 
     List<ReviewDTO> getAllReviews();
 
-    void updateReviews(ReviewDTO reviewDTO);
+    ReviewDTO getReviewById(Long id);
 
-    void changeReviewStatus(long reviewDTO);
+    void updateReview(ReviewDTO dto);
 
-    List<ReviewDTO> filterReviews(String username);
+    void changeReviewStatus(Long id);
+
+    List<ReviewDTO> filterReviews(Integer rating);
 }

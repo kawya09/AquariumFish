@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -22,108 +23,136 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void saveCustomer(CustomerDTO dto) {
+    public void saveCustomer(CustomerDTO customerDTO) {
+        log.info("Save customer");
 
-        Customer customer = new Customer();
+        try {
+            Customer customer = new Customer();
 
-        customer.setFirstName(dto.getFirstName());
-        customer.setLastName(dto.getLastName());
-        customer.setPhone(dto.getPhone());
-        customer.setAddress(dto.getAddress());
-        customer.setStatus(dto.getStatus());
+            customer.setFirstName(customerDTO.getFirstName());
+            customer.setLastName(customerDTO.getLastName());
+            customer.setPhone(customerDTO.getPhone());
+            customer.setAddress(customerDTO.getAddress());
+            customer.setStatus(customerDTO.getStatus());
 
-        customerRepository.save(customer);
+            customerRepository.save(customer);
+
+        } catch (Exception e) {
+            log.error("Error saving customer", e);
+            throw e;
+        }
     }
 
     @Override
     public List<CustomerDTO> getAllCustomers() {
+        log.info("Get all customers");
 
-        List<CustomerDTO> list = new ArrayList<>();
+        try {
+            List<CustomerDTO> customerDTOList = new ArrayList<>();
 
-        for (Customer customer : customerRepository.findAll()) {
+            List<Customer> customers = customerRepository.findAll();
 
-            CustomerDTO dto = new CustomerDTO();
+            for (Customer customer : customers) {
+                CustomerDTO customerDTO = new CustomerDTO();
 
-            dto.setId(customer.getId());
-            dto.setFirstName(customer.getFirstName());
-            dto.setLastName(customer.getLastName());
-            dto.setPhone(customer.getPhone());
-            dto.setAddress(customer.getAddress());
-            dto.setStatus(customer.getStatus());
+                customerDTO.setId(customer.getId());
+                customerDTO.setFirstName(customer.getFirstName());
+                customerDTO.setLastName(customer.getLastName());
+                customerDTO.setPhone(customer.getPhone());
+                customerDTO.setAddress(customer.getAddress());
+                customerDTO.setStatus(customer.getStatus());
 
-            list.add(dto);
+                customerDTOList.add(customerDTO);
+            }
+
+            return customerDTOList;
+
+        } catch (Exception e) {
+            log.error("Error getting all customers", e);
+            throw e;
         }
-
-        return list;
     }
 
     @Override
-    public CustomerDTO getCustomerById(Long id) {
+    public void updateCustomer(CustomerDTO customerDTO) {
+        log.info("Update customer");
 
-        Customer customer = customerRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Customer not found"));
+        try {
+            Optional<Customer> optionalCustomer =
+                    customerRepository.findById(customerDTO.getId());
 
-        CustomerDTO dto = new CustomerDTO();
+            if (optionalCustomer.isEmpty()) {
+                throw new RuntimeException("Customer not found");
+            }
 
-        dto.setId(customer.getId());
-        dto.setFirstName(customer.getFirstName());
-        dto.setLastName(customer.getLastName());
-        dto.setPhone(customer.getPhone());
-        dto.setAddress(customer.getAddress());
-        dto.setStatus(customer.getStatus());
+            Customer customer = optionalCustomer.get();
 
-        return dto;
-    }
+            customer.setFirstName(customerDTO.getFirstName());
+            customer.setLastName(customerDTO.getLastName());
+            customer.setPhone(customerDTO.getPhone());
+            customer.setAddress(customerDTO.getAddress());
+            customer.setStatus(customerDTO.getStatus());
 
-    @Override
-    public void updateCustomer(CustomerDTO dto) {
+            customerRepository.save(customer);
 
-        Customer customer = customerRepository.findById(dto.getId())
-                .orElseThrow(() ->
-                        new RuntimeException("Customer not found"));
-
-        customer.setFirstName(dto.getFirstName());
-        customer.setLastName(dto.getLastName());
-        customer.setPhone(dto.getPhone());
-        customer.setAddress(dto.getAddress());
-        customer.setStatus(dto.getStatus());
-
-        customerRepository.save(customer);
-    }
-
-    @Override
-    public void changeCustomerStatus(Long id) {
-
-        Customer customer = customerRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Customer not found"));
-
-        customer.setStatus(UserStatus.INACTIVE);
-
-        customerRepository.save(customer);
-    }
-
-    @Override
-    public List<CustomerDTO> filterCustomers(String name) {
-
-        List<CustomerDTO> list = new ArrayList<>();
-
-        for (Customer customer :
-                customerRepository.findByFirstNameContaining(name)) {
-
-            CustomerDTO dto = new CustomerDTO();
-
-            dto.setId(customer.getId());
-            dto.setFirstName(customer.getFirstName());
-            dto.setLastName(customer.getLastName());
-            dto.setPhone(customer.getPhone());
-            dto.setAddress(customer.getAddress());
-            dto.setStatus(customer.getStatus());
-
-            list.add(dto);
+        } catch (Exception e) {
+            log.error("Error updating customer", e);
+            throw e;
         }
+    }
 
-        return list;
+    @Override
+    public void changeCustomerStatus(long customerId) {
+        log.info("Change customer status");
+
+        try {
+            Optional<Customer> optionalCustomer =
+                    customerRepository.findById(customerId);
+
+            if (optionalCustomer.isEmpty()) {
+                throw new RuntimeException("Customer not found");
+            }
+
+            Customer customer = optionalCustomer.get();
+
+            customer.setStatus(UserStatus.INACTIVE);
+
+            customerRepository.save(customer);
+
+        } catch (Exception e) {
+            log.error("Error changing customer status", e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<CustomerDTO> filterCustomers(String firstName) {
+        log.info("Filter customers");
+
+        try {
+            List<CustomerDTO> customerDTOList = new ArrayList<>();
+
+            List<Customer> customers =
+                    customerRepository.findByFirstNameContaining(firstName);
+
+            for (Customer customer : customers) {
+                CustomerDTO customerDTO = new CustomerDTO();
+
+                customerDTO.setId(customer.getId());
+                customerDTO.setFirstName(customer.getFirstName());
+                customerDTO.setLastName(customer.getLastName());
+                customerDTO.setPhone(customer.getPhone());
+                customerDTO.setAddress(customer.getAddress());
+                customerDTO.setStatus(customer.getStatus());
+
+                customerDTOList.add(customerDTO);
+            }
+
+            return customerDTOList;
+
+        } catch (Exception e) {
+            log.error("Error filtering customers", e);
+            throw e;
+        }
     }
 }

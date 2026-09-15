@@ -10,11 +10,9 @@ public interface CustomerService {
 
     List<CustomerDTO> getAllCustomers();
 
-    CustomerDTO getCustomerById(Long id);
-
     void updateCustomer(CustomerDTO customerDTO);
 
-    void changeCustomerStatus(Long id);
+    void changeCustomerStatus(long customerId);
 
-    List<CustomerDTO> filterCustomers(String name);
+    List<CustomerDTO> filterCustomers(String firstName);
 }

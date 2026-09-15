@@ -1,20 +1,20 @@
 package lk.ijse.AquariumFish.service;
 
-import lk.ijse.AquariumFish.dto.CustomerDTO;
 import lk.ijse.AquariumFish.dto.DeliveryDTO;
 
 import java.util.List;
 
 public interface DeliveryService {
-    void saveDelivery(DeliveryDTO deliveryDTO);
+
+    void saveDelivery(DeliveryDTO dto);
 
     List<DeliveryDTO> getAllDeliveries();
 
-    void updateDelivery(DeliveryDTO deliveryDTO);
+    DeliveryDTO getDeliveryById(Long id);
 
-    void changeDeliveryStatus(long deliveryDTO);
+    void updateDelivery(DeliveryDTO dto);
 
-    List<DeliveryDTO> filterDelivers(String username);
+    void changeDeliveryStatus(Long id);
 
-    void changeDeliveryRole(long deliveryID, long roleID);
+    List<DeliveryDTO> filterDeliveries(String trackingNo);
 }

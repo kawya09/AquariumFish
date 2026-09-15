@@ -10,11 +10,9 @@ public interface AdminService {
 
     List<AdminDTO> getAllAdmins();
 
-    AdminDTO getAdminById(Long id);
-
     void updateAdmin(AdminDTO adminDTO);
 
-    void changeAdminStatus(Long id);
+    void changeAdminStatus(long adminId);
 
     List<AdminDTO> filterAdmins(String adminName);
 }

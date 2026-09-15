@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -23,92 +24,123 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void saveAdmin(AdminDTO adminDTO) {
+        log.info("Save admin");
 
-        Admin admin = new Admin();
+        try {
+            Admin admin = new Admin();
 
-        admin.setAdminName(adminDTO.getAdminName());
-        admin.setStatus(adminDTO.getStatus());
+            admin.setAdminName(adminDTO.getAdminName());
+            admin.setStatus(adminDTO.getStatus());
 
-        adminRepository.save(admin);
+            adminRepository.save(admin);
+
+        } catch (Exception e) {
+            log.error("Error saving admin", e);
+            throw e;
+        }
     }
 
     @Override
     public List<AdminDTO> getAllAdmins() {
+        log.info("Get all admins");
 
-        List<AdminDTO> list = new ArrayList<>();
+        try {
+            List<AdminDTO> adminDTOList = new ArrayList<>();
 
-        for (Admin admin : adminRepository.findAll()) {
+            List<Admin> admins = adminRepository.findAll();
 
-            AdminDTO dto = new AdminDTO();
+            for (Admin admin : admins) {
+                AdminDTO adminDTO = new AdminDTO();
 
-            dto.setId(admin.getId());
-            dto.setAdminName(admin.getAdminName());
-            dto.setStatus(admin.getStatus());
+                adminDTO.setId(admin.getId());
+                adminDTO.setAdminName(admin.getAdminName());
+                adminDTO.setStatus(admin.getStatus());
 
-            list.add(dto);
+                adminDTOList.add(adminDTO);
+            }
+
+            return adminDTOList;
+
+        } catch (Exception e) {
+            log.error("Error getting all admins", e);
+            throw e;
         }
-
-        return list;
-    }
-
-    @Override
-    public AdminDTO getAdminById(Long id) {
-
-        Admin admin = adminRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Admin not found"));
-
-        AdminDTO dto = new AdminDTO();
-
-        dto.setId(admin.getId());
-        dto.setAdminName(admin.getAdminName());
-        dto.setStatus(admin.getStatus());
-
-        return dto;
     }
 
     @Override
     public void updateAdmin(AdminDTO adminDTO) {
+        log.info("Update admin");
 
-        Admin admin = adminRepository.findById(adminDTO.getId())
-                .orElseThrow(() ->
-                        new RuntimeException("Admin not found"));
+        try {
+            Optional<Admin> optionalAdmin =
+                    adminRepository.findById(adminDTO.getId());
 
-        admin.setAdminName(adminDTO.getAdminName());
-        admin.setStatus(adminDTO.getStatus());
+            if (optionalAdmin.isEmpty()) {
+                throw new RuntimeException("Admin not found");
+            }
 
-        adminRepository.save(admin);
+            Admin admin = optionalAdmin.get();
+
+            admin.setAdminName(adminDTO.getAdminName());
+            admin.setStatus(adminDTO.getStatus());
+
+            adminRepository.save(admin);
+
+        } catch (Exception e) {
+            log.error("Error updating admin", e);
+            throw e;
+        }
     }
 
     @Override
-    public void changeAdminStatus(Long id) {
+    public void changeAdminStatus(long adminId) {
+        log.info("Change admin status");
 
-        Admin admin = adminRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Admin not found"));
+        try {
+            Optional<Admin> optionalAdmin =
+                    adminRepository.findById(adminId);
 
-        admin.setStatus(UserStatus.INACTIVE);
+            if (optionalAdmin.isEmpty()) {
+                throw new RuntimeException("Admin not found");
+            }
 
-        adminRepository.save(admin);
+            Admin admin = optionalAdmin.get();
+
+            admin.setStatus(UserStatus.INACTIVE);
+
+            adminRepository.save(admin);
+
+        } catch (Exception e) {
+            log.error("Error changing admin status", e);
+            throw e;
+        }
     }
 
     @Override
     public List<AdminDTO> filterAdmins(String adminName) {
+        log.info("Filter admins");
 
-        List<AdminDTO> list = new ArrayList<>();
+        try {
+            List<AdminDTO> adminDTOList = new ArrayList<>();
 
-        for (Admin admin :
-                adminRepository.findByAdminNameContaining(adminName)) {
+            List<Admin> admins =
+                    adminRepository.findByAdminNameContaining(adminName);
 
-            AdminDTO dto = new AdminDTO();
+            for (Admin admin : admins) {
+                AdminDTO adminDTO = new AdminDTO();
 
-            dto.setId(admin.getId());
-            dto.setAdminName(admin.getAdminName());
-            dto.setStatus(admin.getStatus());
+                adminDTO.setId(admin.getId());
+                adminDTO.setAdminName(admin.getAdminName());
+                adminDTO.setStatus(admin.getStatus());
 
-            list.add(dto);
+                adminDTOList.add(adminDTO);
+            }
+
+            return adminDTOList;
+
+        } catch (Exception e) {
+            log.error("Error filtering admins", e);
+            throw e;
         }
-
-        return list;
     }
 }

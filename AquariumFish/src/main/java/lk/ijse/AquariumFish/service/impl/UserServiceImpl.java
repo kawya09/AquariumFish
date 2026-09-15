@@ -54,6 +54,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getAllUsers() {
+        log.info("Get all users");
 
         try {
 

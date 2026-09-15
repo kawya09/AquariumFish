@@ -3,6 +3,7 @@ package lk.ijse.AquariumFish.service.impl;
 import lk.ijse.AquariumFish.dto.SellerDTO;
 import lk.ijse.AquariumFish.entity.Role;
 import lk.ijse.AquariumFish.entity.Seller;
+import lk.ijse.AquariumFish.entity.User;
 import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lk.ijse.AquariumFish.repository.RoleRepository;
 import lk.ijse.AquariumFish.repository.SellerRepository;
@@ -29,23 +30,23 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public void saveSeller(SellerDTO dto) {
 
-        Seller seller = new Seller();
+        log.info("Save selller");
 
-        seller.setShopName(dto.getShopName());
-        seller.setPhone(dto.getPhone());
-        seller.setAddress(dto.getAddress());
-        seller.setStatus(dto.getStatus());
-
-        if (dto.getRoleId() != null) {
-
-            Role role = roleRepository.findById(dto.getRoleId())
+        try {
+            Role role = roleRepository.findById(sellerDTO.getRoleId())
                     .orElseThrow(() ->
                             new RuntimeException("Role not found"));
 
-            seller.setRole(role);
-        }
+            User user = new User();
+            role.setId(getSellerById().setId(););
 
-        sellerRepository.save(seller);
+
+            sellerRepository.save(user);
+
+        } catch (Exception e) {
+            log.error("Error saving user", e);
+            throw e;
+        }
     }
 
     @Override
