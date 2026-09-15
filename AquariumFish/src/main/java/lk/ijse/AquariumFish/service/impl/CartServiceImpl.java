@@ -117,14 +117,14 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<CartDTO> filterCarts(String status) {
+    public List<CartDTO> filterCarts(Long id) {
         log.info("Filter carts");
 
         try {
             List<CartDTO> cartDTOList = new ArrayList<>();
 
             List<Cart> carts =
-                    cartRepository.findByStatusContaining(status);
+                    cartRepository.findByStatusContaining(id);
 
             for (Cart cart : carts) {
                 CartDTO cartDTO = new CartDTO();
@@ -143,4 +143,6 @@ public class CartServiceImpl implements CartService {
             throw e;
         }
     }
+
+
 }

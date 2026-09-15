@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface AdminRepository extends JpaRepository<Admin,Long> {
-    @Query(value = "SELECT * FROM admin WHERE ?1 IS NULL OR admin_name LIKE %1%", nativeQuery = true)
-    List<Admin> findByUsernameContaining(String username);
+public interface AdminRepository extends JpaRepository<Admin, Long> {
 
-    Admin[] findByAdminNameContaining(String adminName);
+    @Query(value = "SELECT * FROM admin WHERE ?1 IS NULL OR admin_name LIKE CONCAT('%', ?1, '%')",
+            nativeQuery = true)
+    List<Admin> findByAdminNameContaining(String adminName);
+
 }

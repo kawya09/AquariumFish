@@ -120,31 +120,32 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDTO> filterOrders(String status) {
-        log.info("Filter orders");
+    public List<OrderDTO> filterOrders(Long id) {
+            log.info("Filter orders");
 
-        try {
-            List<OrderDTO> orderDTOList = new ArrayList<>();
+            try {
+                List<OrderDTO> orderDTOList = new ArrayList<>();
 
-            List<Order> orders =
-                    orderRepository.findByStatusContaining(status);
+                List<Order> orders =
+                        orderRepository.findByStatusContaining(id);
 
-            for (Order order : orders) {
-                OrderDTO orderDTO = new OrderDTO();
+                for (Order order : orders) {
+                    OrderDTO orderDTO = new OrderDTO();
 
-                orderDTO.setId(order.getId());
-                orderDTO.setOrderDate(order.getOrderDate());
-                orderDTO.setTotalAmount(order.getTotalAmount());
-                orderDTO.setStatus(order.getStatus());
+                    orderDTO.setId(order.getId());
+                    orderDTO.setOrderDate(order.getOrderDate());
+                    orderDTO.setTotalAmount(order.getTotalAmount());
+                    orderDTO.setStatus(order.getStatus());
 
-                orderDTOList.add(orderDTO);
+                    orderDTOList.add(orderDTO);
+                }
+
+                return orderDTOList;
+
+            } catch (Exception e) {
+                log.error("Error filtering orders", e);
+                throw e;
             }
-
-            return orderDTOList;
-
-        } catch (Exception e) {
-            log.error("Error filtering orders", e);
-            throw e;
         }
     }
-}
+

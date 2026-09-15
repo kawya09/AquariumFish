@@ -9,6 +9,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
+@Table(name = "orders")
 @AllArgsConstructor
 public class Order {
     @Id

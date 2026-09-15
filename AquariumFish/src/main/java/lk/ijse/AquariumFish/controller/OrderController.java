@@ -46,8 +46,8 @@ public class OrderController {
     }
 
     @GetMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonResponse FilterOrder(@RequestParam String status) {
-        List<OrderDTO> orderDTOList = orderService.filterOrders(status);
+    public CommonResponse FilterOrder(@RequestParam Long id) {
+        List<OrderDTO> orderDTOList = orderService.filterOrders(id);
         return new CommonResponse(OPERATION_SUCCESS, orderDTOList, SUCCESS_MESSAGE);
     }
 }

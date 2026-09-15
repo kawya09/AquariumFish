@@ -124,14 +124,14 @@ public class Order_ItemServiceImpl implements Order_ItemService {
     }
 
     @Override
-    public List<Order_ItemDTO> filterOrderItems(String status) {
+    public List<Order_ItemDTO> filterOrderItems(Long id) {
         log.info("Filter order items");
 
         try {
             List<Order_ItemDTO> orderItemDTOList = new ArrayList<>();
 
             List<Order_Item> orderItems =
-                    orderItemRepository.findByStatusContaining(status);
+                    orderItemRepository.findByStatusContaining(id);
 
             for (Order_Item orderItem : orderItems) {
                 Order_ItemDTO orderItemDTO = new Order_ItemDTO();
@@ -152,4 +152,5 @@ public class Order_ItemServiceImpl implements Order_ItemService {
             throw e;
         }
     }
-}
+    }
+

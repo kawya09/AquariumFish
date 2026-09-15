@@ -14,5 +14,5 @@ public interface Order_ItemService {
 
     void changeOrderItemStatus(long orderItemId);
 
-    List<Order_ItemDTO> filterOrderItems(String status);
+    List<Order_ItemDTO> filterOrderItems(Long id);
 }

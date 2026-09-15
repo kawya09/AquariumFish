@@ -14,5 +14,5 @@ public interface CartService {
 
     void changeCartStatus(long cartId);
 
-    List<CartDTO> filterCarts(String status);
+    List<CartDTO> filterCarts(Long id);
 }

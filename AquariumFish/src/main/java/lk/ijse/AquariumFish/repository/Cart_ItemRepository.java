@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface Cart_ItemRepository extends JpaRepository<Cart_Item,Long> {
-    List<Cart_Item> findByUsernameContaining(String username);
+
+
+    List<Cart_Item> findByStatusContaining(Long id);
 }

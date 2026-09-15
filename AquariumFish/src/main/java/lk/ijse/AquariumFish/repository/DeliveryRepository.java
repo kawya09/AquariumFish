@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     List<Delivery> findByUsernameContaining(String username);
+    List<Delivery> findByTrackingNoContaining(String trakingNo);
 }
