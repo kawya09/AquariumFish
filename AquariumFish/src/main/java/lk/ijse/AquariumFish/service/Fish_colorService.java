@@ -4,17 +4,15 @@ import lk.ijse.AquariumFish.dto.Fish_ColorDTO;
 
 import java.util.List;
 
-public interface Fish_ColorService {
+public interface Fish_colorService {
 
-    void saveColor(Fish_ColorDTO dto);
+    void saveColor(Fish_ColorDTO colorDTO);
 
     List<Fish_ColorDTO> getAllColors();
 
-    Fish_ColorDTO getColorById(Long id);
+    void updateColor(Fish_ColorDTO colorDTO);
 
-    void updateColor(Fish_ColorDTO dto);
-
-    void changeColorStatus(Long id);
+    void changeColorStatus(long colorId);
 
     List<Fish_ColorDTO> filterColors(String colorName);
 }

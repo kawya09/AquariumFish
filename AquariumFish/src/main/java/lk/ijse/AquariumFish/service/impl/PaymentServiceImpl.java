@@ -5,122 +5,150 @@ import lk.ijse.AquariumFish.entity.Payment;
 import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lk.ijse.AquariumFish.repository.PaymentRepository;
 import lk.ijse.AquariumFish.service.PaymentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class PaymentServiceImpl implements PaymentService {
 
-    private final PaymentRepository repository;
+    private final PaymentRepository paymentRepository;
 
-    public PaymentServiceImpl(PaymentRepository repository) {
-        this.repository = repository;
+    public PaymentServiceImpl(PaymentRepository paymentRepository) {
+        this.paymentRepository = paymentRepository;
     }
 
     @Override
-    public void savePayment(PaymentDTO dto) {
+    public void savePayment(PaymentDTO paymentDTO) {
+        log.info("Save payment");
 
-        Payment payment = new Payment();
+        try {
+            Payment payment = new Payment();
 
-        payment.setPaymentMethod(dto.getPaymentMethod());
-        payment.setPaymentDate(dto.getPaymentDate());
-        payment.setAmount(dto.getAmount());
-        payment.setStatus(dto.getStatus());
+            payment.setPaymentMethod(paymentDTO.getPaymentMethod());
+            payment.setPaymentDate(paymentDTO.getPaymentDate());
+            payment.setAmount(paymentDTO.getAmount());
+            payment.setStatus(paymentDTO.getStatus());
 
-        repository.save(payment);
+            paymentRepository.save(payment);
+
+        } catch (Exception e) {
+            log.error("Error saving payment", e);
+            throw e;
+        }
     }
 
     @Override
     public List<PaymentDTO> getAllPayments() {
+        log.info("Get all payments");
 
-        List<PaymentDTO> list = new ArrayList<>();
+        try {
+            List<PaymentDTO> paymentDTOList = new ArrayList<>();
 
-        for (Payment payment : repository.findAll()) {
+            List<Payment> payments = paymentRepository.findAll();
 
-            PaymentDTO dto = new PaymentDTO();
+            for (Payment payment : payments) {
+                PaymentDTO paymentDTO = new PaymentDTO();
 
-            dto.setId(payment.getId());
-            dto.setPaymentMethod(payment.getPaymentMethod());
-            dto.setPaymentDate(payment.getPaymentDate());
-            dto.setAmount(payment.getAmount());
-            dto.setPaymentStatus(payment.getPaymentStatus());
-            dto.setStatus(payment.getStatus());
+                paymentDTO.setId(payment.getId());
+                paymentDTO.setPaymentMethod(payment.getPaymentMethod());
+                paymentDTO.setPaymentDate(payment.getPaymentDate());
+                paymentDTO.setAmount(payment.getAmount());
+                paymentDTO.setStatus(payment.getStatus());
 
-            list.add(dto);
+                paymentDTOList.add(paymentDTO);
+            }
+
+            return paymentDTOList;
+
+        } catch (Exception e) {
+            log.error("Error getting all payments", e);
+            throw e;
         }
-
-        return list;
     }
 
     @Override
-    public PaymentDTO getPaymentById(Long id) {
+    public void updatePayment(PaymentDTO paymentDTO) {
+        log.info("Update payment");
 
-        Payment payment = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Payment not found"));
+        try {
+            Optional<Payment> optionalPayment =
+                    paymentRepository.findById(paymentDTO.getId());
 
-        PaymentDTO dto = new PaymentDTO();
+            if (optionalPayment.isEmpty()) {
+                throw new RuntimeException("Payment not found");
+            }
 
-        dto.setId(payment.getId());
-        dto.setPaymentMethod(payment.getPaymentMethod());
-        dto.setPaymentDate(payment.getPaymentDate());
-        dto.setAmount(payment.getAmount());
-        dto.setPaymentStatus(payment.getPaymentStatus());
-        dto.setStatus(payment.getStatus());
+            Payment payment = optionalPayment.get();
 
-        return dto;
-    }
+            payment.setPaymentMethod(paymentDTO.getPaymentMethod());
+            payment.setPaymentDate(paymentDTO.getPaymentDate());
+            payment.setAmount(paymentDTO.getAmount());
+            payment.setStatus(paymentDTO.getStatus());
 
-    @Override
-    public void updatePayment(PaymentDTO dto) {
+            paymentRepository.save(payment);
 
-        Payment payment = repository.findById(dto.getId())
-                .orElseThrow(() ->
-                        new RuntimeException("Payment not found"));
-
-        payment.setPaymentMethod(dto.getPaymentMethod());
-        payment.setPaymentDate(dto.getPaymentDate());
-        payment.setAmount(dto.getAmount());
-        payment.setPaymentStatus(dto.getPaymentStatus());
-        payment.setStatus(dto.getStatus());
-
-        repository.save(payment);
-    }
-
-    @Override
-    public void changePaymentStatus(Long id) {
-
-        Payment payment = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Payment not found"));
-
-        payment.setStatus(UserStatus.INACTIVE);
-
-        repository.save(payment);
-    }
-
-    @Override
-    public List<PaymentDTO> filterPayments(String paymentStatus) {
-
-        List<PaymentDTO> list = new ArrayList<>();
-
-        for (Payment payment :
-                repository.findByPaymentStatusContaining(paymentStatus)) {
-
-            PaymentDTO dto = new PaymentDTO();
-
-            dto.setId(payment.getId());
-            dto.setPaymentMethod(payment.getPaymentMethod());
-            dto.setPaymentDate(payment.getPaymentDate());
-            dto.setAmount(payment.getAmount());
-            dto.setPaymentStatus(payment.getPaymentStatus());
-            dto.setStatus(payment.getStatus());
-
-            list.add(dto);
+        } catch (Exception e) {
+            log.error("Error updating payment", e);
+            throw e;
         }
+    }
 
-        return list;
+    @Override
+    public void changePaymentStatus(long paymentId) {
+        log.info("Change payment status");
+
+        try {
+            Optional<Payment> optionalPayment =
+                    paymentRepository.findById(paymentId);
+
+            if (optionalPayment.isEmpty()) {
+                throw new RuntimeException("Payment not found");
+            }
+
+            Payment payment = optionalPayment.get();
+
+            payment.setStatus(UserStatus.INACTIVE);
+
+            paymentRepository.save(payment);
+
+        } catch (Exception e) {
+            log.error("Error changing payment status", e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<PaymentDTO> filterPayments(String paymentMethod) {
+        log.info("Filter payments");
+
+        try {
+            List<PaymentDTO> paymentDTOList = new ArrayList<>();
+
+            List<Payment> payments =
+                    paymentRepository.findByPaymentMethodContaining(paymentMethod);
+
+            for (Payment payment : payments) {
+                PaymentDTO paymentDTO = new PaymentDTO();
+
+                paymentDTO.setId(payment.getId());
+                paymentDTO.setPaymentMethod(payment.getPaymentMethod());
+                paymentDTO.setPaymentDate(payment.getPaymentDate());
+                paymentDTO.setAmount(payment.getAmount());
+                paymentDTO.setStatus(payment.getStatus());
+
+                paymentDTOList.add(paymentDTO);
+            }
+
+            return paymentDTOList;
+
+        } catch (Exception e) {
+            log.error("Error filtering payments", e);
+            throw e;
+        }
     }
 }

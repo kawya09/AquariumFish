@@ -5,92 +5,147 @@ import lk.ijse.AquariumFish.entity.Cart_Item;
 import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lk.ijse.AquariumFish.repository.Cart_ItemRepository;
 import lk.ijse.AquariumFish.service.Cart_ItemService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class Cart_ItemServiceImpl implements Cart_ItemService {
 
-    private final Cart_ItemRepository repository;
+    private final Cart_ItemRepository cartItemRepository;
 
-    public Cart_ItemServiceImpl(Cart_ItemRepository repository) {
-        this.repository = repository;
+    public Cart_ItemServiceImpl(Cart_ItemRepository cartItemRepository) {
+        this.cartItemRepository = cartItemRepository;
     }
 
     @Override
-    public void saveCartItem(Cart_ItemDTO dto) {
+    public void saveCartItem(Cart_ItemDTO cartItemDTO) {
+        log.info("Save cart item");
 
-        Cart_Item item = new Cart_Item();
+        try {
+            Cart_Item cartItem = new Cart_Item();
 
-        item.setQuantity(dto.getQuantity());
-        item.setUnitPrice(dto.getUnitPrice());
-        item.setStatus(dto.getStatus());
+            cartItem.setQuantity(cartItemDTO.getQuantity());
+            cartItem.setUnitPrice(cartItemDTO.getUnitPrice());
+            cartItem.setStatus(cartItemDTO.getStatus());
 
-        repository.save(item);
+            cartItemRepository.save(cartItem);
+
+        } catch (Exception e) {
+            log.error("Error saving cart item", e);
+            throw e;
+        }
     }
 
     @Override
     public List<Cart_ItemDTO> getAllCartItems() {
+        log.info("Get all cart items");
 
-        List<Cart_ItemDTO> list = new ArrayList<>();
+        try {
+            List<Cart_ItemDTO> cartItemDTOList = new ArrayList<>();
 
-        for (Cart_Item item : repository.findAll()) {
+            List<Cart_Item> cartItems =
+                    cartItemRepository.findAll();
 
-            Cart_ItemDTO dto = new Cart_ItemDTO();
+            for (Cart_Item cartItem : cartItems) {
+                Cart_ItemDTO cartItemDTO = new Cart_ItemDTO();
 
-            dto.setId(item.getId());
-            dto.setQuantity(item.getQuantity());
-            dto.setUnitPrice(item.getUnitPrice());
-            dto.setStatus(item.getStatus());
+                cartItemDTO.setId(cartItem.getId());
+                cartItemDTO.setQuantity(cartItem.getQuantity());
+                cartItemDTO.setUnitPrice(cartItem.getUnitPrice());
+                cartItemDTO.setStatus(cartItem.getStatus());
 
-            list.add(dto);
+                cartItemDTOList.add(cartItemDTO);
+            }
+
+            return cartItemDTOList;
+
+        } catch (Exception e) {
+            log.error("Error getting all cart items", e);
+            throw e;
         }
-
-        return list;
     }
 
     @Override
-    public Cart_ItemDTO getCartItemById(Long id) {
+    public void updateCartItem(Cart_ItemDTO cartItemDTO) {
+        log.info("Update cart item");
 
-        Cart_Item item = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Cart item not found"));
+        try {
+            Optional<Cart_Item> optionalCartItem =
+                    cartItemRepository.findById(cartItemDTO.getId());
 
-        Cart_ItemDTO dto = new Cart_ItemDTO();
+            if (optionalCartItem.isEmpty()) {
+                throw new RuntimeException("Cart item not found");
+            }
 
-        dto.setId(item.getId());
-        dto.setQuantity(item.getQuantity());
-        dto.setUnitPrice(item.getUnitPrice());
-        dto.setStatus(item.getStatus());
+            Cart_Item cartItem = optionalCartItem.get();
 
-        return dto;
+            cartItem.setQuantity(cartItemDTO.getQuantity());
+            cartItem.setUnitPrice(cartItemDTO.getUnitPrice());
+            cartItem.setStatus(cartItemDTO.getStatus());
+
+            cartItemRepository.save(cartItem);
+
+        } catch (Exception e) {
+            log.error("Error updating cart item", e);
+            throw e;
+        }
     }
 
     @Override
-    public void updateCartItem(Cart_ItemDTO dto) {
+    public void changeCartItemStatus(long cartItemId) {
+        log.info("Change cart item status");
 
-        Cart_Item item = repository.findById(dto.getId())
-                .orElseThrow(() ->
-                        new RuntimeException("Cart item not found"));
+        try {
+            Optional<Cart_Item> optionalCartItem =
+                    cartItemRepository.findById(cartItemId);
 
-        item.setQuantity(dto.getQuantity());
-        item.setUnitPrice(dto.getUnitPrice());
-        item.setStatus(dto.getStatus());
+            if (optionalCartItem.isEmpty()) {
+                throw new RuntimeException("Cart item not found");
+            }
 
-        repository.save(item);
+            Cart_Item cartItem = optionalCartItem.get();
+
+            cartItem.setStatus(UserStatus.INACTIVE);
+
+            cartItemRepository.save(cartItem);
+
+        } catch (Exception e) {
+            log.error("Error changing cart item status", e);
+            throw e;
+        }
     }
 
     @Override
-    public void changeCartItemStatus(Long id) {
+    public List<Cart_ItemDTO> filterCartItems(String status) {
+        log.info("Filter cart items");
 
-        Cart_Item item = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Cart item not found"));
+        try {
+            List<Cart_ItemDTO> cartItemDTOList = new ArrayList<>();
 
-        item.setStatus(UserStatus.INACTIVE);
+            List<Cart_Item> cartItems =
+                    cartItemRepository.findByStatusContaining(status);
 
-        repository.save(item);
+            for (Cart_Item cartItem : cartItems) {
+                Cart_ItemDTO cartItemDTO = new Cart_ItemDTO();
+
+                cartItemDTO.setId(cartItem.getId());
+                cartItemDTO.setQuantity(cartItem.getQuantity());
+                cartItemDTO.setUnitPrice(cartItem.getUnitPrice());
+                cartItemDTO.setStatus(cartItem.getStatus());
+
+                cartItemDTOList.add(cartItemDTO);
+            }
+
+            return cartItemDTOList;
+
+        } catch (Exception e) {
+            log.error("Error filtering cart items", e);
+            throw e;
+        }
     }
 }

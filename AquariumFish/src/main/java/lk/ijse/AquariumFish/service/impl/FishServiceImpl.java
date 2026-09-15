@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -22,108 +23,136 @@ public class FishServiceImpl implements FishService {
     }
 
     @Override
-    public void saveFish(FishDTO dto) {
+    public void saveFish(FishDTO fishDTO) {
+        log.info("Save fish");
 
-        Fish fish = new Fish();
+        try {
+            Fish fish = new Fish();
 
-        fish.setFishName(dto.getFishName());
-        fish.setDescription(dto.getDescription());
-        fish.setPrice(dto.getPrice());
-        fish.setStockQty(dto.getStockQty());
-        fish.setStatus(dto.getStatus());
+            fish.setFishName(fishDTO.getFishName());
+            fish.setDescription(fishDTO.getDescription());
+            fish.setPrice(fishDTO.getPrice());
+            fish.setStockQty(fishDTO.getStockQty());
+            fish.setStatus(fishDTO.getStatus());
 
-        fishRepository.save(fish);
+            fishRepository.save(fish);
+
+        } catch (Exception e) {
+            log.error("Error saving fish", e);
+            throw e;
+        }
     }
 
     @Override
     public List<FishDTO> getAllFish() {
+        log.info("Get all fish");
 
-        List<FishDTO> list = new ArrayList<>();
+        try {
+            List<FishDTO> fishDTOList = new ArrayList<>();
 
-        for (Fish fish : fishRepository.findAll()) {
+            List<Fish> fishList = fishRepository.findAll();
 
-            FishDTO dto = new FishDTO();
+            for (Fish fish : fishList) {
+                FishDTO fishDTO = new FishDTO();
 
-            dto.setId(fish.getId());
-            dto.setFishName(fish.getFishName());
-            dto.setDescription(fish.getDescription());
-            dto.setPrice(fish.getPrice());
-            dto.setStockQty(fish.getStockQty());
-            dto.setStatus(fish.getStatus());
+                fishDTO.setId(fish.getId());
+                fishDTO.setFishName(fish.getFishName());
+                fishDTO.setDescription(fish.getDescription());
+                fishDTO.setPrice(fish.getPrice());
+                fishDTO.setStockQty(fish.getStockQty());
+                fishDTO.setStatus(fish.getStatus());
 
-            list.add(dto);
+                fishDTOList.add(fishDTO);
+            }
+
+            return fishDTOList;
+
+        } catch (Exception e) {
+            log.error("Error getting all fish", e);
+            throw e;
         }
-
-        return list;
     }
 
     @Override
-    public FishDTO getFishById(Long id) {
+    public void updateFish(FishDTO fishDTO) {
+        log.info("Update fish");
 
-        Fish fish = fishRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Fish not found"));
+        try {
+            Optional<Fish> optionalFish =
+                    fishRepository.findById(fishDTO.getId());
 
-        FishDTO dto = new FishDTO();
+            if (optionalFish.isEmpty()) {
+                throw new RuntimeException("Fish not found");
+            }
 
-        dto.setId(fish.getId());
-        dto.setFishName(fish.getFishName());
-        dto.setDescription(fish.getDescription());
-        dto.setPrice(fish.getPrice());
-        dto.setStockQty(fish.getStockQty());
-        dto.setStatus(fish.getStatus());
+            Fish fish = optionalFish.get();
 
-        return dto;
+            fish.setFishName(fishDTO.getFishName());
+            fish.setDescription(fishDTO.getDescription());
+            fish.setPrice(fishDTO.getPrice());
+            fish.setStockQty(fishDTO.getStockQty());
+            fish.setStatus(fishDTO.getStatus());
+
+            fishRepository.save(fish);
+
+        } catch (Exception e) {
+            log.error("Error updating fish", e);
+            throw e;
+        }
     }
 
     @Override
-    public void updateFish(FishDTO dto) {
+    public void changeFishStatus(long fishId) {
+        log.info("Change fish status");
 
-        Fish fish = fishRepository.findById(dto.getId())
-                .orElseThrow(() ->
-                        new RuntimeException("Fish not found"));
+        try {
+            Optional<Fish> optionalFish =
+                    fishRepository.findById(fishId);
 
-        fish.setFishName(dto.getFishName());
-        fish.setDescription(dto.getDescription());
-        fish.setPrice(dto.getPrice());
-        fish.setStockQty(dto.getStockQty());
-        fish.setStatus(dto.getStatus());
+            if (optionalFish.isEmpty()) {
+                throw new RuntimeException("Fish not found");
+            }
 
-        fishRepository.save(fish);
-    }
+            Fish fish = optionalFish.get();
 
-    @Override
-    public void changeFishStatus(Long id) {
+            fish.setStatus(UserStatus.INACTIVE);
 
-        Fish fish = fishRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Fish not found"));
+            fishRepository.save(fish);
 
-        fish.setStatus(UserStatus.INACTIVE);
-
-        fishRepository.save(fish);
+        } catch (Exception e) {
+            log.error("Error changing fish status", e);
+            throw e;
+        }
     }
 
     @Override
     public List<FishDTO> filterFish(String fishName) {
+        log.info("Filter fish");
 
-        List<FishDTO> list = new ArrayList<>();
+        try {
+            List<FishDTO> fishDTOList = new ArrayList<>();
 
-        for (Fish fish :
-                fishRepository.findByFishNameContaining(fishName)) {
+            List<Fish> fishList =
+                    fishRepository.findByFishNameContaining(fishName);
 
-            FishDTO dto = new FishDTO();
+            for (Fish fish : fishList) {
+                FishDTO fishDTO = new FishDTO();
 
-            dto.setId(fish.getId());
-            dto.setFishName(fish.getFishName());
-            dto.setDescription(fish.getDescription());
-            dto.setPrice(fish.getPrice());
-            dto.setStockQty(fish.getStockQty());
-            dto.setStatus(fish.getStatus());
+                fishDTO.setId(fish.getId());
+                fishDTO.setFishName(fish.getFishName());
+                fishDTO.setDescription(fish.getDescription());
+                fishDTO.setPrice(fish.getPrice());
+                fishDTO.setStockQty(fish.getStockQty());
+                fishDTO.setStatus(fish.getStatus());
 
-            list.add(dto);
+                fishDTOList.add(fishDTO);
+            }
+
+            return fishDTOList;
+
+        } catch (Exception e) {
+            log.error("Error filtering fish", e);
+            throw e;
         }
-
-        return list;
     }
 }

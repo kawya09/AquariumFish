@@ -5,113 +5,146 @@ import lk.ijse.AquariumFish.entity.Fish_Breed;
 import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lk.ijse.AquariumFish.repository.Fish_BreedRepository;
 import lk.ijse.AquariumFish.service.Fish_BreedService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class Fish_BreedServiceImpl implements Fish_BreedService {
 
-    private final Fish_BreedRepository repository;
+    private final Fish_BreedRepository breedRepository;
 
-    public Fish_BreedServiceImpl(Fish_BreedRepository repository) {
-        this.repository = repository;
+    public Fish_BreedServiceImpl(Fish_BreedRepository breedRepository) {
+        this.breedRepository = breedRepository;
     }
 
     @Override
-    public void saveBreed(Fish_BreedDTO dto) {
+    public void saveBreed(Fish_BreedDTO breedDTO) {
+        log.info("Save breed");
 
-        Fish_Breed breed = new Fish_Breed();
+        try {
+            Fish_Breed breed = new Fish_Breed();
 
-        breed.setBreedName(dto.getBreedName());
-        breed.setDescription(dto.getDescription());
-        breed.setStatus(dto.getStatus());
+            breed.setBreedName(breedDTO.getBreedName());
+            breed.setDescription(breedDTO.getDescription());
+            breed.setStatus(breedDTO.getStatus());
 
-        repository.save(breed);
+            breedRepository.save(breed);
+
+        } catch (Exception e) {
+            log.error("Error saving breed", e);
+            throw e;
+        }
     }
 
     @Override
     public List<Fish_BreedDTO> getAllBreeds() {
+        log.info("Get all breeds");
 
-        List<Fish_BreedDTO> list = new ArrayList<>();
+        try {
+            List<Fish_BreedDTO> breedDTOList = new ArrayList<>();
 
-        for (Fish_Breed breed : repository.findAll()) {
+            List<Fish_Breed> breeds = breedRepository.findAll();
 
-            Fish_BreedDTO dto = new Fish_BreedDTO();
+            for (Fish_Breed breed : breeds) {
+                Fish_BreedDTO breedDTO = new Fish_BreedDTO();
 
-            dto.setId(breed.getId());
-            dto.setBreedName(breed.getBreedName());
-            dto.setDescription(breed.getDescription());
-            dto.setStatus(breed.getStatus());
+                breedDTO.setId(breed.getId());
+                breedDTO.setBreedName(breed.getBreedName());
+                breedDTO.setDescription(breed.getDescription());
+                breedDTO.setStatus(breed.getStatus());
 
-            list.add(dto);
+                breedDTOList.add(breedDTO);
+            }
+
+            return breedDTOList;
+
+        } catch (Exception e) {
+            log.error("Error getting all breeds", e);
+            throw e;
         }
-
-        return list;
     }
 
     @Override
-    public Fish_BreedDTO getBreedById(Long id) {
+    public void updateBreed(Fish_BreedDTO breedDTO) {
+        log.info("Update breed");
 
-        Fish_Breed breed = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Breed not found"));
+        try {
+            Optional<Fish_Breed> optionalBreed =
+                    breedRepository.findById(breedDTO.getId());
 
-        Fish_BreedDTO dto = new Fish_BreedDTO();
+            if (optionalBreed.isEmpty()) {
+                throw new RuntimeException("Breed not found");
+            }
 
-        dto.setId(breed.getId());
-        dto.setBreedName(breed.getBreedName());
-        dto.setDescription(breed.getDescription());
-        dto.setStatus(breed.getStatus());
+            Fish_Breed breed = optionalBreed.get();
 
-        return dto;
+            breed.setBreedName(breedDTO.getBreedName());
+            breed.setDescription(breedDTO.getDescription());
+            breed.setStatus(breedDTO.getStatus());
+
+            breedRepository.save(breed);
+
+        } catch (Exception e) {
+            log.error("Error updating breed", e);
+            throw e;
+        }
     }
 
     @Override
-    public void updateBreed(Fish_BreedDTO dto) {
+    public void changeBreedStatus(long breedId) {
+        log.info("Change breed status");
 
-        Fish_Breed breed = repository.findById(dto.getId())
-                .orElseThrow(() ->
-                        new RuntimeException("Breed not found"));
+        try {
+            Optional<Fish_Breed> optionalBreed =
+                    breedRepository.findById(breedId);
 
-        breed.setBreedName(dto.getBreedName());
-        breed.setDescription(dto.getDescription());
-        breed.setStatus(dto.getStatus());
+            if (optionalBreed.isEmpty()) {
+                throw new RuntimeException("Breed not found");
+            }
 
-        repository.save(breed);
-    }
+            Fish_Breed breed = optionalBreed.get();
 
-    @Override
-    public void changeBreedStatus(Long id) {
+            breed.setStatus(UserStatus.INACTIVE);
 
-        Fish_Breed breed = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Breed not found"));
+            breedRepository.save(breed);
 
-        breed.setStatus(UserStatus.INACTIVE);
-
-        repository.save(breed);
+        } catch (Exception e) {
+            log.error("Error changing breed status", e);
+            throw e;
+        }
     }
 
     @Override
     public List<Fish_BreedDTO> filterBreeds(String breedName) {
+        log.info("Filter breeds");
 
-        List<Fish_BreedDTO> list = new ArrayList<>();
+        try {
+            List<Fish_BreedDTO> breedDTOList = new ArrayList<>();
 
-        for (Fish_Breed breed :
-                repository.findByBreedNameContaining(breedName)) {
+            List<Fish_Breed> breeds =
+                    breedRepository.findByBreedNameContaining(breedName);
 
-            Fish_BreedDTO dto = new Fish_BreedDTO();
+            for (Fish_Breed breed : breeds) {
+                Fish_BreedDTO breedDTO = new Fish_BreedDTO();
 
-            dto.setId(breed.getId());
-            dto.setBreedName(breed.getBreedName());
-            dto.setDescription(breed.getDescription());
-            dto.setStatus(breed.getStatus());
+                breedDTO.setId(breed.getId());
+                breedDTO.setBreedName(breed.getBreedName());
+                breedDTO.setDescription(breed.getDescription());
+                breedDTO.setStatus(breed.getStatus());
 
-            list.add(dto);
+                breedDTOList.add(breedDTO);
+            }
+
+            return breedDTOList;
+
+        } catch (Exception e) {
+            log.error("Error filtering breeds", e);
+            throw e;
         }
-
-        return list;
     }
 }

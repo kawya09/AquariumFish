@@ -6,15 +6,13 @@ import java.util.List;
 
 public interface PaymentService {
 
-    void savePayment(PaymentDTO dto);
+    void savePayment(PaymentDTO paymentDTO);
 
     List<PaymentDTO> getAllPayments();
 
-    PaymentDTO getPaymentById(Long id);
+    void updatePayment(PaymentDTO paymentDTO);
 
-    void updatePayment(PaymentDTO dto);
+    void changePaymentStatus(long paymentId);
 
-    void changePaymentStatus(Long id);
-
-    List<PaymentDTO> filterPayments(String paymentStatus);
+    List<PaymentDTO> filterPayments(String paymentMethod);
 }

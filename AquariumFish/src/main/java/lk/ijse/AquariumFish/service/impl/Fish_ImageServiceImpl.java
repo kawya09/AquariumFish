@@ -5,92 +5,146 @@ import lk.ijse.AquariumFish.entity.Fish_Image;
 import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lk.ijse.AquariumFish.repository.Fish_ImageRepository;
 import lk.ijse.AquariumFish.service.Fish_ImageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class Fish_ImageServiceImpl implements Fish_ImageService {
 
-    private final Fish_ImageRepository repository;
+    private final Fish_ImageRepository imageRepository;
 
-    public Fish_ImageServiceImpl(Fish_ImageRepository repository) {
-        this.repository = repository;
+    public Fish_ImageServiceImpl(Fish_ImageRepository imageRepository) {
+        this.imageRepository = imageRepository;
     }
 
     @Override
-    public void saveImage(Fish_ImageDTO dto) {
+    public void saveImage(Fish_ImageDTO imageDTO) {
+        log.info("Save image");
 
-        Fish_Image image = new Fish_Image();
+        try {
+            Fish_Image image = new Fish_Image();
 
-        image.setImageUrl(dto.getImageUrl());
-        image.setIsPrimary(dto.getIsPrimary());
-        image.setStatus(dto.getStatus());
+            image.setImageUrl(imageDTO.getImageUrl());
+            image.setIsPrimary(imageDTO.getIsPrimary());
+            image.setStatus(imageDTO.getStatus());
 
-        repository.save(image);
+            imageRepository.save(image);
+
+        } catch (Exception e) {
+            log.error("Error saving image", e);
+            throw e;
+        }
     }
 
     @Override
     public List<Fish_ImageDTO> getAllImages() {
+        log.info("Get all images");
 
-        List<Fish_ImageDTO> list = new ArrayList<>();
+        try {
+            List<Fish_ImageDTO> imageDTOList = new ArrayList<>();
 
-        for (Fish_Image image : repository.findAll()) {
+            List<Fish_Image> images = imageRepository.findAll();
 
-            Fish_ImageDTO dto = new Fish_ImageDTO();
+            for (Fish_Image image : images) {
+                Fish_ImageDTO imageDTO = new Fish_ImageDTO();
 
-            dto.setId(image.getId());
-            dto.setImageUrl(image.getImageUrl());
-            dto.setIsPrimary(image.getIsPrimary());
-            dto.setStatus(image.getStatus());
+                imageDTO.setId(image.getId());
+                imageDTO.setImageUrl(image.getImageUrl());
+                imageDTO.setIsPrimary(image.getIsPrimary());
+                imageDTO.setStatus(image.getStatus());
 
-            list.add(dto);
+                imageDTOList.add(imageDTO);
+            }
+
+            return imageDTOList;
+
+        } catch (Exception e) {
+            log.error("Error getting all images", e);
+            throw e;
         }
-
-        return list;
     }
 
     @Override
-    public Fish_ImageDTO getImageById(Long id) {
+    public void updateImage(Fish_ImageDTO imageDTO) {
+        log.info("Update image");
 
-        Fish_Image image = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Image not found"));
+        try {
+            Optional<Fish_Image> optionalImage =
+                    imageRepository.findById(imageDTO.getId());
 
-        Fish_ImageDTO dto = new Fish_ImageDTO();
+            if (optionalImage.isEmpty()) {
+                throw new RuntimeException("Image not found");
+            }
 
-        dto.setId(image.getId());
-        dto.setImageUrl(image.getImageUrl());
-        dto.setIsPrimary(image.getIsPrimary());
-        dto.setStatus(image.getStatus());
+            Fish_Image image = optionalImage.get();
 
-        return dto;
+            image.setImageUrl(imageDTO.getImageUrl());
+            image.setIsPrimary(imageDTO.getIsPrimary());
+            image.setStatus(imageDTO.getStatus());
+
+            imageRepository.save(image);
+
+        } catch (Exception e) {
+            log.error("Error updating image", e);
+            throw e;
+        }
     }
 
     @Override
-    public void updateImage(Fish_ImageDTO dto) {
+    public void changeImageStatus(long imageId) {
+        log.info("Change image status");
 
-        Fish_Image image = repository.findById(dto.getId())
-                .orElseThrow(() ->
-                        new RuntimeException("Image not found"));
+        try {
+            Optional<Fish_Image> optionalImage =
+                    imageRepository.findById(imageId);
 
-        image.setImageUrl(dto.getImageUrl());
-        image.setIsPrimary(dto.getIsPrimary());
-        image.setStatus(dto.getStatus());
+            if (optionalImage.isEmpty()) {
+                throw new RuntimeException("Image not found");
+            }
 
-        repository.save(image);
+            Fish_Image image = optionalImage.get();
+
+            image.setStatus(UserStatus.INACTIVE);
+
+            imageRepository.save(image);
+
+        } catch (Exception e) {
+            log.error("Error changing image status", e);
+            throw e;
+        }
     }
 
     @Override
-    public void changeImageStatus(Long id) {
+    public List<Fish_ImageDTO> filterImages(String imageUrl) {
+        log.info("Filter images");
 
-        Fish_Image image = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Image not found"));
+        try {
+            List<Fish_ImageDTO> imageDTOList = new ArrayList<>();
 
-        image.setStatus(UserStatus.INACTIVE);
+            List<Fish_Image> images =
+                    imageRepository.findByImageUrlContaining(imageUrl);
 
-        repository.save(image);
+            for (Fish_Image image : images) {
+                Fish_ImageDTO imageDTO = new Fish_ImageDTO();
+
+                imageDTO.setId(image.getId());
+                imageDTO.setImageUrl(image.getImageUrl());
+                imageDTO.setIsPrimary(image.getIsPrimary());
+                imageDTO.setStatus(image.getStatus());
+
+                imageDTOList.add(imageDTO);
+            }
+
+            return imageDTOList;
+
+        } catch (Exception e) {
+            log.error("Error filtering images", e);
+            throw e;
+        }
     }
 }

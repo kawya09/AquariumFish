@@ -48,7 +48,7 @@ public class CartController {
 
     @GetMapping(value = "/filter",produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonResponse FilterCart(@RequestParam String Username){
-        List<CartDTO> cartDTOList = cartService.filterCarts(Username) ;
+        List<CartDTO> cartDTOList = CartService.filterCarts(Username) ;
         return new CommonResponse(OPERATION_SUCCESS,cartDTOList,SUCCESS_MESSAGE);
     }
 }

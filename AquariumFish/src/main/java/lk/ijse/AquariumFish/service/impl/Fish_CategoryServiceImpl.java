@@ -5,113 +5,147 @@ import lk.ijse.AquariumFish.entity.Fish_Category;
 import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lk.ijse.AquariumFish.repository.Fish_CategoryRepository;
 import lk.ijse.AquariumFish.service.Fish_CategoryService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class Fish_CategoryServiceImpl implements Fish_CategoryService {
 
-    private final Fish_CategoryRepository repository;
+    private final Fish_CategoryRepository categoryRepository;
 
-    public Fish_CategoryServiceImpl(Fish_CategoryRepository repository) {
-        this.repository = repository;
+    public Fish_CategoryServiceImpl(Fish_CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
-    public void saveCategory(Fish_CategoryDTO dto) {
+    public void saveCategory(Fish_CategoryDTO categoryDTO) {
+        log.info("Save category");
 
-        Fish_Category category = new Fish_Category();
+        try {
+            Fish_Category category = new Fish_Category();
 
-        category.setCategoryName(dto.getCategoryName());
-        category.setDescription(dto.getDescription());
-        category.setStatus(dto.getStatus());
+            category.setCategoryName(categoryDTO.getCategoryName());
+            category.setDescription(categoryDTO.getDescription());
+            category.setStatus(categoryDTO.getStatus());
 
-        repository.save(category);
+            categoryRepository.save(category);
+
+        } catch (Exception e) {
+            log.error("Error saving category", e);
+            throw e;
+        }
     }
 
     @Override
     public List<Fish_CategoryDTO> getAllCategories() {
+        log.info("Get all categories");
 
-        List<Fish_CategoryDTO> list = new ArrayList<>();
+        try {
+            List<Fish_CategoryDTO> categoryDTOList = new ArrayList<>();
 
-        for (Fish_Category category : repository.findAll()) {
+            List<Fish_Category> categories =
+                    categoryRepository.findAll();
 
-            Fish_CategoryDTO dto = new Fish_CategoryDTO();
+            for (Fish_Category category : categories) {
+                Fish_CategoryDTO categoryDTO = new Fish_CategoryDTO();
 
-            dto.setId(category.getId());
-            dto.setCategoryName(category.getCategoryName());
-            dto.setDescription(category.getDescription());
-            dto.setStatus(category.getStatus());
+                categoryDTO.setId(category.getId());
+                categoryDTO.setCategoryName(category.getCategoryName());
+                categoryDTO.setDescription(category.getDescription());
+                categoryDTO.setStatus(category.getStatus());
 
-            list.add(dto);
+                categoryDTOList.add(categoryDTO);
+            }
+
+            return categoryDTOList;
+
+        } catch (Exception e) {
+            log.error("Error getting all categories", e);
+            throw e;
         }
-
-        return list;
     }
 
     @Override
-    public Fish_CategoryDTO getCategoryById(Long id) {
+    public void updateCategory(Fish_CategoryDTO categoryDTO) {
+        log.info("Update category");
 
-        Fish_Category category = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Category not found"));
+        try {
+            Optional<Fish_Category> optionalCategory =
+                    categoryRepository.findById(categoryDTO.getId());
 
-        Fish_CategoryDTO dto = new Fish_CategoryDTO();
+            if (optionalCategory.isEmpty()) {
+                throw new RuntimeException("Category not found");
+            }
 
-        dto.setId(category.getId());
-        dto.setCategoryName(category.getCategoryName());
-        dto.setDescription(category.getDescription());
-        dto.setStatus(category.getStatus());
+            Fish_Category category = optionalCategory.get();
 
-        return dto;
+            category.setCategoryName(categoryDTO.getCategoryName());
+            category.setDescription(categoryDTO.getDescription());
+            category.setStatus(categoryDTO.getStatus());
+
+            categoryRepository.save(category);
+
+        } catch (Exception e) {
+            log.error("Error updating category", e);
+            throw e;
+        }
     }
 
     @Override
-    public void updateCategory(Fish_CategoryDTO dto) {
+    public void changeCategoryStatus(long categoryId) {
+        log.info("Change category status");
 
-        Fish_Category category = repository.findById(dto.getId())
-                .orElseThrow(() ->
-                        new RuntimeException("Category not found"));
+        try {
+            Optional<Fish_Category> optionalCategory =
+                    categoryRepository.findById(categoryId);
 
-        category.setCategoryName(dto.getCategoryName());
-        category.setDescription(dto.getDescription());
-        category.setStatus(dto.getStatus());
+            if (optionalCategory.isEmpty()) {
+                throw new RuntimeException("Category not found");
+            }
 
-        repository.save(category);
-    }
+            Fish_Category category = optionalCategory.get();
 
-    @Override
-    public void changeCategoryStatus(Long id) {
+            category.setStatus(UserStatus.INACTIVE);
 
-        Fish_Category category = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Category not found"));
+            categoryRepository.save(category);
 
-        category.setStatus(UserStatus.INACTIVE);
-
-        repository.save(category);
+        } catch (Exception e) {
+            log.error("Error changing category status", e);
+            throw e;
+        }
     }
 
     @Override
     public List<Fish_CategoryDTO> filterCategories(String categoryName) {
+        log.info("Filter categories");
 
-        List<Fish_CategoryDTO> list = new ArrayList<>();
+        try {
+            List<Fish_CategoryDTO> categoryDTOList = new ArrayList<>();
 
-        for (Fish_Category category :
-                repository.findByCategoryNameContaining(categoryName)) {
+            List<Fish_Category> categories =
+                    categoryRepository.findByCategoryNameContaining(categoryName);
 
-            Fish_CategoryDTO dto = new Fish_CategoryDTO();
+            for (Fish_Category category : categories) {
+                Fish_CategoryDTO categoryDTO = new Fish_CategoryDTO();
 
-            dto.setId(category.getId());
-            dto.setCategoryName(category.getCategoryName());
-            dto.setDescription(category.getDescription());
-            dto.setStatus(category.getStatus());
+                categoryDTO.setId(category.getId());
+                categoryDTO.setCategoryName(category.getCategoryName());
+                categoryDTO.setDescription(category.getDescription());
+                categoryDTO.setStatus(category.getStatus());
 
-            list.add(dto);
+                categoryDTOList.add(categoryDTO);
+            }
+
+            return categoryDTOList;
+
+        } catch (Exception e) {
+            log.error("Error filtering categories", e);
+            throw e;
         }
-
-        return list;
     }
 }

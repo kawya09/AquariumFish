@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface Fish_ImageService {
 
-    void saveImage(Fish_ImageDTO dto);
+    void saveImage(Fish_ImageDTO imageDTO);
 
     List<Fish_ImageDTO> getAllImages();
 
-    Fish_ImageDTO getImageById(Long id);
+    void updateImage(Fish_ImageDTO imageDTO);
 
-    void updateImage(Fish_ImageDTO dto);
+    void changeImageStatus(long imageId);
 
-    void changeImageStatus(Long id);
+    List<Fish_ImageDTO> filterImages(String imageUrl);
 }

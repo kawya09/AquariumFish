@@ -4,109 +4,143 @@ import lk.ijse.AquariumFish.dto.Fish_ColorDTO;
 import lk.ijse.AquariumFish.entity.Fish_Color;
 import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lk.ijse.AquariumFish.repository.Fish_ColorRepository;
-import lk.ijse.AquariumFish.service.Fish_ColorService;
+import lk.ijse.AquariumFish.service.Fish_colorService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class Fish_ColorServiceImpl implements Fish_ColorService {
+@Slf4j
+public class Fish_ColorServiceImpl implements Fish_colorService {
 
-    private final Fish_ColorRepository repository;
+    private final Fish_ColorRepository colorRepository;
 
-    public Fish_ColorServiceImpl(Fish_ColorRepository repository) {
-        this.repository = repository;
+    public Fish_ColorServiceImpl(Fish_ColorRepository colorRepository) {
+        this.colorRepository = colorRepository;
     }
 
     @Override
-    public void saveColor(Fish_ColorDTO dto) {
+    public void saveColor(Fish_ColorDTO colorDTO) {
+        log.info("Save color");
 
-        Fish_Color color = new Fish_Color();
+        try {
+            Fish_Color color = new Fish_Color();
 
-        color.setColorName(dto.getColorName());
-        color.setStatus(dto.getStatus());
+            color.setColorName(colorDTO.getColorName());
+            color.setStatus(colorDTO.getStatus());
 
-        repository.save(color);
+            colorRepository.save(color);
+
+        } catch (Exception e) {
+            log.error("Error saving color", e);
+            throw e;
+        }
     }
 
     @Override
     public List<Fish_ColorDTO> getAllColors() {
+        log.info("Get all colors");
 
-        List<Fish_ColorDTO> list = new ArrayList<>();
+        try {
+            List<Fish_ColorDTO> colorDTOList = new ArrayList<>();
 
-        for (Fish_Color color : repository.findAll()) {
+            List<Fish_Color> colors = colorRepository.findAll();
 
-            Fish_ColorDTO dto = new Fish_ColorDTO();
+            for (Fish_Color color : colors) {
+                Fish_ColorDTO colorDTO = new Fish_ColorDTO();
 
-            dto.setId(color.getId());
-            dto.setColorName(color.getColorName());
-            dto.setStatus(color.getStatus());
+                colorDTO.setId(color.getId());
+                colorDTO.setColorName(color.getColorName());
+                colorDTO.setStatus(color.getStatus());
 
-            list.add(dto);
+                colorDTOList.add(colorDTO);
+            }
+
+            return colorDTOList;
+
+        } catch (Exception e) {
+            log.error("Error getting all colors", e);
+            throw e;
         }
-
-        return list;
     }
 
     @Override
-    public Fish_ColorDTO getColorById(Long id) {
+    public void updateColor(Fish_ColorDTO colorDTO) {
+        log.info("Update color");
 
-        Fish_Color color = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Color not found"));
+        try {
+            Optional<Fish_Color> optionalColor =
+                    colorRepository.findById(colorDTO.getId());
 
-        Fish_ColorDTO dto = new Fish_ColorDTO();
+            if (optionalColor.isEmpty()) {
+                throw new RuntimeException("Color not found");
+            }
 
-        dto.setId(color.getId());
-        dto.setColorName(color.getColorName());
-        dto.setStatus(color.getStatus());
+            Fish_Color color = optionalColor.get();
 
-        return dto;
+            color.setColorName(colorDTO.getColorName());
+            color.setStatus(colorDTO.getStatus());
+
+            colorRepository.save(color);
+
+        } catch (Exception e) {
+            log.error("Error updating color", e);
+            throw e;
+        }
     }
 
     @Override
-    public void updateColor(Fish_ColorDTO dto) {
+    public void changeColorStatus(long colorId) {
+        log.info("Change color status");
 
-        Fish_Color color = repository.findById(dto.getId())
-                .orElseThrow(() ->
-                        new RuntimeException("Color not found"));
+        try {
+            Optional<Fish_Color> optionalColor =
+                    colorRepository.findById(colorId);
 
-        color.setColorName(dto.getColorName());
-        color.setStatus(dto.getStatus());
+            if (optionalColor.isEmpty()) {
+                throw new RuntimeException("Color not found");
+            }
 
-        repository.save(color);
-    }
+            Fish_Color color = optionalColor.get();
 
-    @Override
-    public void changeColorStatus(Long id) {
+            color.setStatus(UserStatus.INACTIVE);
 
-        Fish_Color color = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Color not found"));
+            colorRepository.save(color);
 
-        color.setStatus(UserStatus.INACTIVE);
-
-        repository.save(color);
+        } catch (Exception e) {
+            log.error("Error changing color status", e);
+            throw e;
+        }
     }
 
     @Override
     public List<Fish_ColorDTO> filterColors(String colorName) {
+        log.info("Filter colors");
 
-        List<Fish_ColorDTO> list = new ArrayList<>();
+        try {
+            List<Fish_ColorDTO> colorDTOList = new ArrayList<>();
 
-        for (Fish_Color color :
-                repository.findByColorNameContaining(colorName)) {
+            List<Fish_Color> colors =
+                    colorRepository.findByColorNameContaining(colorName);
 
-            Fish_ColorDTO dto = new Fish_ColorDTO();
+            for (Fish_Color color : colors) {
+                Fish_ColorDTO colorDTO = new Fish_ColorDTO();
 
-            dto.setId(color.getId());
-            dto.setColorName(color.getColorName());
-            dto.setStatus(color.getStatus());
+                colorDTO.setId(color.getId());
+                colorDTO.setColorName(color.getColorName());
+                colorDTO.setStatus(color.getStatus());
 
-            list.add(dto);
+                colorDTOList.add(colorDTO);
+            }
+
+            return colorDTOList;
+
+        } catch (Exception e) {
+            log.error("Error filtering colors", e);
+            throw e;
         }
-
-        return list;
     }
 }

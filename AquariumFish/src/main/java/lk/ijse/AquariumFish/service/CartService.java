@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface CartService {
 
-    void saveCart(CartDTO dto);
+    void saveCart(CartDTO cartDTO);
 
     List<CartDTO> getAllCarts();
 
-    CartDTO getCartById(Long id);
+    void updateCart(CartDTO cartDTO);
 
-    void updateCart(CartDTO dto);
+    void changeCartStatus(long cartId);
 
-    void changeCartStatus(Long id);
+    List<CartDTO> filterCarts(String status);
 }

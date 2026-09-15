@@ -6,15 +6,13 @@ import java.util.List;
 
 public interface Fish_BreedService {
 
-    void saveBreed(Fish_BreedDTO dto);
+    void saveBreed(Fish_BreedDTO breedDTO);
 
     List<Fish_BreedDTO> getAllBreeds();
 
-    Fish_BreedDTO getBreedById(Long id);
+    void updateBreed(Fish_BreedDTO breedDTO);
 
-    void updateBreed(Fish_BreedDTO dto);
-
-    void changeBreedStatus(Long id);
+    void changeBreedStatus(long breedId);
 
     List<Fish_BreedDTO> filterBreeds(String breedName);
 }

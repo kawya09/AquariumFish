@@ -6,15 +6,13 @@ import java.util.List;
 
 public interface Fish_CategoryService {
 
-    void saveCategory(Fish_CategoryDTO dto);
+    void saveCategory(Fish_CategoryDTO categoryDTO);
 
     List<Fish_CategoryDTO> getAllCategories();
 
-    Fish_CategoryDTO getCategoryById(Long id);
+    void updateCategory(Fish_CategoryDTO categoryDTO);
 
-    void updateCategory(Fish_CategoryDTO dto);
-
-    void changeCategoryStatus(Long id);
+    void changeCategoryStatus(long categoryId);
 
     List<Fish_CategoryDTO> filterCategories(String categoryName);
 }

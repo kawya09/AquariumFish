@@ -10,13 +10,11 @@ public interface SellerService {
 
     List<SellerDTO> getAllSellers();
 
-    SellerDTO getSellerById(Long id);
-
     void updateSeller(SellerDTO sellerDTO);
 
-    void changeSellerStatus(Long id);
+    void changeSellerStatus(long sellerId);
 
     List<SellerDTO> filterSellers(String shopName);
 
-    void changeSellerRole(Long sellerId, Long roleId);
+    void changeSellerRole(long sellerId, long roleId);
 }

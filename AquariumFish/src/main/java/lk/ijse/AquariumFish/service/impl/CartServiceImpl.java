@@ -5,88 +5,142 @@ import lk.ijse.AquariumFish.entity.Cart;
 import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lk.ijse.AquariumFish.repository.CartRepository;
 import lk.ijse.AquariumFish.service.CartService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class CartServiceImpl implements CartService {
 
-    private final CartRepository repository;
+    private final CartRepository cartRepository;
 
-    public CartServiceImpl(CartRepository repository) {
-        this.repository = repository;
+    public CartServiceImpl(CartRepository cartRepository) {
+        this.cartRepository = cartRepository;
     }
 
     @Override
-    public void saveCart(CartDTO dto) {
+    public void saveCart(CartDTO cartDTO) {
+        log.info("Save cart");
 
-        Cart cart = new Cart();
+        try {
+            Cart cart = new Cart();
 
-        cart.setCreatedDate(dto.getCreatedDate());
-        cart.setStatus(dto.getStatus());
+            cart.setCreatedDate(cartDTO.getCreatedDate());
+            cart.setStatus(cartDTO.getStatus());
 
-        repository.save(cart);
+            cartRepository.save(cart);
+
+        } catch (Exception e) {
+            log.error("Error saving cart", e);
+            throw e;
+        }
     }
 
     @Override
     public List<CartDTO> getAllCarts() {
+        log.info("Get all carts");
 
-        List<CartDTO> list = new ArrayList<>();
+        try {
+            List<CartDTO> cartDTOList = new ArrayList<>();
 
-        for (Cart cart : repository.findAll()) {
+            List<Cart> carts = cartRepository.findAll();
 
-            CartDTO dto = new CartDTO();
+            for (Cart cart : carts) {
+                CartDTO cartDTO = new CartDTO();
 
-            dto.setId(cart.getId());
-            dto.setCreatedDate(cart.getCreatedDate());
-            dto.setStatus(cart.getStatus());
+                cartDTO.setId(cart.getId());
+                cartDTO.setCreatedDate(cart.getCreatedDate());
+                cartDTO.setStatus(cart.getStatus());
 
-            list.add(dto);
+                cartDTOList.add(cartDTO);
+            }
+
+            return cartDTOList;
+
+        } catch (Exception e) {
+            log.error("Error getting all carts", e);
+            throw e;
         }
-
-        return list;
     }
 
     @Override
-    public CartDTO getCartById(Long id) {
+    public void updateCart(CartDTO cartDTO) {
+        log.info("Update cart");
 
-        Cart cart = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Cart not found"));
+        try {
+            Optional<Cart> optionalCart =
+                    cartRepository.findById(cartDTO.getId());
 
-        CartDTO dto = new CartDTO();
+            if (optionalCart.isEmpty()) {
+                throw new RuntimeException("Cart not found");
+            }
 
-        dto.setId(cart.getId());
-        dto.setCreatedDate(cart.getCreatedDate());
-        dto.setStatus(cart.getStatus());
+            Cart cart = optionalCart.get();
 
-        return dto;
+            cart.setCreatedDate(cartDTO.getCreatedDate());
+            cart.setStatus(cartDTO.getStatus());
+
+            cartRepository.save(cart);
+
+        } catch (Exception e) {
+            log.error("Error updating cart", e);
+            throw e;
+        }
     }
 
     @Override
-    public void updateCart(CartDTO dto) {
+    public void changeCartStatus(long cartId) {
+        log.info("Change cart status");
 
-        Cart cart = repository.findById(dto.getId())
-                .orElseThrow(() ->
-                        new RuntimeException("Cart not found"));
+        try {
+            Optional<Cart> optionalCart =
+                    cartRepository.findById(cartId);
 
-        cart.setCreatedDate(dto.getCreatedDate());
-        cart.setStatus(dto.getStatus());
+            if (optionalCart.isEmpty()) {
+                throw new RuntimeException("Cart not found");
+            }
 
-        repository.save(cart);
+            Cart cart = optionalCart.get();
+
+            cart.setStatus(UserStatus.INACTIVE);
+
+            cartRepository.save(cart);
+
+        } catch (Exception e) {
+            log.error("Error changing cart status", e);
+            throw e;
+        }
     }
 
     @Override
-    public void changeCartStatus(Long id) {
+    public List<CartDTO> filterCarts(String status) {
+        log.info("Filter carts");
 
-        Cart cart = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Cart not found"));
+        try {
+            List<CartDTO> cartDTOList = new ArrayList<>();
 
-        cart.setStatus(UserStatus.INACTIVE);
+            List<Cart> carts =
+                    cartRepository.findByStatusContaining(status);
 
-        repository.save(cart);
+            for (Cart cart : carts) {
+                CartDTO cartDTO = new CartDTO();
+
+                cartDTO.setId(cart.getId());
+                cartDTO.setCreatedDate(cart.getCreatedDate());
+                cartDTO.setStatus(cart.getStatus());
+
+                cartDTOList.add(cartDTO);
+            }
+
+            return cartDTOList;
+
+        } catch (Exception e) {
+            log.error("Error filtering carts", e);
+            throw e;
+        }
     }
 }

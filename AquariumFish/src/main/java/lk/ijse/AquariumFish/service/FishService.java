@@ -10,11 +10,9 @@ public interface FishService {
 
     List<FishDTO> getAllFish();
 
-    FishDTO getFishById(Long id);
-
     void updateFish(FishDTO fishDTO);
 
-    void changeFishStatus(Long id);
+    void changeFishStatus(long fishId);
 
     List<FishDTO> filterFish(String fishName);
 }
