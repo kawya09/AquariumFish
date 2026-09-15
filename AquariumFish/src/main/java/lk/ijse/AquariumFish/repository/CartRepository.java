@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
-    @Query(value = "SELECT * FROM cart WHERE ?1 IS NULL OR status LIKE CONCAT('%', ?1, '%')",
+    @Query(value = "SELECT * FROM cart WHERE ?1 IS NULL OR id = ?1",
             nativeQuery = true)
     List<Cart> findByStatusContaining(Long id);
 

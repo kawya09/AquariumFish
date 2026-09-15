@@ -10,6 +10,6 @@ public interface Order_ItemRepository extends JpaRepository<Order_Item, Long> {
 
     @Query(value = "SELECT * FROM order_item WHERE ?1 IS NULL OR status LIKE CONCAT('%', ?1, '%')",
             nativeQuery = true)
-    List<Order_Item> findByStatusContaining(String status);
+    List<Order_Item> findByStatusContaining(Long id);
 
 }
