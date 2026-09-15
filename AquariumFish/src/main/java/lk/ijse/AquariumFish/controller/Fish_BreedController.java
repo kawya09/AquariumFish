@@ -48,7 +48,6 @@ public class Fish_BreedController {
     @GetMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonResponse FilterBreed(@RequestParam String breedName) {
         List<Fish_BreedDTO> breedDTOList = breedService.filterBreeds(breedName);
-
         return new CommonResponse(OPERATION_SUCCESS, breedDTOList, SUCCESS_MESSAGE);
     }
 }

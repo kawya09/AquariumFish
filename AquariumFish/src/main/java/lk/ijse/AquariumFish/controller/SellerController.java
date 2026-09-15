@@ -47,9 +47,7 @@ public class SellerController {
 
     @GetMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonResponse FilterSeller(@RequestParam String shopName) {
-        List<SellerDTO> sellerDTOList =
-                sellerService.filterSellers(shopName);
-
+        List<SellerDTO> sellerDTOList = sellerService.filterSellers(shopName);
         return new CommonResponse(OPERATION_SUCCESS, sellerDTOList, SUCCESS_MESSAGE);
     }
 

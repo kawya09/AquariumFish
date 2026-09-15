@@ -48,7 +48,6 @@ public class Fish_ImageController {
     @GetMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonResponse FilterImage(@RequestParam String imageUrl) {
         List<Fish_ImageDTO> imageDTOList = imageService.filterImages(imageUrl);
-
         return new CommonResponse(OPERATION_SUCCESS, imageDTOList, SUCCESS_MESSAGE);
     }
 }

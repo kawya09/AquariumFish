@@ -2,7 +2,7 @@ package lk.ijse.AquariumFish.controller;
 
 import lk.ijse.AquariumFish.constant.CommonResponse;
 import lk.ijse.AquariumFish.dto.Fish_ColorDTO;
-import lk.ijse.AquariumFish.service.Fish_ColorService;
+import lk.ijse.AquariumFish.service.Fish_colorService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +15,9 @@ import static lk.ijse.AquariumFish.constant.ResponseMassage.SUCCESS_MESSAGE;
 @RestController
 public class Fish_ColorController {
 
-    private final Fish_ColorService colorService;
+    private final Fish_colorService colorService;
 
-    public Fish_ColorController(Fish_ColorService colorService) {
+    public Fish_ColorController(Fish_colorService colorService) {
         this.colorService = colorService;
     }
 
@@ -48,7 +48,6 @@ public class Fish_ColorController {
     @GetMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonResponse FilterColor(@RequestParam String colorName) {
         List<Fish_ColorDTO> colorDTOList = colorService.filterColors(colorName);
-
         return new CommonResponse(OPERATION_SUCCESS, colorDTOList, SUCCESS_MESSAGE);
     }
 }
