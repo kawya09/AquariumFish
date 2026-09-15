@@ -6,15 +6,13 @@ import java.util.List;
 
 public interface OrderService {
 
-    void saveOrder(OrderDTO dto);
+    void saveOrder(OrderDTO orderDTO);
 
     List<OrderDTO> getAllOrders();
 
-    OrderDTO getOrderById(Long id);
+    void updateOrder(OrderDTO orderDTO);
 
-    void updateOrder(OrderDTO dto);
-
-    void changeOrderStatus(Long id);
+    void changeOrderStatus(long orderId);
 
     List<OrderDTO> filterOrders(String status);
 }

@@ -5,118 +5,150 @@ import lk.ijse.AquariumFish.entity.Review;
 import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lk.ijse.AquariumFish.repository.ReviewRepository;
 import lk.ijse.AquariumFish.service.ReviewService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class ReviewServiceImpl implements ReviewService {
 
-    private final ReviewRepository repository;
+    private final ReviewRepository reviewRepository;
 
-    public ReviewServiceImpl(ReviewRepository repository) {
-        this.repository = repository;
+    public ReviewServiceImpl(ReviewRepository reviewRepository) {
+        this.reviewRepository = reviewRepository;
     }
 
     @Override
-    public void saveReview(ReviewDTO dto) {
+    public void saveReview(ReviewDTO reviewDTO) {
+        log.info("Save review");
 
-        Review review = new Review();
+        try {
+            Review review = new Review();
 
-        review.setRating(dto.getRating());
-        review.setComment(dto.getComment());
-        review.setReviewDate(dto.getReviewDate());
-        review.setStatus(dto.getStatus());
+            review.setRating(reviewDTO.getRating());
+            review.setComment(reviewDTO.getComment());
+            review.setReviewDate(reviewDTO.getReviewDate());
+            review.setStatus(reviewDTO.getStatus());
 
-        repository.save(review);
+            reviewRepository.save(review);
+
+        } catch (Exception e) {
+            log.error("Error saving review", e);
+            throw e;
+        }
     }
 
     @Override
     public List<ReviewDTO> getAllReviews() {
+        log.info("Get all reviews");
 
-        List<ReviewDTO> list = new ArrayList<>();
+        try {
+            List<ReviewDTO> reviewDTOList = new ArrayList<>();
 
-        for (Review review : repository.findAll()) {
+            List<Review> reviews = reviewRepository.findAll();
 
-            ReviewDTO dto = new ReviewDTO();
+            for (Review review : reviews) {
+                ReviewDTO reviewDTO = new ReviewDTO();
 
-            dto.setId(review.getId());
-            dto.setRating(review.getRating());
-            dto.setComment(review.getComment());
-            dto.setReviewDate(review.getReviewDate());
-            dto.setStatus(review.getStatus());
+                reviewDTO.setId(review.getId());
+                reviewDTO.setRating(review.getRating());
+                reviewDTO.setComment(review.getComment());
+                reviewDTO.setReviewDate(review.getReviewDate());
+                reviewDTO.setStatus(review.getStatus());
 
-            list.add(dto);
+                reviewDTOList.add(reviewDTO);
+            }
+
+            return reviewDTOList;
+
+        } catch (Exception e) {
+            log.error("Error getting all reviews", e);
+            throw e;
         }
-
-        return list;
     }
 
     @Override
-    public ReviewDTO getReviewById(Long id) {
+    public void updateReview(ReviewDTO reviewDTO) {
+        log.info("Update review");
 
-        Review review = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Review not found"));
+        try {
+            Optional<Review> optionalReview =
+                    reviewRepository.findById(reviewDTO.getId());
 
-        ReviewDTO dto = new ReviewDTO();
+            if (optionalReview.isEmpty()) {
+                throw new RuntimeException("Review not found");
+            }
 
-        dto.setId(review.getId());
-        dto.setRating(review.getRating());
-        dto.setComment(review.getComment());
-        dto.setReviewDate(review.getReviewDate());
-        dto.setStatus(review.getStatus());
+            Review review = optionalReview.get();
 
-        return dto;
-    }
+            review.setRating(reviewDTO.getRating());
+            review.setComment(reviewDTO.getComment());
+            review.setReviewDate(reviewDTO.getReviewDate());
+            review.setStatus(reviewDTO.getStatus());
 
-    @Override
-    public void updateReview(ReviewDTO dto) {
+            reviewRepository.save(review);
 
-        Review review = repository.findById(dto.getId())
-                .orElseThrow(() ->
-                        new RuntimeException("Review not found"));
-
-        review.setRating(dto.getRating());
-        review.setComment(dto.getComment());
-        review.setReviewDate(dto.getReviewDate());
-        review.setStatus(dto.getStatus());
-
-        repository.save(review);
-    }
-
-    @Override
-    public void changeReviewStatus(Long id) {
-
-        Review review = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Review not found"));
-
-        review.setStatus(UserStatus.INACTIVE);
-
-        repository.save(review);
-    }
-
-    @Override
-    public List<ReviewDTO> filterReviews(Integer rating) {
-
-        List<ReviewDTO> list = new ArrayList<>();
-
-        for (Review review :
-                repository.findByRating(rating)) {
-
-            ReviewDTO dto = new ReviewDTO();
-
-            dto.setId(review.getId());
-            dto.setRating(review.getRating());
-            dto.setComment(review.getComment());
-            dto.setReviewDate(review.getReviewDate());
-            dto.setStatus(review.getStatus());
-
-            list.add(dto);
+        } catch (Exception e) {
+            log.error("Error updating review", e);
+            throw e;
         }
+    }
 
-        return list;
+    @Override
+    public void changeReviewStatus(long reviewId) {
+        log.info("Change review status");
+
+        try {
+            Optional<Review> optionalReview =
+                    reviewRepository.findById(reviewId);
+
+            if (optionalReview.isEmpty()) {
+                throw new RuntimeException("Review not found");
+            }
+
+            Review review = optionalReview.get();
+
+            review.setStatus(UserStatus.INACTIVE);
+
+            reviewRepository.save(review);
+
+        } catch (Exception e) {
+            log.error("Error changing review status", e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<ReviewDTO> filterReviews(String comment) {
+        log.info("Filter reviews");
+
+        try {
+            List<ReviewDTO> reviewDTOList = new ArrayList<>();
+
+            List<Review> reviews =
+                    reviewRepository.findByCommentContaining(comment);
+
+            for (Review review : reviews) {
+                ReviewDTO reviewDTO = new ReviewDTO();
+
+                reviewDTO.setId(review.getId());
+                reviewDTO.setRating(review.getRating());
+                reviewDTO.setComment(review.getComment());
+                reviewDTO.setReviewDate(review.getReviewDate());
+                reviewDTO.setStatus(review.getStatus());
+
+                reviewDTOList.add(reviewDTO);
+            }
+
+            return reviewDTOList;
+
+        } catch (Exception e) {
+            log.error("Error filtering reviews", e);
+            throw e;
+        }
     }
 }

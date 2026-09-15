@@ -6,15 +6,13 @@ import java.util.List;
 
 public interface Fish_SizeService {
 
-    void saveSize(Fish_SizeDTO dto);
+    void saveSize(Fish_SizeDTO sizeDTO);
 
     List<Fish_SizeDTO> getAllSizes();
 
-    Fish_SizeDTO getSizeById(Long id);
+    void updateSize(Fish_SizeDTO sizeDTO);
 
-    void updateSize(Fish_SizeDTO dto);
-
-    void changeSizeStatus(Long id);
+    void changeSizeStatus(long sizeId);
 
     List<Fish_SizeDTO> filterSizes(String sizeName);
 }

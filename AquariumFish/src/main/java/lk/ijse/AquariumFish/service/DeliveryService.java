@@ -6,15 +6,13 @@ import java.util.List;
 
 public interface DeliveryService {
 
-    void saveDelivery(DeliveryDTO dto);
+    void saveDelivery(DeliveryDTO deliveryDTO);
 
     List<DeliveryDTO> getAllDeliveries();
 
-    DeliveryDTO getDeliveryById(Long id);
+    void updateDelivery(DeliveryDTO deliveryDTO);
 
-    void updateDelivery(DeliveryDTO dto);
-
-    void changeDeliveryStatus(Long id);
+    void changeDeliveryStatus(long deliveryId);
 
     List<DeliveryDTO> filterDeliveries(String trackingNo);
 }

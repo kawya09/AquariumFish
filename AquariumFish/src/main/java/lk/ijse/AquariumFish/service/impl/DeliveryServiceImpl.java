@@ -5,123 +5,155 @@ import lk.ijse.AquariumFish.entity.Delivery;
 import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lk.ijse.AquariumFish.repository.DeliveryRepository;
 import lk.ijse.AquariumFish.service.DeliveryService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class DeliveryServiceImpl implements DeliveryService {
 
-    private final DeliveryRepository repository;
+    private final DeliveryRepository deliveryRepository;
 
-    public DeliveryServiceImpl(DeliveryRepository repository) {
-        this.repository = repository;
+    public DeliveryServiceImpl(DeliveryRepository deliveryRepository) {
+        this.deliveryRepository = deliveryRepository;
     }
 
     @Override
-    public void saveDelivery(DeliveryDTO dto) {
+    public void saveDelivery(DeliveryDTO deliveryDTO) {
+        log.info("Save delivery");
 
-        Delivery delivery = new Delivery();
+        try {
+            Delivery delivery = new Delivery();
 
-        delivery.setDeliveryAddress(dto.getDeliveryAddress());
-        delivery.setDeliveryDate(dto.getDeliveryDate());
-        delivery.setDeliveryStatus(dto.getDeliveryStatus());
-        delivery.setTrackingNo(dto.getTrackingNo());
-        delivery.setStatus(dto.getStatus());
+            delivery.setDeliveryAddress(deliveryDTO.getDeliveryAddress());
+            delivery.setDeliveryDate(deliveryDTO.getDeliveryDate());
+            delivery.setDeliveryStatus(deliveryDTO.getDeliveryStatus());
+            delivery.setTrackingNo(deliveryDTO.getTrackingNo());
+            delivery.setStatus(deliveryDTO.getStatus());
 
-        repository.save(delivery);
+            deliveryRepository.save(delivery);
+
+        } catch (Exception e) {
+            log.error("Error saving delivery", e);
+            throw e;
+        }
     }
 
     @Override
     public List<DeliveryDTO> getAllDeliveries() {
+        log.info("Get all deliveries");
 
-        List<DeliveryDTO> list = new ArrayList<>();
+        try {
+            List<DeliveryDTO> deliveryDTOList = new ArrayList<>();
 
-        for (Delivery delivery : repository.findAll()) {
+            List<Delivery> deliveries =
+                    deliveryRepository.findAll();
 
-            DeliveryDTO dto = new DeliveryDTO();
+            for (Delivery delivery : deliveries) {
+                DeliveryDTO deliveryDTO = new DeliveryDTO();
 
-            dto.setId(delivery.getId());
-            dto.setDeliveryAddress(delivery.getDeliveryAddress());
-            dto.setDeliveryDate(delivery.getDeliveryDate());
-            dto.setDeliveryStatus(delivery.getDeliveryStatus());
-            dto.setTrackingNo(delivery.getTrackingNo());
-            dto.setStatus(delivery.getStatus());
+                deliveryDTO.setId(delivery.getId());
+                deliveryDTO.setDeliveryAddress(delivery.getDeliveryAddress());
+                deliveryDTO.setDeliveryDate(delivery.getDeliveryDate());
+                deliveryDTO.setDeliveryStatus(delivery.getDeliveryStatus());
+                deliveryDTO.setTrackingNo(delivery.getTrackingNo());
+                deliveryDTO.setStatus(delivery.getStatus());
 
-            list.add(dto);
+                deliveryDTOList.add(deliveryDTO);
+            }
+
+            return deliveryDTOList;
+
+        } catch (Exception e) {
+            log.error("Error getting all deliveries", e);
+            throw e;
         }
-
-        return list;
     }
 
     @Override
-    public DeliveryDTO getDeliveryById(Long id) {
+    public void updateDelivery(DeliveryDTO deliveryDTO) {
+        log.info("Update delivery");
 
-        Delivery delivery = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Delivery not found"));
+        try {
+            Optional<Delivery> optionalDelivery =
+                    deliveryRepository.findById(deliveryDTO.getId());
 
-        DeliveryDTO dto = new DeliveryDTO();
+            if (optionalDelivery.isEmpty()) {
+                throw new RuntimeException("Delivery not found");
+            }
 
-        dto.setId(delivery.getId());
-        dto.setDeliveryAddress(delivery.getDeliveryAddress());
-        dto.setDeliveryDate(delivery.getDeliveryDate());
-        dto.setDeliveryStatus(delivery.getDeliveryStatus());
-        dto.setTrackingNo(delivery.getTrackingNo());
-        dto.setStatus(delivery.getStatus());
+            Delivery delivery = optionalDelivery.get();
 
-        return dto;
+            delivery.setDeliveryAddress(deliveryDTO.getDeliveryAddress());
+            delivery.setDeliveryDate(deliveryDTO.getDeliveryDate());
+            delivery.setDeliveryStatus(deliveryDTO.getDeliveryStatus());
+            delivery.setTrackingNo(deliveryDTO.getTrackingNo());
+            delivery.setStatus(deliveryDTO.getStatus());
+
+            deliveryRepository.save(delivery);
+
+        } catch (Exception e) {
+            log.error("Error updating delivery", e);
+            throw e;
+        }
     }
 
     @Override
-    public void updateDelivery(DeliveryDTO dto) {
+    public void changeDeliveryStatus(long deliveryId) {
+        log.info("Change delivery status");
 
-        Delivery delivery = repository.findById(dto.getId())
-                .orElseThrow(() ->
-                        new RuntimeException("Delivery not found"));
+        try {
+            Optional<Delivery> optionalDelivery =
+                    deliveryRepository.findById(deliveryId);
 
-        delivery.setDeliveryAddress(dto.getDeliveryAddress());
-        delivery.setDeliveryDate(dto.getDeliveryDate());
-        delivery.setDeliveryStatus(dto.getDeliveryStatus());
-        delivery.setTrackingNo(dto.getTrackingNo());
-        delivery.setStatus(dto.getStatus());
+            if (optionalDelivery.isEmpty()) {
+                throw new RuntimeException("Delivery not found");
+            }
 
-        repository.save(delivery);
-    }
+            Delivery delivery = optionalDelivery.get();
 
-    @Override
-    public void changeDeliveryStatus(Long id) {
+            delivery.setStatus(UserStatus.INACTIVE);
 
-        Delivery delivery = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Delivery not found"));
+            deliveryRepository.save(delivery);
 
-        delivery.setStatus(UserStatus.INACTIVE);
-
-        repository.save(delivery);
+        } catch (Exception e) {
+            log.error("Error changing delivery status", e);
+            throw e;
+        }
     }
 
     @Override
     public List<DeliveryDTO> filterDeliveries(String trackingNo) {
+        log.info("Filter deliveries");
 
-        List<DeliveryDTO> list = new ArrayList<>();
+        try {
+            List<DeliveryDTO> deliveryDTOList = new ArrayList<>();
 
-        for (Delivery delivery :
-                repository.findByTrackingNoContaining(trackingNo)) {
+            List<Delivery> deliveries =
+                    deliveryRepository.findByTrackingNoContaining(trackingNo);
 
-            DeliveryDTO dto = new DeliveryDTO();
+            for (Delivery delivery : deliveries) {
+                DeliveryDTO deliveryDTO = new DeliveryDTO();
 
-            dto.setId(delivery.getId());
-            dto.setDeliveryAddress(delivery.getDeliveryAddress());
-            dto.setDeliveryDate(delivery.getDeliveryDate());
-            dto.setDeliveryStatus(delivery.getDeliveryStatus());
-            dto.setTrackingNo(delivery.getTrackingNo());
-            dto.setStatus(delivery.getStatus());
+                deliveryDTO.setId(delivery.getId());
+                deliveryDTO.setDeliveryAddress(delivery.getDeliveryAddress());
+                deliveryDTO.setDeliveryDate(delivery.getDeliveryDate());
+                deliveryDTO.setDeliveryStatus(delivery.getDeliveryStatus());
+                deliveryDTO.setTrackingNo(delivery.getTrackingNo());
+                deliveryDTO.setStatus(delivery.getStatus());
 
-            list.add(dto);
+                deliveryDTOList.add(deliveryDTO);
+            }
+
+            return deliveryDTOList;
+
+        } catch (Exception e) {
+            log.error("Error filtering deliveries", e);
+            throw e;
         }
-
-        return list;
     }
 }

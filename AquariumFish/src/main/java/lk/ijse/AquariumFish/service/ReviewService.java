@@ -6,15 +6,13 @@ import java.util.List;
 
 public interface ReviewService {
 
-    void saveReview(ReviewDTO dto);
+    void saveReview(ReviewDTO reviewDTO);
 
     List<ReviewDTO> getAllReviews();
 
-    ReviewDTO getReviewById(Long id);
+    void updateReview(ReviewDTO reviewDTO);
 
-    void updateReview(ReviewDTO dto);
+    void changeReviewStatus(long reviewId);
 
-    void changeReviewStatus(Long id);
-
-    List<ReviewDTO> filterReviews(Integer rating);
+    List<ReviewDTO> filterReviews(String comment);
 }

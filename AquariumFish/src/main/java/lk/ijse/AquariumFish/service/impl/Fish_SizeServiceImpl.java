@@ -5,108 +5,142 @@ import lk.ijse.AquariumFish.entity.Fish_Size;
 import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lk.ijse.AquariumFish.repository.Fish_SizeRepository;
 import lk.ijse.AquariumFish.service.Fish_SizeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class Fish_SizeServiceImpl implements Fish_SizeService {
 
-    private final Fish_SizeRepository repository;
+    private final Fish_SizeRepository sizeRepository;
 
-    public Fish_SizeServiceImpl(Fish_SizeRepository repository) {
-        this.repository = repository;
+    public Fish_SizeServiceImpl(Fish_SizeRepository sizeRepository) {
+        this.sizeRepository = sizeRepository;
     }
 
     @Override
-    public void saveSize(Fish_SizeDTO dto) {
+    public void saveSize(Fish_SizeDTO sizeDTO) {
+        log.info("Save size");
 
-        Fish_Size size = new Fish_Size();
+        try {
+            Fish_Size size = new Fish_Size();
 
-        size.setSizeName(dto.getSizeName());
-        size.setStatus(dto.getStatus());
+            size.setSizeName(sizeDTO.getSizeName());
+            size.setStatus(sizeDTO.getStatus());
 
-        repository.save(size);
+            sizeRepository.save(size);
+
+        } catch (Exception e) {
+            log.error("Error saving size", e);
+            throw e;
+        }
     }
 
     @Override
     public List<Fish_SizeDTO> getAllSizes() {
+        log.info("Get all sizes");
 
-        List<Fish_SizeDTO> list = new ArrayList<>();
+        try {
+            List<Fish_SizeDTO> sizeDTOList = new ArrayList<>();
 
-        for (Fish_Size size : repository.findAll()) {
+            List<Fish_Size> sizes = sizeRepository.findAll();
 
-            Fish_SizeDTO dto = new Fish_SizeDTO();
+            for (Fish_Size size : sizes) {
+                Fish_SizeDTO sizeDTO = new Fish_SizeDTO();
 
-            dto.setId(size.getId());
-            dto.setSizeName(size.getSizeName());
-            dto.setStatus(size.getStatus());
+                sizeDTO.setId(size.getId());
+                sizeDTO.setSizeName(size.getSizeName());
+                sizeDTO.setStatus(size.getStatus());
 
-            list.add(dto);
+                sizeDTOList.add(sizeDTO);
+            }
+
+            return sizeDTOList;
+
+        } catch (Exception e) {
+            log.error("Error getting all sizes", e);
+            throw e;
         }
-
-        return list;
     }
 
     @Override
-    public Fish_SizeDTO getSizeById(Long id) {
+    public void updateSize(Fish_SizeDTO sizeDTO) {
+        log.info("Update size");
 
-        Fish_Size size = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Size not found"));
+        try {
+            Optional<Fish_Size> optionalSize =
+                    sizeRepository.findById(sizeDTO.getId());
 
-        Fish_SizeDTO dto = new Fish_SizeDTO();
+            if (optionalSize.isEmpty()) {
+                throw new RuntimeException("Size not found");
+            }
 
-        dto.setId(size.getId());
-        dto.setSizeName(size.getSizeName());
-        dto.setStatus(size.getStatus());
+            Fish_Size size = optionalSize.get();
 
-        return dto;
+            size.setSizeName(sizeDTO.getSizeName());
+            size.setStatus(sizeDTO.getStatus());
+
+            sizeRepository.save(size);
+
+        } catch (Exception e) {
+            log.error("Error updating size", e);
+            throw e;
+        }
     }
 
     @Override
-    public void updateSize(Fish_SizeDTO dto) {
+    public void changeSizeStatus(long sizeId) {
+        log.info("Change size status");
 
-        Fish_Size size = repository.findById(dto.getId())
-                .orElseThrow(() ->
-                        new RuntimeException("Size not found"));
+        try {
+            Optional<Fish_Size> optionalSize =
+                    sizeRepository.findById(sizeId);
 
-        size.setSizeName(dto.getSizeName());
-        size.setStatus(dto.getStatus());
+            if (optionalSize.isEmpty()) {
+                throw new RuntimeException("Size not found");
+            }
 
-        repository.save(size);
-    }
+            Fish_Size size = optionalSize.get();
 
-    @Override
-    public void changeSizeStatus(Long id) {
+            size.setStatus(UserStatus.INACTIVE);
 
-        Fish_Size size = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Size not found"));
+            sizeRepository.save(size);
 
-        size.setStatus(UserStatus.INACTIVE);
-
-        repository.save(size);
+        } catch (Exception e) {
+            log.error("Error changing size status", e);
+            throw e;
+        }
     }
 
     @Override
     public List<Fish_SizeDTO> filterSizes(String sizeName) {
+        log.info("Filter sizes");
 
-        List<Fish_SizeDTO> list = new ArrayList<>();
+        try {
+            List<Fish_SizeDTO> sizeDTOList = new ArrayList<>();
 
-        for (Fish_Size size :
-                repository.findBySizeNameContaining(sizeName)) {
+            List<Fish_Size> sizes =
+                    sizeRepository.findBySizeNameContaining(sizeName);
 
-            Fish_SizeDTO dto = new Fish_SizeDTO();
+            for (Fish_Size size : sizes) {
+                Fish_SizeDTO sizeDTO = new Fish_SizeDTO();
 
-            dto.setId(size.getId());
-            dto.setSizeName(size.getSizeName());
-            dto.setStatus(size.getStatus());
+                sizeDTO.setId(size.getId());
+                sizeDTO.setSizeName(size.getSizeName());
+                sizeDTO.setStatus(size.getStatus());
 
-            list.add(dto);
+                sizeDTOList.add(sizeDTO);
+            }
+
+            return sizeDTOList;
+
+        } catch (Exception e) {
+            log.error("Error filtering sizes", e);
+            throw e;
         }
-
-        return list;
     }
 }

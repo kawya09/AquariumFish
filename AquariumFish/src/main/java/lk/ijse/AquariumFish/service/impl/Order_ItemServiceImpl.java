@@ -5,96 +5,151 @@ import lk.ijse.AquariumFish.entity.Order_Item;
 import lk.ijse.AquariumFish.enumaration.UserStatus;
 import lk.ijse.AquariumFish.repository.Order_ItemRepository;
 import lk.ijse.AquariumFish.service.Order_ItemService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class Order_ItemServiceImpl implements Order_ItemService {
 
-    private final Order_ItemRepository repository;
+    private final Order_ItemRepository orderItemRepository;
 
-    public Order_ItemServiceImpl(Order_ItemRepository repository) {
-        this.repository = repository;
+    public Order_ItemServiceImpl(Order_ItemRepository orderItemRepository) {
+        this.orderItemRepository = orderItemRepository;
     }
 
     @Override
-    public void saveOrderItem(Order_ItemDTO dto) {
+    public void saveOrderItem(Order_ItemDTO orderItemDTO) {
+        log.info("Save order item");
 
-        Order_Item item = new Order_Item();
+        try {
+            Order_Item orderItem = new Order_Item();
 
-        item.setQuantity(dto.getQuantity());
-        item.setUnitPrice(dto.getUnitPrice());
-        item.setSubtotal(dto.getSubtotal());
-        item.setStatus(dto.getStatus());
+            orderItem.setQuantity(orderItemDTO.getQuantity());
+            orderItem.setUnitPrice(orderItemDTO.getUnitPrice());
+            orderItem.setSubtotal(orderItemDTO.getSubtotal());
+            orderItem.setStatus(orderItemDTO.getStatus());
 
-        repository.save(item);
+            orderItemRepository.save(orderItem);
+
+        } catch (Exception e) {
+            log.error("Error saving order item", e);
+            throw e;
+        }
     }
 
     @Override
     public List<Order_ItemDTO> getAllOrderItems() {
+        log.info("Get all order items");
 
-        List<Order_ItemDTO> list = new ArrayList<>();
+        try {
+            List<Order_ItemDTO> orderItemDTOList = new ArrayList<>();
 
-        for (Order_Item item : repository.findAll()) {
+            List<Order_Item> orderItems =
+                    orderItemRepository.findAll();
 
-            Order_ItemDTO dto = new Order_ItemDTO();
+            for (Order_Item orderItem : orderItems) {
+                Order_ItemDTO orderItemDTO = new Order_ItemDTO();
 
-            dto.setId(item.getId());
-            dto.setQuantity(item.getQuantity());
-            dto.setUnitPrice(item.getUnitPrice());
-            dto.setSubtotal(item.getSubtotal());
-            dto.setStatus(item.getStatus());
+                orderItemDTO.setId(orderItem.getId());
+                orderItemDTO.setQuantity(orderItem.getQuantity());
+                orderItemDTO.setUnitPrice(orderItem.getUnitPrice());
+                orderItemDTO.setSubtotal(orderItem.getSubtotal());
+                orderItemDTO.setStatus(orderItem.getStatus());
 
-            list.add(dto);
+                orderItemDTOList.add(orderItemDTO);
+            }
+
+            return orderItemDTOList;
+
+        } catch (Exception e) {
+            log.error("Error getting all order items", e);
+            throw e;
         }
-
-        return list;
     }
 
     @Override
-    public Order_ItemDTO getOrderItemById(Long id) {
+    public void updateOrderItem(Order_ItemDTO orderItemDTO) {
+        log.info("Update order item");
 
-        Order_Item item = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Order item not found"));
+        try {
+            Optional<Order_Item> optionalOrderItem =
+                    orderItemRepository.findById(orderItemDTO.getId());
 
-        Order_ItemDTO dto = new Order_ItemDTO();
+            if (optionalOrderItem.isEmpty()) {
+                throw new RuntimeException("Order item not found");
+            }
 
-        dto.setId(item.getId());
-        dto.setQuantity(item.getQuantity());
-        dto.setUnitPrice(item.getUnitPrice());
-        dto.setSubtotal(item.getSubtotal());
-        dto.setStatus(item.getStatus());
+            Order_Item orderItem = optionalOrderItem.get();
 
-        return dto;
+            orderItem.setQuantity(orderItemDTO.getQuantity());
+            orderItem.setUnitPrice(orderItemDTO.getUnitPrice());
+            orderItem.setSubtotal(orderItemDTO.getSubtotal());
+            orderItem.setStatus(orderItemDTO.getStatus());
+
+            orderItemRepository.save(orderItem);
+
+        } catch (Exception e) {
+            log.error("Error updating order item", e);
+            throw e;
+        }
     }
 
     @Override
-    public void updateOrderItem(Order_ItemDTO dto) {
+    public void changeOrderItemStatus(long orderItemId) {
+        log.info("Change order item status");
 
-        Order_Item item = repository.findById(dto.getId())
-                .orElseThrow(() ->
-                        new RuntimeException("Order item not found"));
+        try {
+            Optional<Order_Item> optionalOrderItem =
+                    orderItemRepository.findById(orderItemId);
 
-        item.setQuantity(dto.getQuantity());
-        item.setUnitPrice(dto.getUnitPrice());
-        item.setSubtotal(dto.getSubtotal());
-        item.setStatus(dto.getStatus());
+            if (optionalOrderItem.isEmpty()) {
+                throw new RuntimeException("Order item not found");
+            }
 
-        repository.save(item);
+            Order_Item orderItem = optionalOrderItem.get();
+
+            orderItem.setStatus(UserStatus.INACTIVE);
+
+            orderItemRepository.save(orderItem);
+
+        } catch (Exception e) {
+            log.error("Error changing order item status", e);
+            throw e;
+        }
     }
 
     @Override
-    public void changeOrderItemStatus(Long id) {
+    public List<Order_ItemDTO> filterOrderItems(String status) {
+        log.info("Filter order items");
 
-        Order_Item item = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Order item not found"));
+        try {
+            List<Order_ItemDTO> orderItemDTOList = new ArrayList<>();
 
-        item.setStatus(UserStatus.INACTIVE);
+            List<Order_Item> orderItems =
+                    orderItemRepository.findByStatusContaining(status);
 
-        repository.save(item);
+            for (Order_Item orderItem : orderItems) {
+                Order_ItemDTO orderItemDTO = new Order_ItemDTO();
+
+                orderItemDTO.setId(orderItem.getId());
+                orderItemDTO.setQuantity(orderItem.getQuantity());
+                orderItemDTO.setUnitPrice(orderItem.getUnitPrice());
+                orderItemDTO.setSubtotal(orderItem.getSubtotal());
+                orderItemDTO.setStatus(orderItem.getStatus());
+
+                orderItemDTOList.add(orderItemDTO);
+            }
+
+            return orderItemDTOList;
+
+        } catch (Exception e) {
+            log.error("Error filtering order items", e);
+            throw e;
+        }
     }
 }
