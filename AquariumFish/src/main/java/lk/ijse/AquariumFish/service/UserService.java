@@ -16,4 +16,6 @@ public interface UserService {
     List<UserDTO> filterUsers(String username);
 
     void changeUserRole(long userID, long roleID);
+
+    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 }
